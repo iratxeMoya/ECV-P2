@@ -1,35 +1,24 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
-var mongoose = require('mongoose');
+var WebSocket = require('ws');
 
-var dbUrl = 'mongodb://ecv-etic.upf.edu:9027';
+var wss = new WebSocket.Server({port: 9027});
 
-/*mongoose.connect(dbUrl, (err) => {
-	console.log('mongodb connected', err);
-});*/
+wss.on('connection', (ws) => {
 
-//var Message = mongoose.model("Message", {name: String, msg: String});
+	ws.on('message', data => {
 
-app.use(express.static(__dirname + '/src'));
-
-app.get('/messages', (req, res) => {
-	Message.find({}, (err, messages) => {
-		res.send(messages);
+		wss.clients.forEach(client => {
+			if(client.readyState === WebSocket.OPEN) {
+				client.send(data);
+			}
+		});
 	});
 });
 
-app.post('/messages', (req, res) => {
-	var message = new Message(req.body);
-	message.save((err) => {
-		if(err){
-			res.sendStatus(500);
-		}
-		res.sendStatus(200);
-		io.emmit('message', req.body);
-	});
-});
+/*app.use(express.static(__dirname + '/src'));
+
 app.get('/',(req,res)=>{
 	console.log('in get');
 	res.send('index.html');
@@ -45,5 +34,7 @@ io.on('connection', () => {
 
 io.on('message', function(message) {
 	console.log(message);
-});
+}); */
+
+
 
