@@ -1,5 +1,5 @@
 
-var connection = new WebSocket("ws://ecv-etic.upf.edu/node/9027/");
+var connection = new WebSocket("wss://ecv-etic.upf.edu/node/9027/ws/");
 
 connection.onopen = event => {
 	console.log('connection is open');
