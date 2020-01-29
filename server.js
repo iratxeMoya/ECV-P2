@@ -57,6 +57,7 @@ io.on('connection', function(client){
 
     //joined event
     client.on('joined', function(name){
+        //* y los nicknames tambien podrían estar metidos en una db para no permitir que haya 2 iguales
         client.nickname = name;
         console.log(client.nickname + ' joined the chat.');
 
