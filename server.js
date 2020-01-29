@@ -45,5 +45,5 @@ io.on('connection', () => {
 
 io.on('message', function(message) {
 	console.log(message);
-}
+});
 
