@@ -1,0 +1,18 @@
+.plaza{
+	position:absolute;
+	background-color:white;
+	bottom:100px;
+	transform: perspective(400px) rotateX(60deg);
+	left:400px;
+	height:500px;
+	width: 500px;
+}
+
+.chat{
+	position:absolute;
+	height:calc(100% - 60px);
+	width:500px;
+	right:100px;
+	top:20px;
+	border: 10px solid #FFF
+}
