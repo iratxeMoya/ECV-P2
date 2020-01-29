@@ -1,88 +1,49 @@
-/*
- * Initialization
- */
 var express = require('express');
-var app     = express();
-var server  = require('http').createServer(app);
-var io      = require('socket.io').listen(server);
-var swig    = require('swig');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+var mongoose = require('mongoose');
 
-/*
- * Configuration
- */
-app.engine('html', swig.renderFile);
+var dbUrl = 'mongodb://ecv-etic.upf.edu:9027';
 
-app.set('view engine', 'html');
-app.set('views', __dirname + '/html');
+/*mongoose.connect(dbUrl, (err) => {
+	console.log('mongodb connected', err);
+});*/
 
-// swig cache
-swig.setDefaults({ cache: false });
+//var Message = mongoose.model("Message", {name: String, msg: String});
 
-/*
- * Middlewares
- */
- // static resources
 app.use(express.static(__dirname + '/src'));
 
-
-/*
- * Listening to server
- */
-server.listen('9026', function(){
-    console.log('running node server on port 9026...');
+app.get('/messages', (req, res) => {
+	Message.find({}, (err, messages) => {
+		res.send(messages);
+	});
 });
 
-/*
- * Route
- */
-app.get('/', function(req, res){
-    res.render('index');
+app.post('/messages', (req, res) => {
+	var message = new Message(req.body);
+	message.save((err) => {
+		if(err){
+			res.sendStatus(500);
+		}
+		res.sendStatus(200);
+		io.emmit('message', req.body);
+	});
+});
+app.get('/',(req,res)=>{
+	console.log('in get');
+	res.send('index.html');
+})
+
+server.listen(9027,function(){
+	console.log("listening to port 9027");
+})
+
+io.on('connection', () => {
+	console.log('user connected');
 });
 
-/*
- * socket.io event listener
- */
-io.on('connection', function(client){
-    console.log('Client connected to server...');
+io.on('message', function(message) {
+	console.log(message);
+}
 
-    client.on('message', function(message){
-        var nickname = client.nickname;
-        console.log(nickname + ': ' + message);
-        var data = {author: nickname, text: message};
-        client.broadcast.emit('message', data);
-        client.emit('message', data);
-
-        storeMessage(nickname, message);
-    });
-
-    //joined event
-    client.on('joined', function(name){
-        //* y los nicknames tambien podrían estar metidos en una db para no permitir que haya 2 iguales
-        client.nickname = name;
-        console.log(client.nickname + ' joined the chat.');
-
-        //display previous messages
-        //* Aqui coger los messages de la db en vez de de la variable
-        messages.forEach(function(message){
-            client.emit('message', message);
-        });
-    });
-});
-
-//store previous message here
-var messages = [];
-
-//push message
-
-//* Si aqui lo metemos en la db en vez de en la variable estará accesible aunque la conexion se cierre y se vuelva a abrir
-var storeMessage = function(name, message){
-    messages.push({
-        author: name,
-        text: message
-    });
-
-    //* Esto yo creo que sobra
-    if(messages.length > 20){
-        messages.shift();
-    }
-};

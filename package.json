@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/iratxeMoya/ECV-P2#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.8.10",
+    "socket.io": "^2.3.0",
+    "soket.io": "0.0.1-security",
+    "swig": "^1.4.2"
   }
 }
