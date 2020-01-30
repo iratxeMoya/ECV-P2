@@ -14,8 +14,11 @@ connection.onerror = (event) => {
 };
 
 connection.onmessage = (event) => {
-	// append received message from the server to the DOM element 
-	console.log('message recived: ', event.data);
+	// append received message from the server to the DOM element
+	var data = JSON.parse(event.data); 
+	if(data.user !== 'iratxe') { //esto ponerlo de la variable
+		console.log('message recived: ', data.msg);
+	}
 };
 
 var button = document.querySelector("button.send");
@@ -23,5 +26,7 @@ button.addEventListener("click", send_message);
 
 function send_message(){
 	console.log("message sent");
-	connection.send('hey there!');
+	var msg = {user: 'iratxe', msg: 'hey there'};
+	var data = JSON.stringify(msg);
+	connection.send(data);
 }

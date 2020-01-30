@@ -7,11 +7,10 @@ var expressWs = require('express-ws');
 var wss = new WebSocket.Server({server});
 	wss.on('connection', (ws) => {
 	
-		console.log('connected: ', wss.clients);
+		//console.log('connected: ', wss.clients);
 		ws.on('message', data => {
-			console.log('data: ', data);
+			//console.log('data: ', data);
 			wss.clients.forEach(client => {
-				console.log('client: ', client)
 				if(client.readyState === WebSocket.OPEN) {
 					client.send(data);
 				}
