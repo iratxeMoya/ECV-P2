@@ -1,6 +1,6 @@
 .plaza{
 	position:absolute;
-	background-color:white;
+	background-color:linear-gradient(red,yellow);
 	bottom:100px;
 	transform: perspective(400px) rotateX(60deg);
 	left:400px;
