@@ -2,7 +2,13 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var WebSocket = require('ws');
-var expressWs = require('express-ws');
+var redis = require('redis');
+
+var client = redis.createClient(9027, 'ecv-etic.upf.edu'); //creates a new client in port and host
+
+client.on('connect', function() {
+    console.log('DB connected');
+});
 
 var wss = new WebSocket.Server({server});
 
