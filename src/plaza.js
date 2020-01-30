@@ -1,5 +1,44 @@
+/* 
+FALTA:
+	> Las funciones para moverse (con el click o con las flechas)
+	> Las funciones para pintar el avatar
+	> Alguna forma de guardar el avatar de cada cliente
+	> Detectar cuando un nuevo usuario se connecta (podría hacrese con el onmessage type: login)
+	> Todo el HTML y el CSS
+	NOTA:
+		> HASTA QUE NO ESTÉ MINIMAMENTE EL HTML CON TODAS LAS FUNCIONALIDADES (AUNQUE SEA SIN CSS) NO
+			SE PUEDE COMPROBAR QUE EL SERVER Y ESTE JS FUNCIONEN BIEN!! -> CUANTO ANTES LO TENGAMOS
+			MEJOR.
+*/
 
-var connection = new WebSocket("wss://ecv-etic.upf.edu/node/9027/ws/");
+var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
+
+var clients = [];
+var me = new Client (null, null, null, '');
+
+//Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
+function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
+	this.username = username;
+	this.actualPosition_x = actualPosition_x;
+	this.actualPosition_y = actualPosition_y;
+	this.lastMessage = lastMessage;
+}
+//Message types
+function Msg (client, text) {
+	this.type = 'msg';
+	this.client = client;
+	this.text = text;
+}
+function Login (username) {
+	this.type = 'login';
+	this.username = username;
+}
+function Move (client, x, y) {
+	this.type = 'move';
+	this.client = client;
+	this.x = x;
+	this.y = y;
+}
 
 connection.onopen = event => {
 	console.log('connection is open');
@@ -14,18 +53,91 @@ connection.onerror = (event) => {
 };
 
 connection.onmessage = (event) => {
-	// append received message from the server to the DOM element
 	var data = JSON.parse(event.data); 
-	console.log(data.data);
-	console.log('message recived: ',data.data);
+
+	if (data.type === 'msg') {
+
+		// append received message from the server to the DOM element
+		var messageContainer = document.createElement('div');
+		var senderName = document.createElement('div');
+		var message = document.createElement('div');
+		var parent = document.querySelector('div.chatMessageContainer');
+
+		senderName.innerHTML = data.client;
+		message.innerHTML = data.text;
+
+		messageContainer.appendChild(senderName);
+		messageContainer.appendChild(message);
+
+		parent.appendChild(messageContainer);
+
+		//Actualize client last message
+		var senderIndex = clients.findIndex(client => client.name === data.client);
+		clients[senderIndex].lastMessage = data.text;
+
+		//change the senders avatars top message
+
+		//ToDo
+	}
+	else if (data.type === 'login') {
+		
+		//create new client
+		var client = new Client(data.client, data.x, data.y, '');
+		clients.push(client);
+
+		//render the new clients avatar
+
+		//ToDo
+	}
+	else if (data.type === 'move') {
+
+		//actualize senders position
+		var senderIndex = clients.findIndex(client => client.name === data.client);
+		clients[senderIndex].actualPosition_x = data.x;
+		clients[senderIndex].actualPosition_y = data.y;
+
+		//render the avatar of sender in correct position
+
+		// ToDo
+	}
+
 };
 
-var button = document.querySelector("button.send");
-button.addEventListener("click", send_message);
+var msgButton = document.querySelector("button.send");
+msgButton.addEventListener("click", send_message);
+
+var msgInput = document.querySelector('input.message');
+msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
-	console.log("message sent");
-	var msg = {type: 'msg', user: 'iratxe', data: 'hey there'};
-	var data = JSON.stringify(msg);
-	connection.send(data);
+	var message = new Msg(me.client, msgInput.innerHTML);
+	connection.send(JSON.stringify(message));
+}
+
+function on_key_press_send_msg(event) {
+	if (event.code === 'Enter') {
+		send_message();
+	}
+}
+
+//Aun no existen en el DOM
+var loginButton = document.querySelector("button.login");
+loginButton.addEventListener('click', send_login);
+
+var loginInput = document.querySelector("input.name");
+loginInput.addEventListener('keydown', on_key_press_send_login);
+
+function send_login () {
+
+	me.actualPosition_x = 100;
+	me.actualPosition_y = 100;
+	me.username = loginInput.innerHTML;
+	var login = new Login(loginInput.innerHTML);
+	//login.isMe = true;
+	connection.send(JSON.stringify(login));
+}
+function on_key_press_send_login() {
+	if (event.code === 'Enter') {
+		send_login();
+	}
 }
