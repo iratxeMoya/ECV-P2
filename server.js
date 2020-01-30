@@ -13,14 +13,14 @@ var wss = new WebSocket.Server({server});
 	//console.log('hey: ', req);
 	wss.on('connection', (ws) => {
 	
-		console.log('connected: ', connection);
+		console.log('connected: ', wss.clients);
 		ws.on('message', data => {
 			console.log('data: ', data);
-			/*connection.clients.forEach(client => {
+			wss.clients.forEach(client => {
 				if(client.readyState === WebSocket.OPEN) {
 					client.send(data);
 				}
-			});*/
+			});
 		});
 	});
 //});
@@ -29,9 +29,9 @@ var wss = new WebSocket.Server({server});
 server.listen(9027, function() {
 	console.log('app listening on port 9027');
 })
-/*app.use(express.static(__dirname + '/src'));
+app.use(express.static(__dirname + '/src'));
 
-app.get('/',(req,res)=>{
+/*app.get('/',(req,res)=>{
 	console.log('in get');
 	res.send('index.html');
 })
