@@ -13,22 +13,53 @@ FALTA:
 			MEJOR.
 */
 
-var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
+// var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 
 var clients = [];
 var me = new Client (null, null, null, '');
 
 var posx=0;
 var posy=0;
+var otherx=100;
+var othery=100;
 var rot =0;
 
-console.log(document.getElementsByClassName("plaza")[0]);
 
-document.getElementsByClassName("plaza")[0].addEventListener("keydown",function(event){
-	if(event.keycode == 37){
-		turn(true);
-	}else if(event.keycode == 39){
-		turn(false);
+var movement = [0,0,0,0];
+
+var myVar = setInterval(update, 50);
+
+var camera = [[0,0,0],[10,0,0],[0,1,0]];
+
+document.body.addEventListener("keydown",function(event){
+	console.log("ASD");
+	if(event.keyCode == 37){
+		movement[0]=1;
+	}
+	if(event.keyCode == 39){
+		movement[1]=1;
+	}
+	if(event.keyCode == 38){
+		movement[2]=1;
+	}
+	if(event.keyCode == 40){
+		movement[3]=1;
+	}
+});
+
+document.body.addEventListener("keyup",function(event){
+	console.log("ASD");
+	if(event.keyCode == 37){
+		movement[0]=0;
+	}
+	if(event.keyCode == 39){
+		movement[1]=0;
+	}
+	if(event.keyCode == 38){
+		movement[2]=0;
+	}
+	if(event.keyCode == 40){
+		movement[3]=0;
 	}
 });
 
@@ -56,6 +87,7 @@ function Move (client, x, y) {
 	this.y = y;
 }
 
+/*
 connection.onopen = event => {
 	console.log('connection is open');
 }
@@ -127,6 +159,7 @@ connection.onmessage = (event) => {
 
 };
 
+*/
 var msgButton = document.querySelector("button.send");
 msgButton.addEventListener("click", send_message);
 
@@ -146,10 +179,10 @@ function on_key_press_send_msg(event) {
 
 //Aun no existen en el DOM
 var loginButton = document.querySelector("button.login");
-loginButton.addEventListener('click', send_login);
+// loginButton.addEventListener('click', send_login);
 
 var loginInput = document.querySelector("input.name");
-loginInput.addEventListener('keydown', on_key_press_send_login);
+// loginInput.addEventListener('keydown', on_key_press_send_login);
 
 function send_login () {
 
@@ -166,13 +199,54 @@ function on_key_press_send_login() {
 	}
 }
 
+function rotate_vec(x,y){
+	return[Math.cos(-rot)*x - Math.sin(-rot)*y,Math.sin(-rot)*x + Math.cos(-rot)*y];
+}
+
+function update(){
+	if(movement[0]>0){
+		turn(true);
+	}
+	if(movement[1]>0){
+		turn(false);
+	}
+	if(movement[2]>0){
+		forward(false);
+	}
+	if(movement[3]>0){
+		forward(true);
+	}
+	
+	document.getElementsByClassName("plaza")[0].style.transform = "perspective(500px) rotateX(89deg) translate(0%,500px) rotateZ("+rot+"rad) translate("+(-posx)+"px,"+(-posy)+"px)"
+	document.getElementsByClassName("pj")[0].style.transform = " perspective(550px) rotateX(89deg) translate(0%,500px) rotateZ("+rot+"rad) translate("+(otherx-posx)+"px,"+(othery-posy)+"px)  rotateX(90deg)";
+	update_pj();
+}
+
+function clamp(val, lowrange,highrange){
+	return (val<lowrange ? lowrange: (val>highrange ? highrange : val));
+}
+
+function forward(back = false){
+	if(back){
+		newpos = rotate_vec(0,10);
+	}else{
+		newpos = rotate_vec(0,-10);
+	}
+	console.log(newpos);
+	console.log(posx+" "+posy);
+	posx=clamp(posx+newpos[0],-500,500);
+	posy=clamp(posy+newpos[1],-500,500);
+	console.log(posx+" "+posy);
+}
+
 function turn(left = true){
 	if (left){
-		rot++;
+		rot=(rot+Math.PI/100);
 	}else{
-		rot--;
+		rot=(rot-Math.PI/100);
 	}
-	document.getElementsByClassName("plaza")[0].style.transform = "rotateY("+rot+")";
-	console.log(rot);
-	
+}
+
+function update_pj(){
+	othery--;
 }
