@@ -5,6 +5,8 @@ FALTA:
 	> Alguna forma de guardar el avatar de cada cliente
 	> Detectar cuando un nuevo usuario se connecta (podría hacrese con el onmessage type: login)
 	> Todo el HTML y el CSS
+	> Cuando se conecte un nuevo cliente (ya sea por login o por register) hay que hashear su
+		password de alguna forma (no se si en el cliente o en el servidor)
 	NOTA:
 		> HASTA QUE NO ESTÉ MINIMAMENTE EL HTML CON TODAS LAS FUNCIONALIDADES (AUNQUE SEA SIN CSS) NO
 			SE PUEDE COMPROBAR QUE EL SERVER Y ESTE JS FUNCIONEN BIEN!! -> CUANTO ANTES LO TENGAMOS
@@ -79,10 +81,10 @@ connection.onmessage = (event) => {
 
 		//ToDo
 	}
-	else if (data.type === 'login') {
+	else if (data.type === 'login' || data.type === 'register') {
 		
 		//create new client
-		var client = new Client(data.client, data.x, data.y, '');
+		var client = new Client(data.client, data.x, data.y, data.lastMessage);
 		clients.push(client);
 
 		//render the new clients avatar
@@ -99,6 +101,14 @@ connection.onmessage = (event) => {
 		//render the avatar of sender in correct position
 
 		// ToDo
+	}
+	else if (data.type === 'disconnection') {
+		var sender = clients.find(client => client.name === data.name);
+		clients.delete(sender);
+
+		//Delete clients avatar from the scene
+
+		//ToDo
 	}
 
 };

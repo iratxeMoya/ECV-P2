@@ -6,7 +6,8 @@ var WebSocket = require('ws');
 
 var wss = new WebSocket.Server({server});
 
-var clients = [];
+var registeredClients = [];
+var connectedClients = [];
 var messages = [];
 
 function Message (client, text, sentPosition_x, sentPosition_y) {
@@ -16,13 +17,16 @@ function Message (client, text, sentPosition_x, sentPosition_y) {
 	this.sentPosition_y = sentPosition_y;
 }
 //Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
-function Client (username, actualPosition_x, actualPosition_y, lastMessage, connection) {
+function Client (username, actualPosition_x, actualPosition_y, lastMessage, connection, hashedPassword) {
 	this.username = username;
 	this.actualPosition_x = actualPosition_x;
 	this.actualPosition_y = actualPosition_y;
 	this.lastMessage = lastMessage;
 	this.connection = connection;
+	this.hashedPassword = hashedPassword;
 }
+
+const checkUsername = ( name, obj ) => obj.name === name;
 
 wss.on('connection', function(ws) {
 
@@ -31,36 +35,73 @@ wss.on('connection', function(ws) {
 		var jsonData = JSON.parse(data);
 
 		if(jsonData.type === 'login') {
-			data.x = 100;
-			data.y = 100;
-			clients.push(new Client(jsonData.username, 100, 100, '', ws));
-			if ()
-			broadcastMsg(data, false);
+			var client = registeredClients.find(client => client.name === jsonData.client);
+			if (jsonData.hashedPassword === client.hashedPassword) {
+				client.connection = ws;
+				connectedClients.push(client);
+				jsonData.x = client.actualPosition_x;
+				jsonData.y = client.actualPosition_y;
+				jsonData.lastMessage = client.lastMessage
+				var dataForClients = JSON.stringify(jsonData);
+				broadcastMsg(dataForClients, false);
+			}
+			else {
+				//somehow return a error or something
+			}
+		}
+		else if (jsonData.type === 'register') {
+			if(registeredClients.some(checkUsername(jsonData.client))){
+				jsonData.x = 100;
+				jsonData.y = 100;
+				jsonData.lastMessage = '';
+				var dataForClients = JSON.stringify(jsonData);
+				var newClient = new Client(jsonData.username, 100, 100, '', ws);
+				registeredClients.push(newClient);
+				connectedClients.push(newClient);
+				broadcastMsg(dataForClients, false);
+			}
+			else {
+				//somehow return a error or something	
+			}
 		}
 		else if (jsonData.type === 'msg') {
 
-			var sender = clients.find(client => client.name === jsonData.client);
-			var senderIndex = clients.findIndex(client => client.name === jsonData.client);
-			clients[senderIndex].lastMessage = jsonData.text;
+			var sender = connectedClients.find(client => client.name === jsonData.client);
+			var senderIndex = connectedClients.findIndex(client => client.name === jsonData.client);
+			connectedClients[senderIndex].lastMessage = jsonData.text;
 			var message = new Message(jsonData.client, jsonData.text, sender.actualPosition_x, sender.actualPosition_y);
 			messages.push(message);
+
+			senderIndex = registeredClients.findIndex(client => client.name === jsonData.client);
+			registeredClients[senderIndex].lastMessage = jsonData.text;
+
 			broadcastMsg(data, true, sender.actualPosition_x, sender.actualPosition_y);
 
 		}else if (jsonData.type === 'move') {
 
-			var senderIndex = clients.findIndex(client => client.name === jsonData.client);
-			clients[senderIndex].actualPosition_x = jsonData.x;
-			clients[senderIndex].actualPosition_y = jsonData.y;
+			var senderIndex = connectedClients.findIndex(client => client.name === jsonData.client);
+			connectedClients[senderIndex].actualPosition_x = jsonData.x;
+			connectedClients[senderIndex].actualPosition_y = jsonData.y;
+
+			senderIndex = registeredClients.findIndex(client => client.name === jsonData.client);
+			registeredClients[senderIndex].actualPosition_x = jsonData.x;
+			registeredClients[senderIndex].actualPosition_y = jsonData.y;
 			broadcastMsg(data, false);
 
 		}
 	});
+	ws.on('close', function () {
+		var client = connectedClients.find(client => client.connection === ws);
+		connectedClients.delete(client);
+		var disconnectedClient = {type: 'disconnection', name: client.name}
+		broadcastMsg(JSON.stringify(disconnectedClient), false);
+	})
 });
 
 // falyta un filtro para no pasartelo a ti msimo
 function broadcastMsg(data, onlyNear, x, y) {
 
-	clients.forEach(client => {
+	connectedClients.forEach(client => {
 		if (onlyNear) {
 			if (client.actualPosition_x - x <= 20 && client.actualPosition_y - y <= 20) {
 				client.send(data);
