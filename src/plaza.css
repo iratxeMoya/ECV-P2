@@ -1,6 +1,6 @@
 .plaza{
 	position:absolute;
-	background-color:linear-gradient(red,yellow);
+	background-image:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
 	bottom:100px;
 	transform: perspective(400px) rotateX(60deg);
 	left:400px;

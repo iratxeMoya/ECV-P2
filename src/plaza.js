@@ -18,6 +18,20 @@ var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 var clients = [];
 var me = new Client (null, null, null, '');
 
+var posx=0;
+var posy=0;
+var rot =0;
+
+console.log(document.getElementsByClassName("plaza")[0]);
+
+document.getElementsByClassName("plaza")[0].addEventListener("keydown",function(event){
+	if(event.keycode == 37){
+		turn(true);
+	}else if(event.keycode == 39){
+		turn(false);
+	}
+});
+
 //Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
 function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
 	this.username = username;
@@ -150,4 +164,15 @@ function on_key_press_send_login() {
 	if (event.code === 'Enter') {
 		send_login();
 	}
+}
+
+function turn(left = true){
+	if (left){
+		rot++;
+	}else{
+		rot--;
+	}
+	document.getElementsByClassName("plaza")[0].style.transform = "rotateY("+rot+")";
+	console.log(rot);
+	
 }
