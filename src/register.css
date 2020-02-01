@@ -1,0 +1,9 @@
+.registerBody {
+	background-color: black;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 40px 550px;
+    margin-top: 25px;
+}
