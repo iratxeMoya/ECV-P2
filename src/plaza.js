@@ -318,3 +318,8 @@ function send_register () {
 	}
 		
 }
+function on_key_press_send_register() {
+	if (event.code === 'Enter') {
+		send_register();
+	}
+}
