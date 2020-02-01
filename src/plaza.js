@@ -265,7 +265,7 @@ function on_key_press_send_login() {
 }
 
 function go_to_register_page () {
-	document.querySelector('div.registerBody').style['display'] = 'block';
+	document.querySelector('div.registerBody').style['display'] = 'grid';
 	document.querySelector('div.loginBody').style['display'] = 'none';	
 }
 
