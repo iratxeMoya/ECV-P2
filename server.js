@@ -121,10 +121,10 @@ function broadcastMsg(data, onlyNear, x, y) {
 	connectedClients.forEach(client => {
 		if (onlyNear) {
 			if (client.actualPosition_x - x <= 20 && client.actualPosition_y - y <= 20) {
-				client.send(data);
+				client.connection.send(data);
 			}
 		} else {
-			client.send(data);
+			client.connection.send(data);
 		}
 				
 	});
