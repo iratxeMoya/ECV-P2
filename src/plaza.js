@@ -283,6 +283,6 @@ var registerBotButton = document.querySelector("button#registerBotBtn");
 registerBotButton.addEventListener('click', send_register);
 
 function go_to_login_page () {
-	document.querySelector('div.loginBody').style['display'] = 'block';
+	document.querySelector('div.loginBody').style['display'] = 'grid';
 	document.querySelector('div.registerBody').style['display'] = 'none';	
 }
