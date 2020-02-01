@@ -126,9 +126,6 @@ function broadcastMsg(data, onlyNear, x, y) {
 server.listen(9027, function() {
 	console.log('app listening on port 9027');
 });
-/*app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname + '/src/index.html'));
-});*/
 
 //all html files in src folder
 app.use(express.static(__dirname + '/src'))
