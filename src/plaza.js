@@ -13,7 +13,7 @@ FALTA:
 			MEJOR.
 */
 
-// var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
+var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 
 var clients = [];
 var me = new Client (null, null, null, '');
@@ -87,7 +87,7 @@ function Move (client, x, y) {
 	this.y = y;
 }
 
-/*
+
 connection.onopen = event => {
 	console.log('connection is open');
 }
@@ -102,7 +102,7 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-
+	console.log('new message in plaza type: ', data.type);
 	if (data.type === 'msg') {
 
 		// append received message from the server to the DOM element
@@ -150,7 +150,7 @@ connection.onmessage = (event) => {
 	}
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.name === data.name);
-		clients.delete(sender);
+	//	clients.delete(sender);
 
 		//Delete clients avatar from the scene
 
@@ -159,7 +159,7 @@ connection.onmessage = (event) => {
 
 };
 
-*/
+
 var msgButton = document.querySelector("button.send");
 msgButton.addEventListener("click", send_message);
 

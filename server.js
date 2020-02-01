@@ -3,6 +3,8 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var WebSocket = require('ws');
+var router = express.Router();
+var path = require('path');
 
 var wss = new WebSocket.Server({server});
 
@@ -33,20 +35,24 @@ wss.on('connection', function(ws) {
 	ws.on('message', function(data){
 
 		var jsonData = JSON.parse(data);
+		console.log('new message in server of type: ', jsonData.type);
 
 		if(jsonData.type === 'login') {
 			var client = registeredClients.find(client => client.name === jsonData.client);
-			if (jsonData.hashedPassword === client.hashedPassword) {
-				client.connection = ws;
-				connectedClients.push(client);
-				jsonData.x = client.actualPosition_x;
-				jsonData.y = client.actualPosition_y;
-				jsonData.lastMessage = client.lastMessage
-				var dataForClients = JSON.stringify(jsonData);
-				broadcastMsg(dataForClients, false);
+			if (/*client && jsonData.hashedPassword === client.hashedPassword*/ true) {
+			//	client.connection = ws;
+			//	connectedClients.push(client);
+			//	jsonData.x = client.actualPosition_x;
+			//	jsonData.y = client.actualPosition_y;
+			//	jsonData.lastMessage = client.lastMessage
+			//	var dataForClients = JSON.stringify(jsonData);
+			//	broadcastMsg(dataForClients, false);
+				console.log('in if');
+				var okLoginResponse = {type: 'loginResponse', data: 'OK'};
+				ws.send(JSON.stringify(okLoginResponse));
 			}
 			else {
-				//somehow return a error or something
+				console.log('Loging error, password error or no registered')
 			}
 		}
 		else if (jsonData.type === 'register') {
@@ -90,11 +96,12 @@ wss.on('connection', function(ws) {
 
 		}
 	});
-	ws.on('close', function () {
-		var client = connectedClients.find(client => client.connection === ws);
-		connectedClients.delete(client);
-		var disconnectedClient = {type: 'disconnection', name: client.name}
-		broadcastMsg(JSON.stringify(disconnectedClient), false);
+	ws.on('close', function (event) {
+		console.log('in close: ', event);
+	//	var client = connectedClients.find(client => client.connection === ws);
+	//	connectedClients.delete(client);
+	//	var disconnectedClient = {type: 'disconnection', name: client.name}
+	//	broadcastMsg(JSON.stringify(disconnectedClient), false);
 	})
 });
 
@@ -115,6 +122,17 @@ function broadcastMsg(data, onlyNear, x, y) {
 
 server.listen(9027, function() {
 	console.log('app listening on port 9027');
-})
-app.use(express.static(__dirname + '/src'));
+});
+app.get('/', function(req, res) {
+	res.sendFile(path.join(__dirname + '/src/login.html'));
+});
+app.get('/chat', function(req, res) {
+	res.sendFile(path.join(__dirname + '/src/index.html'));
+});
+app.post('/chat', function(req, res) {
+	res.sendFile(path.join(__dirname + '/src/index.html'));
+});
 
+//all html files in src folder
+app.use(express.static(__dirname + '/src'))
+//app.use('/', router);
