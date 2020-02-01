@@ -135,5 +135,17 @@ server.listen(9027, function() {
 });
 
 //all html files in src folder
-app.use(express.static(__dirname + '/src'))
-//app.use('/', router);
+app.use(express.static(__dirname + '/src'));
+
+//utils
+
+Array.prototype.delete = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};

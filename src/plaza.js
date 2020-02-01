@@ -323,3 +323,4 @@ function on_key_press_send_register() {
 		send_register();
 	}
 }
+
