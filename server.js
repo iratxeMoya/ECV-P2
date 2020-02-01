@@ -64,7 +64,7 @@ wss.on('connection', function(ws) {
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
 				var dataForClients = JSON.stringify(jsonData);
-				var newClient = new Client(jsonData.username, 100, 100, '', ws, passwordHash.generate(jsonData.password));
+				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
 				broadcastMsg(dataForClients, false);

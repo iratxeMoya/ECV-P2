@@ -36,6 +36,11 @@ function Login (username, password) {
 	this.username = username;
 	this.password = password
 }
+function Register (client, password) {
+	this.type = 'register';
+	this.client = client;
+	this.password = password;
+}
 function Move (client, x, y) {
 	this.type = 'move';
 	this.client = client;
@@ -125,8 +130,9 @@ connection.onmessage = (event) => {
 			document.querySelector('div.chatBody').style['display'] = 'block';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
 		} else {
-			alert ('Username or password not correct');
+			alert ('Username exists already');
 		}
+	}
 
 };
 
@@ -297,4 +303,18 @@ registerBotButton.addEventListener('click', send_register);
 function go_to_login_page () {
 	document.querySelector('div.loginBody').style['display'] = 'grid';
 	document.querySelector('div.registerBody').style['display'] = 'none';	
+}
+
+function send_register () {
+	if(regNameInput.value !== '' && regPassInput.value !== '') {
+//        me.actualPosition_x = 100;
+//        me.actualPosition_y = 100;
+//        me.username = loginNameInput.value;
+		var register = new Register(regNameInput.value, regPassInput.value);
+		register.isMe = true;
+		connection.send(JSON.stringify(register));
+	} else {
+		alert('You need to enter an username and a password to login');
+	}
+		
 }
