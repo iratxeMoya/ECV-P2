@@ -10,9 +10,7 @@ connection.onmessage = (event) => {
 	var data = JSON.parse(event.data);
 	console.log('new message in client of type: ', data.type);
 
-	if(data.type == 'loginResponse') {
-		document.querySelector('form#login').submit();		
-	}
+	
 };
 
 var loginButton = document.querySelector("button.loginBtn");

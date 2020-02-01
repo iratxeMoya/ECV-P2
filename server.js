@@ -98,10 +98,13 @@ wss.on('connection', function(ws) {
 	});
 	ws.on('close', function (event) {
 		console.log('in close: ', event);
-	//	var client = connectedClients.find(client => client.connection === ws);
-	//	connectedClients.delete(client);
-	//	var disconnectedClient = {type: 'disconnection', name: client.name}
-	//	broadcastMsg(JSON.stringify(disconnectedClient), false);
+		var client = connectedClients.find(client => client.connection === ws);
+		if (client) {
+			connectedClients.delete(client);
+			var disconnectedClient = {type: 'disconnection', name: client.name}
+			broadcastMsg(JSON.stringify(disconnectedClient), false);
+		}
+		
 	})
 });
 
@@ -124,12 +127,6 @@ server.listen(9027, function() {
 	console.log('app listening on port 9027');
 });
 app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname + '/src/login.html'));
-});
-app.get('/chat', function(req, res) {
-	res.sendFile(path.join(__dirname + '/src/index.html'));
-});
-app.post('/chat', function(req, res) {
 	res.sendFile(path.join(__dirname + '/src/index.html'));
 });
 

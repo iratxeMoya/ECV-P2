@@ -156,6 +156,10 @@ connection.onmessage = (event) => {
 
 		//ToDo
 	}
+	else if(data.type == 'loginResponse' && data.data == 'OK') {
+			document.querySelector('div.chatBody').style['display'] = 'block';
+			document.querySelector('div.loginBody').style['display'] = 'none';	
+	}
 
 };
 
@@ -165,6 +169,38 @@ msgButton.addEventListener("click", send_message);
 
 var msgInput = document.querySelector('input.message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
+
+var loginButton = document.querySelector("button.loginBtn");
+loginButton.addEventListener('click', send_login);
+
+var loginNameInput = document.querySelector("input#username");
+loginNameInput.addEventListener('keydown', on_key_press_send_login);
+
+var loginPassInput = document.querySelector("input#password");
+loginPassInput.addEventListener('keydown', on_key_press_send_login);
+
+var registerBtn = document.querySelector('button.registerBtn');
+//registerBtn.addEventListener('click', go_to_register_page);
+
+function send_login () {
+
+    if(loginNameInput.value !== '' && loginPassInput.value !== '') {
+//        me.actualPosition_x = 100;
+//        me.actualPosition_y = 100;
+//        me.username = loginNameInput.value;
+        var login = new Login(loginNameInput.value, loginPassInput.value);
+        login.isMe = true;
+        connection.send(JSON.stringify(login));
+    } else {
+        alert('You need to enter an username and a password to login');
+    }
+}
+function on_key_press_send_login() {
+	if (event.code === 'Enter') {
+		send_login();
+	}
+}
+
 
 function send_message(){
 	var message = new Msg(me.client, msgInput.innerHTML);
