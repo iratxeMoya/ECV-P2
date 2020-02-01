@@ -6,10 +6,12 @@
 		<link rel="stylesheet" type="text/css" href="register.css">
 	</head>
 	<body style="background-color:black;overflow:hidden;font-family: Arial, Helvetica, sans-serif;">
-		<div class="chatBody" style="display: none;">
+		<div class="chatBody" style="display: block;">
 			<div class="plaza" id="main_plaza">
 			</div>
-			<div class="pj">
+				<div class="pj">
+				</div>
+				<div class="pj2">
 				</div>
 			<div class="chatContainerT">
 				<div class='chatMessageContainer'>
@@ -21,36 +23,36 @@
 				</div>
 			</div>
 		</div>
-		<div class="loginBody">
-			<form method="post" action="/register" id="top">
-				<div class="registerBox">
-					<label>Don't have an account?</label>
-					<button type="button" id = 'registerTopBtn' class="formBtn">Register</button>
-				</div>
-			</form>
-			<div class="loginBox">
-				<form method="post" action="/node/9027/chat" id="middle">
-					<input class="formInput" placeholder="introduce your username" id="logUsername">
-					<input type="password" class="formInput" placeholder="introduce your password" id="logPassword">
-					<button type="button" id='loginBotBtn' class="formBtn">LOGIN</button>
-				</form>
-			</div>
-		</div>
-		<div class="registerBody" style='display: none;'>
-			<form method="post" action="/register" id="top">
-				<div class="registerBox">
-					<label>Already have an account?</label>
-					<button type="button" id='loginTopBtn' class="formBtn">Login</button>
-				</div>
-			</form>
-			<div class="loginBox">
-				<form method="post" action="/node/9027/chat" id="middle">
-					<input class="formInput" placeholder="introduce your username" id="regUsername">
-					<input type="password" class="formInput" placeholder="introduce your password" id="regPassword">
-					<button type="button" id='registerBotBtn' class="formBtn">REGISTER</button>
-				</form>
-			</div>
-		</div>
+		<!-- <div class="loginBody"> -->
+			<!-- <form method="post" action="/register" id="top"> -->
+				<!-- <div class="registerBox"> -->
+					<!-- <label>Don't have an account?</label> -->
+					<!-- <button type="button" id = 'registerTopBtn' class="formBtn">Register</button> -->
+				<!-- </div> -->
+			<!-- </form> -->
+			<!-- <div class="loginBox"> -->
+				<!-- <form method="post" action="/node/9027/chat" id="middle"> -->
+					<!-- <input class="formInput" placeholder="introduce your username" id="logUsername"> -->
+					<!-- <input type="password" class="formInput" placeholder="introduce your password" id="logPassword"> -->
+					<!-- <button type="button" id='loginBotBtn' class="formBtn">LOGIN</button> -->
+				<!-- </form> -->
+			<!-- </div> -->
+		<!-- </div> -->
+		<!-- <div class="registerBody" style='display: none;'> -->
+			<!-- <form method="post" action="/register" id="top"> -->
+				<!-- <div class="registerBox"> -->
+					<!-- <label>Already have an account?</label> -->
+					<!-- <button type="button" id='loginTopBtn' class="formBtn">Login</button> -->
+				<!-- </div> -->
+			<!-- </form> -->
+			<!-- <div class="loginBox"> -->
+				<!-- <form method="post" action="/node/9027/chat" id="middle"> -->
+					<!-- <input class="formInput" placeholder="introduce your username" id="regUsername"> -->
+					<!-- <input type="password" class="formInput" placeholder="introduce your password" id="regPassword"> -->
+					<!-- <button type="button" id='registerBotBtn' class="formBtn">REGISTER</button> -->
+				<!-- </form> -->
+			<!-- </div> -->
+		<!-- </div> -->
 		<script src="plaza.js"></script>
 	</body>
 </html>

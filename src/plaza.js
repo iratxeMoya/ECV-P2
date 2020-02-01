@@ -154,46 +154,42 @@ function on_key_press_send_msg(event) {
 	}
 }
 
+//page setup
+const tilesize = 50;
+
+var h = document.getElementById("main_plaza").style.height;
+var w = document.getElementById("main_plaza").style.width;
+
+console.log(document.getElementById("main_plaza").style);
+if(h%tilesize!=0 || w%tilesize!=0){
+	h=Math.floor(h/tilesize)*tilesize;
+	document.getElementById("main_plaza").style.height = h;
+	document.getElementById("main_plaza").style.width = h;
+}
+
+var mapdim = Math.floor(h/tilesize);
+
+console.log(mapdim)
+
 //movement 
 var posx=0;
 var posy=0;
-var otherx=100;
-var othery=100;
-var rot =0;
-var movement = [0,0,0,0];
-var myVar = setInterval(update, 50);
-var camera = [[0,0,0],[10,0,0],[0,1,0]];
+var finalx=0;
+var finaly=0
+var movingx = false;
+var movingy	=false;
+var gridposx=0;
+var gridposy=0;
+var updating_func = setInterval(update, 50);
+var map = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0))
 
-document.body.addEventListener("keydown",function(event){
-	console.log("ASD");
-	if(event.keyCode == 37){
-		movement[0]=1;
-	}
-	if(event.keyCode == 39){
-		movement[1]=1;
-	}
-	if(event.keyCode == 38){
-		movement[2]=1;
-	}
-	if(event.keyCode == 40){
-		movement[3]=1;
-	}
-});
+console.log(map);
 
-document.body.addEventListener("keyup",function(event){
-	console.log("ASD");
-	if(event.keyCode == 37){
-		movement[0]=0;
-	}
-	if(event.keyCode == 39){
-		movement[1]=0;
-	}
-	if(event.keyCode == 38){
-		movement[2]=0;
-	}
-	if(event.keyCode == 40){
-		movement[3]=0;
-	}
+document.body.addEventListener("click",function(event){
+	finalx = Math.floor(event.clientX/tilesize)*tilesize;
+	finaly = Math.floor(event.clientY/tilesize)*tilesize;
+	movingx = true;
+	movingy = true;
 });
 
 
@@ -202,22 +198,39 @@ function rotate_vec(x,y){
 }
 
 function update(){
-	if(movement[0]>0){
-		turn(true);
-	}
-	if(movement[1]>0){
-		turn(false);
-	}
-	if(movement[2]>0){
-		forward(false);
-	}
-	if(movement[3]>0){
-		forward(true);
+	if(movingy){
+		if(posy<finaly){
+			posy+=10;
+		}else if (posy>finaly){
+			posy-=10;
+		}
+		if(posy==finaly){
+			movingy=false;
+			movingx=true;
+		}
+	}else if(movingx){
+		if(posx<finalx){
+			posx+=10;
+		}else if (posx>finalx){
+			posx-=10;
+		}
+		if(posx==finalx){
+			movingx=false;
+		}
 	}
 	
-	document.getElementsByClassName("plaza")[0].style.transform = "perspective(500px) rotateX(89deg) translate(0%,500px) rotateZ("+rot+"rad) translate("+(-posx)+"px,"+(-posy)+"px)"
-	document.getElementsByClassName("pj")[0].style.transform = " perspective(550px) rotateX(89deg) translate(0%,500px) rotateZ("+rot+"rad) translate("+(otherx-posx)+"px,"+(othery-posy)+"px)  rotateX(90deg)";
-	update_pj();
+	map[gridposx][gridposy]=0;
+	
+	gridposx=Math.floor(posx/tilesize);
+	gridposy=Math.floor(posy/tilesize);
+	
+	map[gridposx][gridposy]=1;
+
+	document.getElementsByClassName("pj2")[0].style.top = gridposy+"px";
+	document.getElementsByClassName("pj2")[0].style.left = gridposx+"px";
+	
+	document.getElementsByClassName("pj")[0].style.top = posy+"px";
+	document.getElementsByClassName("pj")[0].style.left = posx+"px";
 }
 
 function clamp(val, lowrange,highrange){
@@ -243,10 +256,6 @@ function turn(left = true){
 	}else{
 		rot=(rot-Math.PI/100);
 	}
-}
-
-function update_pj(){
-	othery--;
 }
 
 
