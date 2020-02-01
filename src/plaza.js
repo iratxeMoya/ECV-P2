@@ -18,51 +18,6 @@ var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 var clients = [];
 var me = new Client (null, null, null, '');
 
-var posx=0;
-var posy=0;
-var otherx=100;
-var othery=100;
-var rot =0;
-
-
-var movement = [0,0,0,0];
-
-var myVar = setInterval(update, 50);
-
-var camera = [[0,0,0],[10,0,0],[0,1,0]];
-
-document.body.addEventListener("keydown",function(event){
-	console.log("ASD");
-	if(event.keyCode == 37){
-		movement[0]=1;
-	}
-	if(event.keyCode == 39){
-		movement[1]=1;
-	}
-	if(event.keyCode == 38){
-		movement[2]=1;
-	}
-	if(event.keyCode == 40){
-		movement[3]=1;
-	}
-});
-
-document.body.addEventListener("keyup",function(event){
-	console.log("ASD");
-	if(event.keyCode == 37){
-		movement[0]=0;
-	}
-	if(event.keyCode == 39){
-		movement[1]=0;
-	}
-	if(event.keyCode == 38){
-		movement[2]=0;
-	}
-	if(event.keyCode == 40){
-		movement[3]=0;
-	}
-});
-
 //Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
 function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
 	this.username = username;
@@ -163,44 +118,12 @@ connection.onmessage = (event) => {
 
 };
 
-
+//chat
 var msgButton = document.querySelector("button.send");
 msgButton.addEventListener("click", send_message);
 
 var msgInput = document.querySelector('input.message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
-
-var loginButton = document.querySelector("button.loginBtn");
-loginButton.addEventListener('click', send_login);
-
-var loginNameInput = document.querySelector("input#username");
-loginNameInput.addEventListener('keydown', on_key_press_send_login);
-
-var loginPassInput = document.querySelector("input#password");
-loginPassInput.addEventListener('keydown', on_key_press_send_login);
-
-var registerBtn = document.querySelector('button.registerBtn');
-//registerBtn.addEventListener('click', go_to_register_page);
-
-function send_login () {
-
-    if(loginNameInput.value !== '' && loginPassInput.value !== '') {
-//        me.actualPosition_x = 100;
-//        me.actualPosition_y = 100;
-//        me.username = loginNameInput.value;
-        var login = new Login(loginNameInput.value, loginPassInput.value);
-        login.isMe = true;
-        connection.send(JSON.stringify(login));
-    } else {
-        alert('You need to enter an username and a password to login');
-    }
-}
-function on_key_press_send_login() {
-	if (event.code === 'Enter') {
-		send_login();
-	}
-}
-
 
 function send_message(){
 	var message = new Msg(me.client, msgInput.innerHTML);
@@ -212,6 +135,49 @@ function on_key_press_send_msg(event) {
 		send_message();
 	}
 }
+
+//movement 
+var posx=0;
+var posy=0;
+var otherx=100;
+var othery=100;
+var rot =0;
+var movement = [0,0,0,0];
+var myVar = setInterval(update, 50);
+var camera = [[0,0,0],[10,0,0],[0,1,0]];
+
+document.body.addEventListener("keydown",function(event){
+	console.log("ASD");
+	if(event.keyCode == 37){
+		movement[0]=1;
+	}
+	if(event.keyCode == 39){
+		movement[1]=1;
+	}
+	if(event.keyCode == 38){
+		movement[2]=1;
+	}
+	if(event.keyCode == 40){
+		movement[3]=1;
+	}
+});
+
+document.body.addEventListener("keyup",function(event){
+	console.log("ASD");
+	if(event.keyCode == 37){
+		movement[0]=0;
+	}
+	if(event.keyCode == 39){
+		movement[1]=0;
+	}
+	if(event.keyCode == 38){
+		movement[2]=0;
+	}
+	if(event.keyCode == 40){
+		movement[3]=0;
+	}
+});
+
 
 function rotate_vec(x,y){
 	return[Math.cos(-rot)*x - Math.sin(-rot)*y,Math.sin(-rot)*x + Math.cos(-rot)*y];
@@ -263,4 +229,60 @@ function turn(left = true){
 
 function update_pj(){
 	othery--;
+}
+
+
+//login
+var loginBotButton = document.querySelector("button#loginBotBtn");
+loginBotButton.addEventListener('click', send_login);
+
+var loginNameInput = document.querySelector("input#logUsername");
+loginNameInput.addEventListener('keydown', on_key_press_send_login);
+
+var loginPassInput = document.querySelector("input#logPassword");
+loginPassInput.addEventListener('keydown', on_key_press_send_login);
+
+var registerTopBtn = document.querySelector('button#registerTopBtn');
+registerTopBtn.addEventListener('click', go_to_register_page);
+
+function send_login () {
+
+    if(loginNameInput.value !== '' && loginPassInput.value !== '') {
+//        me.actualPosition_x = 100;
+//        me.actualPosition_y = 100;
+//        me.username = loginNameInput.value;
+        var login = new Login(loginNameInput.value, loginPassInput.value);
+        login.isMe = true;
+        connection.send(JSON.stringify(login));
+    } else {
+        alert('You need to enter an username and a password to login');
+    }
+}
+function on_key_press_send_login() {
+	if (event.code === 'Enter') {
+		send_login();
+	}
+}
+
+function go_to_register_page () {
+	document.querySelector('div.registerBody').style['display'] = 'block';
+	document.querySelector('div.loginBody').style['display'] = 'none';	
+}
+
+//register
+var loginTopBtn = document.querySelector('button#loginTopBtn');
+loginTopBtn.addEventListener('click', go_to_login_page);
+
+var regNameInput = document.querySelector("input#regUsername");
+loginNameInput.addEventListener('keydown', on_key_press_send_register);
+
+var regPassInput = document.querySelector("input#regPassword");
+loginPassInput.addEventListener('keydown', on_key_press_send_register);
+
+var registerBotButton = document.querySelector("button#registerBotBtn");
+registerBotButton.addEventListener('click', send_register);
+
+function go_to_login_page () {
+	document.querySelector('div.loginBody').style['display'] = 'block';
+	document.querySelector('div.registerBody').style['display'] = 'none';	
 }

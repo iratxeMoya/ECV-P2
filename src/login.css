@@ -1,4 +1,4 @@
-.loginInput {
+.formInput {
     margin: 0.5em;
     width: 200px;
     background-color: transparent;
@@ -17,15 +17,15 @@
     border-radius: 6px;
     justify-self: center;
 }
-form#login {
+form#middle {
     display: grid;
     width: fit-content;
     margin: auto;
 }
-form#register {
+form#top {
     border-bottom: 0.5px solid white;
 }
-.loginBtn {
+.formBtn {
     width: fit-content;
     justify-self: center;
     margin: 0.5em;
@@ -69,6 +69,6 @@ html {
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
     display: grid;
-    grid-template-rows: 40px;
+    grid-template-rows: 40px 550px;
     margin-top: 25px;
 }

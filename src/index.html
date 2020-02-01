@@ -21,17 +21,32 @@
 			</div>
 		</div>
 		<div class="loginBody">
-			<form method="post" action="/register" id="register">
+			<form method="post" action="/register" id="top">
 				<div class="registerBox">
 					<label>Don't have an account?</label>
-					<button type="button" class="registerBtn">Register</button>
+					<button type="button" id = 'registerTopBtn' class="formBtn">Register</button>
 				</div>
 			</form>
 			<div class="loginBox">
-				<form method="post" action="/node/9027/chat" id="login">
-					<input class="loginInput" placeholder="introduce your username" id="username">
-					<input type="password" class="loginInput" placeholder="introduce your password" id="password">
-					<button type="button" class="loginBtn">LOGIN</button>
+				<form method="post" action="/node/9027/chat" id="middle">
+					<input class="formInput" placeholder="introduce your username" id="logUsername">
+					<input type="password" class="formInput" placeholder="introduce your password" id="logPassword">
+					<button type="button" id='loginBotBtn' class="formBtn">LOGIN</button>
+				</form>
+			</div>
+		</div>
+		<div class="registerBody" style='display: none;'>
+			<form method="post" action="/register" id="top">
+				<div class="registerBox">
+					<label>Already have an account?</label>
+					<button type="button" id='loginTopButton' class="formBtn">Login</button>
+				</div>
+			</form>
+			<div class="loginBox">
+				<form method="post" action="/node/9027/chat" id="middle">
+					<input class="fromInput" placeholder="introduce your username" id="regUsername">
+					<input type="password" class="formInput" placeholder="introduce your password" id="regPassword">
+					<button type="button" id='registerBotBtn' class="formBtn">REGISTER</button>
 				</form>
 			</div>
 		</div>
