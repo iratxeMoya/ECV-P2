@@ -144,7 +144,7 @@ var msgInput = document.querySelector('input.message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
-	var message = new Msg(me.client, msgInput.innerHTML);
+	var message = new Msg(me.client, msgInput.value);
 	connection.send(JSON.stringify(message));
 }
 
