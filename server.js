@@ -5,6 +5,7 @@ var server = require('http').createServer(app);
 var WebSocket = require('ws');
 var router = express.Router();
 var path = require('path');
+var passwordHash = require('password-hash');
 
 var wss = new WebSocket.Server({server});
 
@@ -39,20 +40,22 @@ wss.on('connection', function(ws) {
 
 		if(jsonData.type === 'login') {
 			var client = registeredClients.find(client => client.name === jsonData.client);
-			if (/*client && jsonData.hashedPassword === client.hashedPassword*/ true) {
-			//	client.connection = ws;
-			//	connectedClients.push(client);
-			//	jsonData.x = client.actualPosition_x;
-			//	jsonData.y = client.actualPosition_y;
-			//	jsonData.lastMessage = client.lastMessage
-			//	var dataForClients = JSON.stringify(jsonData);
-			//	broadcastMsg(dataForClients, false);
-				console.log('in if');
+			if (client && passwordHash.verify(jsonData.password, client.hashedPassword)) {
+				client.connection = ws;
+				connectedClients.push(client);
+				jsonData.x = client.actualPosition_x;
+				jsonData.y = client.actualPosition_y;
+				jsonData.lastMessage = client.lastMessage
+				var dataForClients = JSON.stringify(jsonData);
+				broadcastMsg(dataForClients, false);
+
 				var okLoginResponse = {type: 'loginResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));
 			}
 			else {
-				console.log('Loging error, password error or no registered')
+				console.log('Loging error, password error or no registered');
+				var okLoginResponse = {type: 'loginResponse', data: 'notOK'};
+				ws.send(JSON.stringify(okLoginResponse));
 			}
 		}
 		else if (jsonData.type === 'register') {
@@ -61,13 +64,16 @@ wss.on('connection', function(ws) {
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
 				var dataForClients = JSON.stringify(jsonData);
-				var newClient = new Client(jsonData.username, 100, 100, '', ws);
+				var newClient = new Client(jsonData.username, 100, 100, '', ws, passwordHash.generate(jsonData.password));
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
 				broadcastMsg(dataForClients, false);
+				var okLoginResponse = {type: 'registerResponse', data: 'OK'};
+				ws.send(JSON.stringify(okLoginResponse));
 			}
 			else {
-				//somehow return a error or something	
+				var okLoginResponse = {type: 'registerResponse', data: 'notOK'};
+				ws.send(JSON.stringify(okLoginResponse));	
 			}
 		}
 		else if (jsonData.type === 'msg') {

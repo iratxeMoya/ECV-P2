@@ -31,9 +31,10 @@ function Msg (client, text) {
 	this.client = client;
 	this.text = text;
 }
-function Login (username) {
+function Login (username, password) {
 	this.type = 'login';
 	this.username = username;
+	this.password = password
 }
 function Move (client, x, y) {
 	this.type = 'move';
@@ -57,7 +58,8 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-	console.log('new message in plaza type: ', data.type);
+	console.log('new message in plaza: ', data);
+
 	if (data.type === 'msg') {
 
 		// append received message from the server to the DOM element
@@ -105,16 +107,26 @@ connection.onmessage = (event) => {
 	}
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.name === data.name);
-	//	clients.delete(sender);
+		clients.delete(sender);
 
 		//Delete clients avatar from the scene
 
 		//ToDo
 	}
-	else if(data.type == 'loginResponse' && data.data == 'OK') {
+	else if(data.type == 'loginResponse') {
+		if (data.data === 'OK'){
 			document.querySelector('div.chatBody').style['display'] = 'block';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
-	}
+		} else {
+			alert ('Username or password not correct');
+		}
+	} else if(data.type == 'registerResponse') {
+		if (data.data === 'OK'){
+			document.querySelector('div.chatBody').style['display'] = 'block';
+			document.querySelector('div.loginBody').style['display'] = 'none';	
+		} else {
+			alert ('Username or password not correct');
+		}
 
 };
 
