@@ -292,10 +292,10 @@ var loginTopBtn = document.querySelector('button#loginTopBtn');
 loginTopBtn.addEventListener('click', go_to_login_page);
 
 var regNameInput = document.querySelector("input#regUsername");
-loginNameInput.addEventListener('keydown', on_key_press_send_register);
+regNameInput.addEventListener('keydown', on_key_press_send_register);
 
 var regPassInput = document.querySelector("input#regPassword");
-loginPassInput.addEventListener('keydown', on_key_press_send_register);
+regPassInput.addEventListener('keydown', on_key_press_send_register);
 
 var registerBotButton = document.querySelector("button#registerBotBtn");
 registerBotButton.addEventListener('click', send_register);
