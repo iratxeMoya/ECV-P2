@@ -177,28 +177,6 @@ function on_key_press_send_msg(event) {
 	}
 }
 
-//Aun no existen en el DOM
-var loginButton = document.querySelector("button.login");
-// loginButton.addEventListener('click', send_login);
-
-var loginInput = document.querySelector("input.name");
-// loginInput.addEventListener('keydown', on_key_press_send_login);
-
-function send_login () {
-
-	me.actualPosition_x = 100;
-	me.actualPosition_y = 100;
-	me.username = loginInput.innerHTML;
-	var login = new Login(loginInput.innerHTML);
-	//login.isMe = true;
-	connection.send(JSON.stringify(login));
-}
-function on_key_press_send_login() {
-	if (event.code === 'Enter') {
-		send_login();
-	}
-}
-
 function rotate_vec(x,y){
 	return[Math.cos(-rot)*x - Math.sin(-rot)*y,Math.sin(-rot)*x + Math.cos(-rot)*y];
 }

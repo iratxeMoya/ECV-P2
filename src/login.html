@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="login.css">
+	</head>
+    <body style="background-color:black;overflow:hidden;font-family: Arial, Helvetica, sans-serif;">
+        <form method="post" action="/register" id="register">
+            <div class="registerBox">
+                <label>Don't have an account?</label>
+                <button type="button" class="registerBtn">Register</button>
+            </div>
+        </form>
+		<div class="loginBox">
+            <form method="post" action="/chat" id="login">
+                <input class="loginInput" placeholder="introduce your username" id="username">
+                <input type="password" class="loginInput" placeholder="introduce your password" id="password">
+                <button type="button" class="loginBtn">LOGIN</button>
+            </form>
+        </div>
+		<script src="login.js"></script>
+	</body>
+</html>
