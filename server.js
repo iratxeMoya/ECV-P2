@@ -42,12 +42,6 @@ wss.on('connection', function(ws) {
 			var foundClient = registeredClients.find(client => client.username === jsonData.client);
 			if (foundClient && passwordHash.verify(jsonData.password, foundClient.hashedPassword)) {
 				client.connection = ws;
-				connectedClients.push(foundClient);
-				jsonData.x = foundClient.actualPosition_x;
-				jsonData.y = foundClient.actualPosition_y;
-				jsonData.lastMessage = foundClient.lastMessage
-				var dataForClients = JSON.stringify(jsonData);
-				broadcastMsg(dataForClients, false);
 
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
@@ -59,6 +53,13 @@ wss.on('connection', function(ws) {
 
 					foundClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
+				
+				connectedClients.push(foundClient);
+				jsonData.x = foundClient.actualPosition_x;
+				jsonData.y = foundClient.actualPosition_y;
+				jsonData.lastMessage = foundClient.lastMessage
+				var dataForClients = JSON.stringify(jsonData);
+				broadcastMsg(dataForClients, false);
 
 				var okLoginResponse = {type: 'loginResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));
@@ -76,12 +77,6 @@ wss.on('connection', function(ws) {
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
 				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
-				registeredClients.push(newClient);
-				connectedClients.push(newClient);
-				jsonData.password = '';
-				var dataForClients = JSON.stringify(jsonData);
-				broadcastMsg(dataForClients, false);
-
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
 					alreadyConnected.type = 'alreadyLoged';
@@ -92,6 +87,11 @@ wss.on('connection', function(ws) {
 
 					newClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
+				registeredClients.push(newClient);
+				connectedClients.push(newClient);
+				jsonData.password = '';
+				var dataForClients = JSON.stringify(jsonData);
+				broadcastMsg(dataForClients, false);
 
 				var okLoginResponse = {type: 'registerResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));
