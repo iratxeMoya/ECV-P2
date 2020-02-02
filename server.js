@@ -64,10 +64,11 @@ wss.on('connection', function(ws) {
 				jsonData.x = 100;
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
-				var dataForClients = JSON.stringify(jsonData);
 				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
+				jsonData.password = '';
+				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
 				var okLoginResponse = {type: 'registerResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));

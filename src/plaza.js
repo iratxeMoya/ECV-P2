@@ -95,7 +95,6 @@ connection.onmessage = (event) => {
 		var client = new Client(data.client, data.x, data.y, data.lastMessage);
 		clients.push(client);
 		if (data.isMe) {
-			console.log('is me')
 			me = client;
 		}
 
@@ -149,7 +148,7 @@ var msgInput = document.querySelector('input.message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
-	var message = new Msg(me.client, msgInput.value);
+	var message = new Msg(me.username, msgInput.value);
 	console.log('sending message: ', message);
 	connection.send(JSON.stringify(message));
 }
