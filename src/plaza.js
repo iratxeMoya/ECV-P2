@@ -104,7 +104,7 @@ connection.onmessage = (event) => {
 
 		//ToDo
 	}
-	else if(data.type === 'alreadyConnected') {
+	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage);
 		clients.push(client);
 	}

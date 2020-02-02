@@ -39,13 +39,13 @@ wss.on('connection', function(ws) {
 		console.log('new message in server: ', jsonData);
 
 		if(jsonData.type === 'login') {
-			var client = registeredClients.find(client => client.username === jsonData.client);
-			if (client && passwordHash.verify(jsonData.password, client.hashedPassword)) {
+			var foundClient = registeredClients.find(client => client.username === jsonData.client);
+			if (foundClient && passwordHash.verify(jsonData.password, foundClient.hashedPassword)) {
 				client.connection = ws;
-				connectedClients.push(client);
-				jsonData.x = client.actualPosition_x;
-				jsonData.y = client.actualPosition_y;
-				jsonData.lastMessage = client.lastMessage
+				connectedClients.push(foundClient);
+				jsonData.x = foundClient.actualPosition_x;
+				jsonData.y = foundClient.actualPosition_y;
+				jsonData.lastMessage = foundClient.lastMessage
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
 
@@ -57,7 +57,7 @@ wss.on('connection', function(ws) {
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
 
-					broadcastMsg(JSON.stringify(alreadyConnected), false);
+					foundClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
 
 				var okLoginResponse = {type: 'loginResponse', data: 'OK'};
@@ -70,8 +70,8 @@ wss.on('connection', function(ws) {
 			}
 		}
 		else if (jsonData.type === 'register') {
-			var client =  registeredClients.find(client => client.username === jsonData.client);
-			if(!client){
+			var foundClient =  registeredClients.find(client => client.username === jsonData.client);
+			if(!foundClient){
 				jsonData.x = 100;
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
@@ -90,7 +90,7 @@ wss.on('connection', function(ws) {
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
 
-					broadcastMsg(JSON.stringify(alreadyConnected), false);
+					newClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
 
 				var okLoginResponse = {type: 'registerResponse', data: 'OK'};
