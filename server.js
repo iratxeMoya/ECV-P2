@@ -46,14 +46,14 @@ wss.on('connection', function(ws) {
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
 					alreadyConnected.type = 'alreadyLoged';
-					alreadyConnected.client = client.username;
+					alreadyConnected.username = client.username;
 					alreadyConnected.x = client.actualPosition_x;
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
 
 					foundClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
-				
+
 				connectedClients.push(foundClient);
 				jsonData.x = foundClient.actualPosition_x;
 				jsonData.y = foundClient.actualPosition_y;
@@ -80,7 +80,7 @@ wss.on('connection', function(ws) {
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
 					alreadyConnected.type = 'alreadyLoged';
-					alreadyConnected.client = client.username;
+					alreadyConnected.username = client.username;
 					alreadyConnected.x = client.actualPosition_x;
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
