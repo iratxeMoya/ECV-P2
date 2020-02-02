@@ -67,7 +67,6 @@ wss.on('connection', function(ws) {
 				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
-				console.log(connectedClients, registeredClients);
 				jsonData.password = '';
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
@@ -78,6 +77,7 @@ wss.on('connection', function(ws) {
 				var okLoginResponse = {type: 'registerResponse', data: 'notOK'};
 				ws.send(JSON.stringify(okLoginResponse));	
 			}
+			console.log("clients: ", registeredClients, connectedClients)
 		}
 		else if (jsonData.type === 'msg') {
 

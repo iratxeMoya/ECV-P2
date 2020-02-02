@@ -94,9 +94,7 @@ connection.onmessage = (event) => {
 		//create new client
 		var client = new Client(data.client, data.x, data.y, data.lastMessage);
 		clients.push(client);
-		if (data.isMe) {
-			me = client;
-		}
+		console.log('clients: ', clients)
 
 		//render the new clients avatar
 
