@@ -82,7 +82,7 @@ connection.onmessage = (event) => {
 		parent.appendChild(messageContainer);
 
 		//Actualize client last message
-		var senderIndex = clients.findIndex(client => client.name === data.client);
+		var senderIndex = clients.findIndex(client => client.username === data.client);
 		clients[senderIndex].lastMessage = data.text;
 
 		//change the senders avatars top message
@@ -105,7 +105,7 @@ connection.onmessage = (event) => {
 	else if (data.type === 'move') {
 
 		//actualize senders position
-		var senderIndex = clients.findIndex(client => client.name === data.client);
+		var senderIndex = clients.findIndex(client => client.username === data.client);
 		clients[senderIndex].actualPosition_x = data.x;
 		clients[senderIndex].actualPosition_y = data.y;
 
@@ -114,7 +114,7 @@ connection.onmessage = (event) => {
 		// ToDo
 	}
 	else if (data.type === 'disconnection') {
-		var sender = clients.find(client => client.name === data.name);
+		var sender = clients.find(client => client.username === data.name);
 		clients.delete(sender);
 
 		//Delete clients avatar from the scene
@@ -133,6 +133,7 @@ connection.onmessage = (event) => {
 		if (data.data === 'OK'){
 			document.querySelector('div.chatBody').style['display'] = 'block';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
+			document.querySelector('div.registerBody').style['display'] = 'none';
 		} else {
 			alert ('Username exists already');
 		}
