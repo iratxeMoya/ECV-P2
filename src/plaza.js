@@ -96,6 +96,10 @@ connection.onmessage = (event) => {
 		clients.push(client);
 		console.log('clients: ', clients)
 
+		if (client.username == me.username) {
+			me = client;
+		}
+
 		//render the new clients avatar
 
 		//ToDo
