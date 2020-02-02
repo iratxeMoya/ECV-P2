@@ -45,7 +45,7 @@ wss.on('connection', function(ws) {
 
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
-					alreadyConnected.type = 'alreadyLoged';
+					alreadyConnected.type = 'msg';
 					alreadyConnected.username = client.username;
 					alreadyConnected.x = client.actualPosition_x;
 					alreadyConnected.y = client.actualPosition_y;
@@ -55,7 +55,7 @@ wss.on('connection', function(ws) {
 				});
 				messages.forEach(mes => {
 					var alreadySended = {};
-					alreadySended.type = 'alreadySended';
+					alreadySended.type = 'msg';
 					alreadySended.client = mes.client;
 					alreadySended.text = mes.text;
 
