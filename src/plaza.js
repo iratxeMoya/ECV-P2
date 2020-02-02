@@ -63,7 +63,7 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-	console.log('new message in plaza: ', data);
+	console.log('recived message: ', data);
 
 	if (data.type === 'msg') {
 
@@ -94,6 +94,9 @@ connection.onmessage = (event) => {
 		//create new client
 		var client = new Client(data.client, data.x, data.y, data.lastMessage);
 		clients.push(client);
+		if (data.isMe) {
+			me = client;
+		}
 
 		//render the new clients avatar
 
@@ -145,6 +148,7 @@ msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
 	var message = new Msg(me.client, msgInput.value);
+	console.log('sending message: ', message);
 	connection.send(JSON.stringify(message));
 }
 
@@ -171,9 +175,7 @@ registerTopBtn.addEventListener('click', go_to_register_page);
 function send_login () {
 
     if(loginNameInput.value !== '' && loginPassInput.value !== '') {
-//        me.actualPosition_x = 100;
-//        me.actualPosition_y = 100;
-//        me.username = loginNameInput.value;
+        me.username = loginNameInput.value;
         var login = new Login(loginNameInput.value, loginPassInput.value);
         login.isMe = true;
         connection.send(JSON.stringify(login));
@@ -212,9 +214,9 @@ function go_to_login_page () {
 
 function send_register () {
 	if(regNameInput.value !== '' && regPassInput.value !== '') {
-//        me.actualPosition_x = 100;
-//        me.actualPosition_y = 100;
-//        me.username = loginNameInput.value;
+        me.actualPosition_x = 100;
+        me.actualPosition_y = 100;
+        me.username = loginNameInput.value;
 		var register = new Register(regNameInput.value, regPassInput.value);
 		register.isMe = true;
 		connection.send(JSON.stringify(register));

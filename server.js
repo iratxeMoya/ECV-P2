@@ -36,7 +36,7 @@ wss.on('connection', function(ws) {
 	ws.on('message', function(data){
 
 		var jsonData = JSON.parse(data);
-		console.log('new message in server of type: ', jsonData.type);
+		console.log('new message in server: ', jsonData);
 
 		if(jsonData.type === 'login') {
 			var client = registeredClients.find(client => client.name === jsonData.client);
@@ -104,7 +104,6 @@ wss.on('connection', function(ws) {
 		}
 	});
 	ws.on('close', function (event) {
-		console.log('in close: ', event);
 		var client = connectedClients.find(client => client.connection === ws);
 		if (client) {
 			connectedClients.delete(client);
