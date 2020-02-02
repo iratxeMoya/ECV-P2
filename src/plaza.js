@@ -95,6 +95,7 @@ connection.onmessage = (event) => {
 		var client = new Client(data.client, data.x, data.y, data.lastMessage);
 		clients.push(client);
 		if (data.isMe) {
+			console.log('is me')
 			me = client;
 		}
 
