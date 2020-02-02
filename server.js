@@ -87,6 +87,7 @@ wss.on('connection', function(ws) {
 
 					newClient.connection.send(JSON.stringify(alreadyConnected), false);
 				});
+				console.log('messages: ', messages);
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
 				jsonData.password = '';
@@ -100,13 +101,11 @@ wss.on('connection', function(ws) {
 				var okLoginResponse = {type: 'registerResponse', data: 'notOK'};
 				ws.send(JSON.stringify(okLoginResponse));	
 			}
-			console.log("clients: ", registeredClients, connectedClients)
 		}
 		else if (jsonData.type === 'msg') {
 
 			var sender = connectedClients.find(client => client.username === jsonData.client);
 			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.client);
-			console.log('jsnoData, sender, senderIndex', jsonData, sender, senderIndex);
 			connectedClients[senderIndex].lastMessage = jsonData.text;
 			var message = new Message(jsonData.client, jsonData.text, sender.actualPosition_x, sender.actualPosition_y);
 			messages.push(message);
