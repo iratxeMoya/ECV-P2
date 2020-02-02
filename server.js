@@ -49,6 +49,17 @@ wss.on('connection', function(ws) {
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
 
+				connectedClients.forEach(client => {
+					var alreadyConnected = {};
+					alreadyConnected.type = 'alreadyLoged';
+					alreadyConnected.client = client.username;
+					alreadyConnected.x = client.actualPosition_x;
+					alreadyConnected.y = actualPosition_y;
+					alreadyConnected.lastMessage = client.lastMessage;
+
+					broadcastMsg(JSON.stringify(alreadyConnected), false);
+				});
+
 				var okLoginResponse = {type: 'loginResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));
 			}
@@ -70,6 +81,18 @@ wss.on('connection', function(ws) {
 				jsonData.password = '';
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
+
+				connectedClients.forEach(client => {
+					var alreadyConnected = {};
+					alreadyConnected.type = 'alreadyLoged';
+					alreadyConnected.client = client.username;
+					alreadyConnected.x = client.actualPosition_x;
+					alreadyConnected.y = actualPosition_y;
+					alreadyConnected.lastMessage = client.lastMessage;
+
+					broadcastMsg(JSON.stringify(alreadyConnected), false);
+				});
+				
 				var okLoginResponse = {type: 'registerResponse', data: 'OK'};
 				ws.send(JSON.stringify(okLoginResponse));
 			}

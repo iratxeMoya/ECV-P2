@@ -104,6 +104,10 @@ connection.onmessage = (event) => {
 
 		//ToDo
 	}
+	else if(data.type === 'alreadyConnected') {
+		var client = new Client(data.username, data.x, data.y, data.lastMessage);
+		clients.push(client);
+	}
 	else if (data.type === 'move') {
 
 		//actualize senders position
