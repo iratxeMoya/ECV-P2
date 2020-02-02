@@ -2,11 +2,13 @@
 const TILESIZE = 50;
 const BORDERSIZE = 2;
 var updating_func = setInterval(update, 50);
-
+console.log(window.innerHeight);
 var mapdim=0;
 var map;
 
-var h=0;
+var needSetup=true;
+
+var h;
 var i =0;
 var j=0;
 var style;
@@ -24,10 +26,9 @@ var movements=[[false,false,BORDERSIZE,BORDERSIZE]];
 var tilemap = "data/tiles.png";
 var spritesheet = "data/sprites.png";
 
-console.log(pos_array);
-
-h = window.getComputedStyle(document.getElementById("main_plaza")).height;
-h = parseInt(h.substring(0, h.length - 2));
+h = window.innerHeight;
+console.log("PLAZA "+h);
+//h = parseInt(h.substring(0, h.length - 2));
 
 if(h%TILESIZE!=0 || w%TILESIZE!=0){
 	h=Math.floor(h/TILESIZE)*TILESIZE;
@@ -36,6 +37,9 @@ if(h%TILESIZE!=0 || w%TILESIZE!=0){
 }
 
 mapdim = Math.floor(h/TILESIZE);
+console.log("setup:"+mapdim);
+console.log(h);
+console.log(document.getElementById("main_plaza").style);
 
 for (i=0;i<mapdim;i++){
 	for (j=0;j<mapdim;j++){
@@ -78,6 +82,8 @@ for (i=0;i<mapdim;i++){
 
 
 map = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
+console.log(map);
+console.log(mapdim);
 
 
 document.body.addEventListener("click",function(event){
@@ -210,8 +216,11 @@ function update(){
 			}
 		}
 		tileposy=(tileposy+1)%3
+		console.log(map);
+		console.log(pos_array);
+		console.log("ASDASD");
 		map[pos_array[i][2]][pos_array[i][3]]=0;
-
+		
 		pos_array[i][2]=Math.floor(pos_array[i][0]/TILESIZE);
 		pos_array[i][3]=Math.floor(pos_array[i][1]/TILESIZE);
 
