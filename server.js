@@ -39,7 +39,7 @@ wss.on('connection', function(ws) {
 		console.log('new message in server: ', jsonData);
 
 		if(jsonData.type === 'login') {
-			var client = registeredClients.find(client => client.name === jsonData.client);
+			var client = registeredClients.find(client => client.username === jsonData.client);
 			if (client && passwordHash.verify(jsonData.password, client.hashedPassword)) {
 				client.connection = ws;
 				connectedClients.push(client);
@@ -59,7 +59,7 @@ wss.on('connection', function(ws) {
 			}
 		}
 		else if (jsonData.type === 'register') {
-			var client =  registeredClients.find(client => client.name === jsonData.client);
+			var client =  registeredClients.find(client => client.username === jsonData.client);
 			if(!client){
 				jsonData.x = 100;
 				jsonData.y = 100;
@@ -81,25 +81,25 @@ wss.on('connection', function(ws) {
 		}
 		else if (jsonData.type === 'msg') {
 
-			var sender = connectedClients.find(client => client.name === jsonData.client);
-			var senderIndex = connectedClients.findIndex(client => client.name === jsonData.client);
+			var sender = connectedClients.find(client => client.username === jsonData.client);
+			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.client);
 			console.log('jsnoData, sender, senderIndex', jsonData, sender, senderIndex);
 			connectedClients[senderIndex].lastMessage = jsonData.text;
 			var message = new Message(jsonData.client, jsonData.text, sender.actualPosition_x, sender.actualPosition_y);
 			messages.push(message);
 
-			senderIndex = registeredClients.findIndex(client => client.name === jsonData.client);
+			senderIndex = registeredClients.findIndex(client => client.username === jsonData.client);
 			registeredClients[senderIndex].lastMessage = jsonData.text;
 
 			broadcastMsg(data, true, sender.actualPosition_x, sender.actualPosition_y);
 
 		}else if (jsonData.type === 'move') {
 
-			var senderIndex = connectedClients.findIndex(client => client.name === jsonData.client);
+			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.client);
 			connectedClients[senderIndex].actualPosition_x = jsonData.x;
 			connectedClients[senderIndex].actualPosition_y = jsonData.y;
 
-			senderIndex = registeredClients.findIndex(client => client.name === jsonData.client);
+			senderIndex = registeredClients.findIndex(client => client.username === jsonData.client);
 			registeredClients[senderIndex].actualPosition_x = jsonData.x;
 			registeredClients[senderIndex].actualPosition_y = jsonData.y;
 			broadcastMsg(data, false);
