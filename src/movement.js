@@ -10,6 +10,8 @@ var h=0;
 var i =0;
 var j=0;
 var style;
+var tileposx=0;
+var tileposy=0;
 
 var placed_obj =false;
 var obj_counter=0;
@@ -18,7 +20,7 @@ var objects=[];
 var pos_array = [[BORDERSIZE,BORDERSIZE,0,0]];
 var movements=[[false,false,BORDERSIZE,BORDERSIZE]];
 
-var tilemap="data/tiles.png";
+var tilemap = "data/tiles.png";
 
 console.log(pos_array);
 
@@ -35,12 +37,37 @@ mapdim = Math.floor(h/TILESIZE);
 
 for (i=0;i<mapdim;i++){
 	for (j=0;j<mapdim;j++){
-		let e =document.createElement("img");
+		if (j==0){
+			if(i==0){
+				tileposx =4;
+			}else if (i==mapdim-1){
+				tileposx =7;
+			}else{
+				tileposx=1;
+			}
+		}else if (j==mapdim-1){
+			if(i==0){
+				tileposx =5;
+			}else if (i==mapdim-1){
+				tileposx =6;
+			}else{
+				tileposx=3;
+			}
+		}else{
+			if(i==0){
+				tileposx =0;
+			}else if (i==mapdim-1){
+				tileposx =2;
+			}else{
+				tileposx=8;
+			}
+		}
+		let e =document.createElement("span");
 		e.classList.add("tile");
 		e.style.top=(i*TILESIZE)+"px";
 		e.style.left=(j*TILESIZE)+"px";
 		e.style.zIndex =0;
-		e.style.backgroundImage=tilemap;
+		e.style.background="url('"+tilemap+"') -"+(tileposx*50)+"px -"+(tileposy*50)+"px";
 		document.getElementById("main_plaza").appendChild(e);
 	}
 }
