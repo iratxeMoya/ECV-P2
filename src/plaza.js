@@ -220,7 +220,7 @@ function send_register () {
 	if(regNameInput.value !== '' && regPassInput.value !== '') {
         me.actualPosition_x = 100;
         me.actualPosition_y = 100;
-        me.username = loginNameInput.value;
+        me.username = regNameInput.value;
 		var register = new Register(regNameInput.value, regPassInput.value);
 		register.isMe = true;
 		connection.send(JSON.stringify(register));
