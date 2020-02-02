@@ -11,6 +11,7 @@ var i =0;
 var j=0;
 var style;
 var tileposx=0;
+var spritepos_arr=[0];
 var tileposy=0;
 
 var placed_obj =false;
@@ -21,6 +22,7 @@ var pos_array = [[BORDERSIZE,BORDERSIZE,0,0]];
 var movements=[[false,false,BORDERSIZE,BORDERSIZE]];
 
 var tilemap = "data/tiles.png";
+var spritesheet = "data/sprites.png";
 
 console.log(pos_array);
 
@@ -105,13 +107,13 @@ function create_pj(x,y,sptrite=null){
 	newelement = document.createElement("span");
 	newelement.classList.add("pj");
 	newelement.id=pos_array.length+"";
-	newelement.style.backgroundColor="yellow";
 	newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
 	newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
 	document.getElementById("main_plaza").appendChild(newelement);
 	pos_array.push([x*TILESIZE+BORDERSIZE,y*TILESIZE+BORDERSIZE,x,y]);
 	console.log(pos_array);
 	movements.push([false,false,x,y]);
+	spritepos_arr.push(0);
 }
 
 function hide_msg(id){
@@ -181,14 +183,16 @@ function update(){
 	for (i=0;i<pos_array.length;i++){
 		if(movements[i][1]){
 			if(pos_array[i][1]<movements[i][3]){
-				pos_array[i][1]+=10;
+				pos_array[i][1]+=10; 
+				spritepos_arr[i]=2;
 			}else if (pos_array[i][1]>movements[i][3]){
 				pos_array[i][1]-=10;
+				spritepos_arr[i]=3;
 			}
 			if(pos_array[i][1]==movements[i][3] && pos_array[i][0]==movements[i][2]){
 				movements[i][1]=false;
 				movements[i][0]=false;
-				show_msg(i,"ARRIVED");
+				show_msg(i,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
 			}else if(pos_array[i][1]==movements[i][3]){
 				movements[i][1]=false;
 				movements[i][0]=true;
@@ -196,13 +200,16 @@ function update(){
 		}else if(movements[i][0]){
 			if(pos_array[i][0]<movements[i][2]){
 				pos_array[i][0]+=10;
+				spritepos_arr[i]=1;
 			}else if (pos_array[i][0]>movements[i][2]){
 				pos_array[i][0]-=10;
+				spritepos_arr[i]=0;
 			}
 			if(pos_array[i][0]==movements[i][2]){
 				movements[i][1]=true;
 			}
 		}
+		tileposy=(tileposy+1)%3
 		map[pos_array[i][2]][pos_array[i][3]]=0;
 
 		pos_array[i][2]=Math.floor(pos_array[i][0]/TILESIZE);
@@ -212,7 +219,7 @@ function update(){
 
 		document.getElementsByClassName("pj")[i].style.top = pos_array[i][1]+"px";
 		document.getElementsByClassName("pj")[i].style.left = pos_array[i][0]+"px";
-
+		document.getElementsByClassName("pj")[i].style.background="url('"+spritesheet+"') -"+(spritepos_arr[i]*50)+"px -"+(tileposy*50)+"px";
 
 	}
 }
