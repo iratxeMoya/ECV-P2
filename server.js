@@ -61,13 +61,13 @@ wss.on('connection', function(ws) {
 		else if (jsonData.type === 'register') {
 			var client =  registeredClients.find(client => client.name === jsonData.client);
 			if(!client){
-				console.log(client)
 				jsonData.x = 100;
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
 				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
+				console.log(connectedClients, registeredClients);
 				jsonData.password = '';
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
@@ -83,6 +83,7 @@ wss.on('connection', function(ws) {
 
 			var sender = connectedClients.find(client => client.name === jsonData.client);
 			var senderIndex = connectedClients.findIndex(client => client.name === jsonData.client);
+			console.log('jsnoData, sender, senderIndex', jsonData, sender, senderIndex);
 			connectedClients[senderIndex].lastMessage = jsonData.text;
 			var message = new Message(jsonData.client, jsonData.text, sender.actualPosition_x, sender.actualPosition_y);
 			messages.push(message);
