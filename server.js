@@ -61,6 +61,7 @@ wss.on('connection', function(ws) {
 		else if (jsonData.type === 'register') {
 			var client =  registeredClients.find(client => client.name === jsonData.client);
 			if(!client){
+				console.log(client)
 				jsonData.x = 100;
 				jsonData.y = 100;
 				jsonData.lastMessage = '';
