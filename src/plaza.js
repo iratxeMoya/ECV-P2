@@ -124,7 +124,8 @@ connection.onmessage = (event) => {
 	else if(data.type == 'loginResponse') {
 		if (data.data === 'OK'){
 			document.querySelector('div.chatBody').style['display'] = 'block';
-			document.querySelector('div.loginBody').style['display'] = 'none';	
+			document.querySelector('div.loginBody').style['display'] = 'none';
+			document.querySelector('div.registerBody').style['display'] = 'none';	
 		} else {
 			alert ('Username or password not correct');
 		}
