@@ -51,8 +51,17 @@ wss.on('connection', function(ws) {
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
 
-					foundClient.connection.send(JSON.stringify(alreadyConnected), false);
+					foundClient.connection.send(JSON.stringify(alreadyConnected));
 				});
+				messages.forEach(mes => {
+					var alreadySended = {};
+					alreadySended.type = 'alreadySended';
+					alreadySended.client = mes.client;
+					alreadySended.text = mes.text;
+
+					foundClient.connection.send(JSON.stringify(alreadySended));
+				});
+
 
 				connectedClients.push(foundClient);
 				jsonData.x = foundClient.actualPosition_x;
@@ -85,9 +94,16 @@ wss.on('connection', function(ws) {
 					alreadyConnected.y = client.actualPosition_y;
 					alreadyConnected.lastMessage = client.lastMessage;
 
-					newClient.connection.send(JSON.stringify(alreadyConnected), false);
+					newClient.connection.send(JSON.stringify(alreadyConnected));
 				});
-				console.log('messages: ', messages);
+				messages.forEach(mes => {
+					var alreadySended = {};
+					alreadySended.type = 'alreadySended';
+					alreadySended.client = mes.client;
+					alreadySended.text = mes.text;
+
+					newClient.connection.send(JSON.stringify(alreadySended));
+				});
 				registeredClients.push(newClient);
 				connectedClients.push(newClient);
 				jsonData.password = '';
