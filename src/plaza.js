@@ -44,7 +44,7 @@ function Login (username, password) {
 }
 function Register (client, password) {
 	this.type = 'register';
-	this.client = client;
+	this.username = client;
 	this.password = password;
 }
 function Move (client, x, y) {

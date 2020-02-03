@@ -39,7 +39,8 @@ wss.on('connection', function(ws) {
 		console.log('new message in server: ', jsonData);
 
 		if(jsonData.type === 'login') {
-			var foundClient = registeredClients.find(client => client.username === jsonData.client);
+
+			var foundClient = registeredClients.find(client => client.username === jsonData.username);
 			if (foundClient && passwordHash.verify(jsonData.password, foundClient.hashedPassword)) {
 				client.connection = ws;
 
@@ -80,7 +81,7 @@ wss.on('connection', function(ws) {
 			}
 		}
 		else if (jsonData.type === 'register') {
-			var foundClient =  registeredClients.find(client => client.username === jsonData.client);
+			var foundClient = registeredClients.find(client => client.username === jsonData.username);
 			if(!foundClient){
 				jsonData.x = 0;
 				jsonData.y = 0;
