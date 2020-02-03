@@ -82,10 +82,10 @@ wss.on('connection', function(ws) {
 		else if (jsonData.type === 'register') {
 			var foundClient =  registeredClients.find(client => client.username === jsonData.client);
 			if(!foundClient){
-				jsonData.x = 100;
-				jsonData.y = 100;
+				jsonData.x = 0;
+				jsonData.y = 0;
 				jsonData.lastMessage = '';
-				var newClient = new Client(jsonData.client, 100, 100, '', ws, passwordHash.generate(jsonData.password));
+				var newClient = new Client(jsonData.client, 0, 0, '', ws, passwordHash.generate(jsonData.password));
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
 					alreadyConnected.type = 'alreadyLoged';
