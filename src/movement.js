@@ -184,7 +184,7 @@ function update(clients){
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
 				movements[username][1]=false;
 				movements[username][0]=false;
-				show_msg(i,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
+				show_msg(username,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
 			}else if(pos_array[username][1]==movements[username][3]){
 				movements[username][1]=false;
 				movements[username][0]=true;
