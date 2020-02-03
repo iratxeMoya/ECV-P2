@@ -114,7 +114,7 @@ connection.onmessage = (event) => {
 	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage);
 		clients.push(client);
-		create_pj(data.x,data.y);
+		create_pj(data.x,data.y, data.username);
 	}
 	else if (data.type === 'move') {
 
@@ -124,6 +124,7 @@ connection.onmessage = (event) => {
 		clients[senderIndex].actualPosition_y = data.y;
 
 		//render the avatar of sender in correct position
+
 
 		move_pj(data.x, data.y, data.client);
 	}
