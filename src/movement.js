@@ -96,7 +96,7 @@ console.log(mapdim);
 function create_pj(x,y, username, sptrite=null){
 	newelement = document.createElement("span");
 	newelement.classList.add("pj");
-	newelement.id=pos_array.length+"";
+	newelement.id=username;
 	newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
 	newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
 	document.getElementById("main_plaza").appendChild(newelement);
