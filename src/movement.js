@@ -171,7 +171,7 @@ function update(clients){
 		// }
 	// }
 	for (i=0;i<clients.length;i++){
-		var username = clients[i];
+		var username = clients[i].username;
 		if(movements[username][1]){ 
 			if(pos_array[username][1]<movements[username][3]){
 
