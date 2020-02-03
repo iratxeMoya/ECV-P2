@@ -98,7 +98,7 @@ connection.onmessage = (event) => {
 	else if (data.type === 'login' || data.type === 'register') {
 		
 		//create new client
-		var client = new Client(data.client, data.x, data.y, data.lastMessage);
+		var client = new Client(data.username, data.x, data.y, data.lastMessage);
 		clients.push(client);
 		console.log('clients: ', clients)
 
