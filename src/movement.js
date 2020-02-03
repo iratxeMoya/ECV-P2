@@ -1,7 +1,6 @@
 //page setup
 const TILESIZE = 50;
 const BORDERSIZE = 2;
-var updating_func = setInterval(update, 50);
 console.log(window.innerHeight);
 var mapdim=0;
 var map;
@@ -136,7 +135,7 @@ function move_pj(x,y,id){
 	}
 }
 
-function update(){
+function update(clients){
 	let prob = Math.random()*100;
 	let rx = 0;
 	let ry = 0;
@@ -172,48 +171,49 @@ function update(){
 		// }
 	// }
 	for (i=0;i<pos_array.length;i++){
-		if(movements[i][1]){
-			if(pos_array[i][1]<movements[i][3]){
-				pos_array[i][1]+=10; 
-				spritepos_arr[i]=2;
-			}else if (pos_array[i][1]>movements[i][3]){
-				pos_array[i][1]-=10;
-				spritepos_arr[i]=3;
+		var username = clients[i];
+		if(movements[username][1]){
+			if(pos_array[username][1]<movements[username][3]){
+				pos_array[username][1]+=10; 
+				spritepos_arr[username]=2;
+			}else if (pos_array[username][1]>movements[username][3]){
+				pos_array[username][1]-=10;
+				spritepos_arr[username]=3;
 			}
-			if(pos_array[i][1]==movements[i][3] && pos_array[i][0]==movements[i][2]){
-				movements[i][1]=false;
-				movements[i][0]=false;
+			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
+				movements[username][1]=false;
+				movements[username][0]=false;
 				show_msg(i,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
-			}else if(pos_array[i][1]==movements[i][3]){
-				movements[i][1]=false;
-				movements[i][0]=true;
+			}else if(pos_array[username][1]==movements[username][3]){
+				movements[username][1]=false;
+				movements[username][0]=true;
 			}
-		}else if(movements[i][0]){
-			if(pos_array[i][0]<movements[i][2]){
-				pos_array[i][0]+=10;
-				spritepos_arr[i]=1;
-			}else if (pos_array[i][0]>movements[i][2]){
-				pos_array[i][0]-=10;
-				spritepos_arr[i]=0;
+		}else if(movements[username][0]){
+			if(pos_array[username][0]<movements[username][2]){
+				pos_array[username][0]+=10;
+				spritepos_arr[username]=1;
+			}else if (pos_array[username][0]>movements[username][2]){
+				pos_array[username][0]-=10;
+				spritepos_arr[username]=0;
 			}
-			if(pos_array[i][0]==movements[i][2]){
-				movements[i][1]=true;
+			if(pos_array[username][0]==movements[username][2]){
+				movements[username][1]=true;
 			}
 		}
 		tileposy=(tileposy+1)%3
 		console.log(map);
 		console.log(pos_array);
 		console.log("ASDASD");
-		map[pos_array[i][2]][pos_array[i][3]]=0;
+		map[pos_array[username][2]][pos_array[username][3]]=0;
 		
-		pos_array[i][2]=Math.floor(pos_array[i][0]/TILESIZE);
-		pos_array[i][3]=Math.floor(pos_array[i][1]/TILESIZE);
+		pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
+		pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
 
-		map[pos_array[i][2]][pos_array[i][3]]=1;
+		map[pos_array[username][2]][pos_array[username][3]]=1;
 
-		document.getElementsByClassName("pj")[i].style.top = pos_array[i][1]+"px";
-		document.getElementsByClassName("pj")[i].style.left = pos_array[i][0]+"px";
-		document.getElementsByClassName("pj")[i].style.background="url('"+spritesheet+"') -"+(spritepos_arr[i]*50)+"px -"+(tileposy*50)+"px";
+		document.getElementsByClassName("pj")[username].style.top = pos_array[username][1]+"px";
+		document.getElementsByClassName("pj")[username].style.left = pos_array[username][0]+"px";
+		document.getElementsByClassName("pj")[username].style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
 
 	}
 }
