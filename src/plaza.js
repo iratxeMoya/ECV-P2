@@ -257,8 +257,8 @@ function onPlazaClick (event) {
 	me.actualPosition_y = event.clientY;
 
 	var myIndex = clients.findIndex(client => client.username === me.username);
-	clients[myIndex].actualPosition_x = event.clientX;
-	clients[myIndex].actualPosition_y = event.clientY;
+	clients[myIndex].actualPosition_x = Math.floor(event.clientX / TILESIZE);
+	clients[myIndex].actualPosition_y = Math.floor(event.clientY / TILESIZE);
 
 	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
 

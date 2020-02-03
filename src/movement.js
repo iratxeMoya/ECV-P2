@@ -84,14 +84,14 @@ console.log(map);
 console.log(mapdim);
 
 
-document.body.addEventListener("keydown",function(event){
+/*document.body.addEventListener("keydown",function(event){
 	let rx=Math.floor(Math.random()*(mapdim));
 	let ry=Math.floor(Math.random()*(mapdim));
 	if(event.keyCode=13){
 		create_pj(rx,ry);
 		move_pj(ry,rx,pos_array.length-1);
 	}
-});
+});*/
 
 function create_pj(x,y, username, sptrite=null){
 	newelement = document.createElement("span");
