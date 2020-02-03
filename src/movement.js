@@ -13,15 +13,14 @@ var i =0;
 var j=0;
 var style;
 var tileposx=0;
-var spritepos_arr=[0];
+var spritepos_arr={};
 var tileposy=0;
 
 var placed_obj =false;
 var obj_counter=0;
 var objects=[];
-
-var pos_array = [[BORDERSIZE,BORDERSIZE,0,0]];
-var movements=[[false,false,BORDERSIZE,BORDERSIZE]];
+var pos_array = {};
+var movements={};
 
 var tilemap = "data/tiles.png";
 var spritesheet = "data/sprites.png";
@@ -86,20 +85,6 @@ console.log(map);
 console.log(mapdim);
 
 
-document.body.addEventListener("click",function(event){
-	movements[[0]][2] = Math.floor(event.clientX/TILESIZE)*TILESIZE+BORDERSIZE;
-	if(movements[[0]][2]>(mapdim-1)*TILESIZE){
-		movements[[0]][2]=(mapdim-1)*TILESIZE+BORDERSIZE;
-	}
-	movements[[0]][3] = Math.floor(event.clientY/TILESIZE)*TILESIZE+BORDERSIZE;
-	if(movements[[0]][3]>(mapdim-1)*TILESIZE){
-		movements[[0]][3]=(mapdim-1)*TILESIZE+BORDERSIZE;
-	}
-	if(!movements[[0]][0]){
-		movements[[0]][1] = true;
-	}
-});
-
 document.body.addEventListener("keydown",function(event){
 	let rx=Math.floor(Math.random()*(mapdim));
 	let ry=Math.floor(Math.random()*(mapdim));
@@ -109,17 +94,17 @@ document.body.addEventListener("keydown",function(event){
 	}
 });
 
-function create_pj(x,y,sptrite=null){
+function create_pj(x,y, username, sptrite=null){
 	newelement = document.createElement("span");
 	newelement.classList.add("pj");
 	newelement.id=pos_array.length+"";
 	newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
 	newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
 	document.getElementById("main_plaza").appendChild(newelement);
-	pos_array.push([x*TILESIZE+BORDERSIZE,y*TILESIZE+BORDERSIZE,x,y]);
+	pos_array[username] = [x*TILESIZE+BORDERSIZE,y*TILESIZE+BORDERSIZE,x,y]
 	console.log(pos_array);
-	movements.push([false,false,x,y]);
-	spritepos_arr.push(0);
+	movements[username] = [false,false,x,y];
+	spritepos_arr[username] = 0;
 }
 
 function hide_msg(id){
@@ -132,7 +117,7 @@ function show_msg(id,txt){
 	newelement.id = "msg"+id;
 	newelement.style.top=(pos_array[id][1])+"px";
 	newelement.style.left=(pos_array[id][0]+TILESIZE)+"px";
-	newelement.innerHTML=txt;
+	newelement.innerText=txt;
 	document.getElementById("main_plaza").appendChild(newelement);
 	setTimeout(function(){hide_msg(id);}, 1000);
 }

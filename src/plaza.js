@@ -21,7 +21,7 @@ var me = new Client (null, null, null, '');
 //Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
 function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
 	this.username = username;
-	this.actualPosition_x = actualPosition_x;
+	this.actualPosition_x = actualPosition_x; //grid
 	this.actualPosition_y = actualPosition_y;
 	this.lastMessage = lastMessage;
 }
@@ -73,8 +73,8 @@ connection.onmessage = (event) => {
 		var message = document.createElement('div');
 		var parent = document.querySelector('div.chatMessageContainer');
 
-		senderName.innerHTML = data.client;
-		message.innerHTML = data.text;
+		senderName.innerText = data.client;
+		message.innerText = data.text;
 
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
@@ -87,7 +87,7 @@ connection.onmessage = (event) => {
 
 		//change the senders avatars top message
 
-		//ToDo
+		show_msg(data.client, data.text);
 	}
 	else if (data.type === 'login' || data.type === 'register') {
 		
@@ -102,11 +102,13 @@ connection.onmessage = (event) => {
 
 		//render the new clients avatar
 
-		//ToDo
+		create_pj(data.x,data.y, client.username);
+		
 	}
 	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage);
 		clients.push(client);
+		create_pj(data.x,data.y);
 	}
 	else if (data.type === 'move') {
 
@@ -117,7 +119,7 @@ connection.onmessage = (event) => {
 
 		//render the avatar of sender in correct position
 
-		// ToDo
+		move_pj(data.x, data.y, data.client);
 	}
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.username === data.name);
@@ -126,6 +128,7 @@ connection.onmessage = (event) => {
 		//Delete clients avatar from the scene
 
 		//ToDo
+		
 	}
 	else if(data.type == 'loginResponse') {
 		if (data.data === 'OK'){
@@ -237,5 +240,23 @@ function on_key_press_send_register() {
 	if (event.code === 'Enter') {
 		send_register();
 	}
+}
+
+// move
+
+document.querySelector('div#main_plaza').addEventListener('click', onPlazaClick);
+
+function onPlazaClick (event) {
+	me.actualPosition_x = event.clientX;
+	me.actualPosition_y = event.clientY;
+
+	var myIndex = clients.findIndex(client => client.username === me.username);
+	clients[myIndex].actualPosition_x = event.clientX;
+	clients[myIndex].actualPosition_y = event.clientY;
+
+	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
+
+	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
+	connection.send(JSON.stringify(move));
 }
 
