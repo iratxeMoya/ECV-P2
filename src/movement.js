@@ -212,9 +212,9 @@ function update(clients){
 
 		map[pos_array[username][2]][pos_array[username][3]]=1;
 
-		document.getElementsByClassName("pj")[username].style.top = pos_array[username][1]+"px";
-		document.getElementsByClassName("pj")[username].style.left = pos_array[username][0]+"px";
-		document.getElementsByClassName("pj")[username].style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
+		document.getElementsById(username).style.top = pos_array[username][1]+"px";
+		document.getElementsById(username).style.left = pos_array[username][0]+"px";
+		document.getElementsById(username).style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
 
 	}
 }
