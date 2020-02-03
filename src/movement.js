@@ -170,10 +170,11 @@ function update(clients){
 			// }
 		// }
 	// }
-	for (i=0;i<pos_array.length;i++){
+	for (i=0;i<clients.length;i++){
 		var username = clients[i];
-		if(movements[username][1]){
+		if(movements[username][1]){ 
 			if(pos_array[username][1]<movements[username][3]){
+
 				pos_array[username][1]+=10; 
 				spritepos_arr[username]=2;
 			}else if (pos_array[username][1]>movements[username][3]){
