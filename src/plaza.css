@@ -1,7 +1,7 @@
 
 
 .plaza{
-	position:absolute;
+	/*position:absolute;*/
 	background-image:linear-gradient(red,yellow);
 	bottom:calc(50% - 500px);
 	left:10px;
