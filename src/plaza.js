@@ -294,6 +294,6 @@ function onPlazaClick (event) {
 	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
 
 	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
-	// connection.send(JSON.stringify(move));
+	connection.send(JSON.stringify(move));
 }
 
