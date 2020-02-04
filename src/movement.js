@@ -71,7 +71,7 @@ for (i=0;i<mapdim;i++){
 		e.style.top=(i*TILESIZE)+"px";
 		e.style.left=(j*TILESIZE)+"px";
 		e.style.zIndex =0;
-		e.style.background="url('"+tilemap+"') -"+(tileposx*50)+"px -"+(tileposy*50)+"px";
+		//e.style.background="url('"+tilemap+"') -"+(tileposx*50)+"px -"+(tileposy*50)+"px";
 		document.getElementById("main_plaza").appendChild(e);
 	}
 }
