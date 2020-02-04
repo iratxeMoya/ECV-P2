@@ -91,7 +91,7 @@ function create_pj(x,y, username, sptrite=null){
 	// newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
 	// newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
 	// document.getElementById("main_plaza").appendChild(newelement);
-	pos_array[username] = [x*TILESIZE+BORDERSIZE,y*TILESIZE+BORDERSIZE,x,y]
+	pos_array[username] = [x*TILESIZE,y*TILESIZE,x,y]
 	console.log("POASARAY " +pos_array);
 	movements[username] = [false,false,x,y];
 	spritepos_arr[username] = 0;
@@ -115,13 +115,13 @@ function show_msg(id,txt){
 
 function move_pj(x,y,id){
 	console.log(x, y);
-	movements[id][2] = x*TILESIZE+BORDERSIZE;
+	movements[id][2] = x*TILESIZE;
 	if(movements[id][2]>(mapdim)*TILESIZE){
-		movements[id][2]=(mapdim)*TILESIZE+BORDERSIZE;
+		movements[id][2]=(mapdim)*TILESIZE;
 	}
-	movements[id][3] = y*TILESIZE+BORDERSIZE;
+	movements[id][3] = y*TILESIZE;
 	if(movements[id][3]>(mapdim)*TILESIZE){
-		movements[id][3]=(mapdim)*TILESIZE+BORDERSIZE;
+		movements[id][3]=(mapdim)*TILESIZE;
 	}
 	if(!movements[id][0]){
 		movements[id][1] = true;
