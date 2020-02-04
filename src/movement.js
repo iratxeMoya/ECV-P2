@@ -24,84 +24,79 @@ var movements={};
 var tilemap = "data/tiles.png";
 var spritesheet = "data/sprites.png";
 
+var sprites = new Image();
+sprites.src = "data/sprites.png";
+
+var tiles = new Image();
+tiles.src = "data/tiles.png";
+
+var cvs = document.getElementById("canvas");
+var ctx = cvs.getContext("2d");
+
 h = window.innerHeight;
 console.log("PLAZA "+h);
 //h = parseInt(h.substring(0, h.length - 2));
 
 if(h%TILESIZE!=0 || w%TILESIZE!=0){
-	h=Math.floor(h/TILESIZE)*TILESIZE;
-	document.getElementById("main_plaza").style.height = 900+"px";
-	document.getElementById("main_plaza").style.width = 900+"px";
+	h=Math.floor((h/TILESIZE)-1)*TILESIZE;
+	document.getElementById("canvas").style.height = h+"px";
+	document.getElementById("canvas").style.width = h+"px";
 }
 
 mapdim = Math.floor(h/TILESIZE);
+map = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
 console.log("setup:"+mapdim);
 console.log(h);
-console.log(document.getElementById("main_plaza").style);
 
 for (i=0;i<mapdim;i++){
 	for (j=0;j<mapdim;j++){
 		if (j==0){
 			if(i==0){
-				tileposx =4;
+				map[i][j] =4;
 			}else if (i==mapdim-1){
-				tileposx =7;
+				map[i][j] =5;
 			}else{
-				tileposx=1;
+				map[i][j]=0;
 			}
 		}else if (j==mapdim-1){
 			if(i==0){
-				tileposx =5;
+				map[i][j] =7;
 			}else if (i==mapdim-1){
-				tileposx =6;
+				map[i][j] =6;
 			}else{
-				tileposx=3;
+				map[i][j]=2;
 			}
 		}else{
 			if(i==0){
-				tileposx =0;
+				map[i][j] =1;
 			}else if (i==mapdim-1){
-				tileposx =2;
+				map[i][j] =3;
 			}else{
-				tileposx=8;
+				map[i][j]=8;
 			}
 		}
-		let e =document.createElement("span");
-		e.classList.add("tile");
-		e.style.top=(i*TILESIZE)+"px";
-		e.style.left=(j*TILESIZE)+"px";
-		e.style.zIndex =0;
-		//e.style.background="url('"+tilemap+"') -"+(tileposx*50)+"px -"+(tileposy*50)+"px";
-		document.getElementById("main_plaza").appendChild(e);
 	}
 }
 
 //movement 
 
 
-map = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
+
 console.log(map);
 console.log(mapdim);
 
 
-/*document.body.addEventListener("keydown",function(event){
-	let rx=Math.floor(Math.random()*(mapdim));
-	let ry=Math.floor(Math.random()*(mapdim));
-	if(event.keyCode=13){
-		create_pj(rx,ry);
-		move_pj(ry,rx,pos_array.length-1);
-	}
-});*/
+
 
 function create_pj(x,y, username, sptrite=null){
-	newelement = document.createElement("span");
-	newelement.classList.add("pj");
-	newelement.id=username;
-	newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
-	newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
-	document.getElementById("main_plaza").appendChild(newelement);
+	// newelement = document.createElement("span");
+	// newelement.classList.add("pj");
+	// newelement.id=username;
+	// newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
+	// newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
+	// document.getElementById("main_plaza").appendChild(newelement);
 	pos_array[username] = [x*TILESIZE+BORDERSIZE,y*TILESIZE+BORDERSIZE,x,y]
-	console.log(pos_array);
+	console.log("POASARAY " +pos_array);
 	movements[username] = [false,false,x,y];
 	spritepos_arr[username] = 0;
 }
@@ -122,6 +117,7 @@ function show_msg(id,txt){
 }
 
 function move_pj(x,y,id){
+	console.log("SDA");
 	movements[id][2] = x*TILESIZE+BORDERSIZE;
 	if(movements[id][2]>(mapdim-1)*TILESIZE){
 		movements[id][2]=(mapdim-1)*TILESIZE+BORDERSIZE;
@@ -170,6 +166,17 @@ function update(clients){
 			// }
 		// }
 	// }
+	
+	// ctx.save();
+    // ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, 900, 900);
+	
+	for (i=0;i<mapdim;i++){
+		for (j=0;j<mapdim;j++){
+			ctx.drawImage(tiles, map[i][j]*TILESIZE, 0,TILESIZE,TILESIZE,i*TILESIZE,j*TILESIZE,TILESIZE,TILESIZE);
+		}
+	}
+	
 	for (i=0;i<clients.length;i++){
 		var username = clients[i].username;
 		if(movements[username][1]){ 
@@ -202,19 +209,21 @@ function update(clients){
 			}
 		}
 		tileposy=(tileposy+1)%3
-		console.log(map);
-		console.log(pos_array);
-		console.log("ASDASD");
-		map[pos_array[username][2]][pos_array[username][3]]=0;
+		// map[pos_array[username][2]][pos_array[username][3]]=0;
 		
-		pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
-		pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
+		// pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
+		// pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
 
-		map[pos_array[username][2]][pos_array[username][3]]=1;
+		// map[pos_array[username][2]][pos_array[username][3]]=1;
 
-		document.getElementById(username).style.top = pos_array[username][1]+"px";
-		document.getElementById(username).style.left = pos_array[username][0]+"px";
-		document.getElementById(username).style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
+		// document.getElementById(username).style.top = pos_array[username][1]+"px";
+		// document.getElementById(username).style.left = pos_array[username][0]+"px";
+		// document.getElementById(username).style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
 
+
+
+		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
+		
+   
 	}
 }

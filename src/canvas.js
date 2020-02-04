@@ -65,6 +65,11 @@ function loop() {
     }
 }*/
 
+
+var tilemap = "data/tiles.png";
+var spritesheet = "data/sprites.png";
+
+
 var img = new Image();
 img.src = "data/sprites.png";
 
@@ -102,7 +107,7 @@ function draw() {
 
     
 
-    ctx.drawImage(img, cx, cy);
+    ctx.drawImage(img, 0, 0,50,50,10,10,50,50);
 
     ctx.restore();
 };

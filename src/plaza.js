@@ -55,6 +55,20 @@ function Move (client, x, y) {
 }
 
 
+//TESTING
+	var client = new Client("ASD", 10, 10, "ASE");
+		clients.push(client);
+		console.log('clients: ', clients)
+
+		
+			me = client;
+		
+
+		//render the new clients avatar
+
+		create_pj(10,10,"ASD");
+//ENDTEST
+
 connection.onopen = event => {
 	console.log('connection is open');
 }
@@ -251,7 +265,23 @@ function on_key_press_send_register() {
 
 // move
 
-document.querySelector('div#main_plaza').addEventListener('click', onPlazaClick);
+document.querySelector('canvas#canvas').addEventListener('click', onPlazaClick);
+
+var cnt =0;
+document.body.addEventListener("keydown",function(event){
+	let rx=Math.floor(Math.random()*(mapdim));
+	let ry=Math.floor(Math.random()*(mapdim));
+	if(event.keyCode=13){
+		var cliente = new Client("ASD"+cnt, 10, 10, "ASE");
+		clients.push(cliente);
+
+		//render the new clients avatar
+
+		create_pj(rx,ry,"ASD"+cnt);
+		move_pj(ry,rx,"ASD"+cnt);
+		cnt++;
+	}
+});
 
 function onPlazaClick (event) {
 	me.actualPosition_x = event.clientX;
@@ -264,6 +294,6 @@ function onPlazaClick (event) {
 	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
 
 	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
-	connection.send(JSON.stringify(move));
+	// connection.send(JSON.stringify(move));
 }
 
