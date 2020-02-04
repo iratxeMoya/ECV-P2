@@ -136,6 +136,7 @@ connection.onmessage = (event) => {
 		var senderIndex = clients.findIndex(client => client.username === data.client);
 		clients[senderIndex].actualPosition_x = data.x;
 		clients[senderIndex].actualPosition_y = data.y;
+		console.log('move: ', data.x, data.y, data.client);
 
 		//render the avatar of sender in correct position
 
@@ -294,6 +295,7 @@ function onPlazaClick (event) {
 	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
 
 	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
+	console.log(me.actualPosition_x, me.actualPosition_y);
 	connection.send(JSON.stringify(move));
 }
 
