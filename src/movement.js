@@ -226,7 +226,7 @@ function update(clients){
 
 		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
 		ctx.font = "20px Georgia";
-		clients[i].showMsg ? ctx.fillText(txt, pos_array[id][0], pos_array[id][1]) : null;
+		clients[i].showLastMessage ? ctx.fillText(txt, pos_array[id][0], pos_array[id][1]) : null;
    
 	}
 }
