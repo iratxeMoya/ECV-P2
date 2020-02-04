@@ -111,7 +111,7 @@ function show_msg(id,txt){
 	newelement.innerText=txt;
 	document.getElementById("main_plaza").appendChild(newelement);*/
 	
-	setTimeout(function(){hide_msg(id);}, 1000);
+	//setTimeout(function(){hide_msg(id);}, 1000);
 }
 
 function move_pj(x,y,id){
