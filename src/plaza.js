@@ -139,7 +139,7 @@ connection.onmessage = (event) => {
 	}
 	else if(data.type == 'loginResponse') {
 		if (data.data === 'OK'){
-			document.querySelector('div.chatBody').style['display'] = 'block';
+			document.querySelector('div.chatBody').style['display'] = 'grid';
 			document.querySelector('div.loginBody').style['display'] = 'none';
 			document.querySelector('div.registerBody').style['display'] = 'none';	
 		} else {
@@ -147,7 +147,7 @@ connection.onmessage = (event) => {
 		}
 	} else if(data.type == 'registerResponse') {
 		if (data.data === 'OK'){
-			document.querySelector('div.chatBody').style['display'] = 'block';
+			document.querySelector('div.chatBody').style['display'] = 'grid';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
 			document.querySelector('div.registerBody').style['display'] = 'none';
 		} else {
