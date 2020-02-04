@@ -30,6 +30,7 @@ function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
 	this.actualPosition_x = actualPosition_x; //grid
 	this.actualPosition_y = actualPosition_y;
 	this.lastMessage = lastMessage;
+	this.showLastMessage = false;
 }
 //Message types
 function Msg (client, text) {
@@ -98,12 +99,16 @@ connection.onmessage = (event) => {
 
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
+		messageContainer.style['backgroundColor'] = 'red';
 
 		parent.appendChild(messageContainer);
 
 		//Actualize client last message
 		var senderIndex = clients.findIndex(client => client.username === data.client);
 		clients[senderIndex].lastMessage = data.text;
+		clients[senderIndex].showLastMessage = true;
+
+		setTimeout(function(){clients[senderIndex].showLastMessage = false;}, 2000);
 
 		//change the senders avatars top message
 

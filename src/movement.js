@@ -103,13 +103,14 @@ function hide_msg(id){
 }
 
 function show_msg(id,txt){
-	newelement = document.createElement("span");
+	/*newelement = document.createElement("span");
 	newelement.classList.add("msg");
 	newelement.id = "msg"+id;
 	newelement.style.top=(pos_array[id][1])+"px";
 	newelement.style.left=(pos_array[id][0]+TILESIZE)+"px";
 	newelement.innerText=txt;
-	document.getElementById("main_plaza").appendChild(newelement);
+	document.getElementById("main_plaza").appendChild(newelement);*/
+	
 	setTimeout(function(){hide_msg(id);}, 1000);
 }
 
@@ -190,7 +191,7 @@ function update(clients){
 				spritepos_arr[username]=3;
 			}
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
-				movements[username][1]=false;
+				ctx.fillText(txt, pos_array[id][0], pos_array[id][1])	movements[username][1]=false;
 				movements[username][0]=false;
 				//show_msg(username,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
 			}else if(pos_array[username][1]==movements[username][3]){
@@ -224,7 +225,7 @@ function update(clients){
 
 
 		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
-		
+		client.lastMessage !== '' ? ctx.fillText(txt, pos_array[id][0], pos_array[id][1]) : null;
    
 	}
 }
