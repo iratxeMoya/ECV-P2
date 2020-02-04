@@ -268,7 +268,7 @@ function on_key_press_send_register() {
 document.querySelector('canvas#canvas').addEventListener('click', onPlazaClick);
 
 var cnt =0;
-document.body.addEventListener("keydown",function(event){
+/*document.body.addEventListener("keydown",function(event){
 	let rx=Math.floor(Math.random()*(mapdim));
 	let ry=Math.floor(Math.random()*(mapdim));
 	if(event.keyCode=13){
@@ -281,7 +281,7 @@ document.body.addEventListener("keydown",function(event){
 		move_pj(ry,rx,"ASD"+cnt);
 		cnt++;
 	}
-});
+});*/
 
 function onPlazaClick (event) {
 	me.actualPosition_x = event.clientX;
