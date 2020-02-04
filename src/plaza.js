@@ -56,7 +56,7 @@ function Move (client, x, y) {
 
 
 //TESTING
-	var client = new Client("ASD", 10, 10, "ASE");
+	/*var client = new Client("ASD", 10, 10, "ASE");
 		clients.push(client);
 		console.log('clients: ', clients)
 
@@ -66,7 +66,7 @@ function Move (client, x, y) {
 
 		//render the new clients avatar
 
-		create_pj(10,10,"ASD");
+		create_pj(10,10,"ASD");*/
 //ENDTEST
 
 connection.onopen = event => {
