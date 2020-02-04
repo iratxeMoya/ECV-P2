@@ -3,7 +3,8 @@ const TILESIZE = 50;
 const BORDERSIZE = 2;
 console.log(window.innerHeight);
 var mapdim=0;
-var map;
+var tilemap;
+var colidemap;
 
 var needSetup=true;
 
@@ -20,9 +21,6 @@ var obj_counter=0;
 var objects=[];
 var pos_array = {};
 var movements={};
-
-var tilemap = "data/tiles.png";
-var spritesheet = "data/sprites.png";
 
 var sprites = new Image();
 sprites.src = "data/sprites.png";
@@ -44,7 +42,8 @@ if(h%TILESIZE!=0 || w%TILESIZE!=0){
 }
 
 mapdim = Math.floor(h/TILESIZE);
-map = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
+tilemap = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
+colidemap = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
 console.log("setup:"+mapdim);
 console.log(h);
 
@@ -52,27 +51,27 @@ for (i=0;i<mapdim;i++){
 	for (j=0;j<mapdim;j++){
 		if (j==0){
 			if(i==0){
-				map[i][j] =4;
+				tilemap[i][j] =4;
 			}else if (i==mapdim-1){
-				map[i][j] =5;
+				tilemap[i][j] =5;
 			}else{
-				map[i][j]=0;
+				tilemap[i][j]=0;
 			}
 		}else if (j==mapdim-1){
 			if(i==0){
-				map[i][j] =7;
+				tilemap[i][j] =7;
 			}else if (i==mapdim-1){
-				map[i][j] =6;
+				tilemap[i][j] =6;
 			}else{
-				map[i][j]=2;
+				tilemap[i][j]=2;
 			}
 		}else{
 			if(i==0){
-				map[i][j] =1;
+				tilemap[i][j] =1;
 			}else if (i==mapdim-1){
-				map[i][j] =3;
+				tilemap[i][j] =3;
 			}else{
-				map[i][j]=8;
+				tilemap[i][j]=8;
 			}
 		}
 	}
@@ -80,10 +79,6 @@ for (i=0;i<mapdim;i++){
 
 //movement 
 
-
-
-console.log(map);
-console.log(mapdim);
 
 
 
@@ -99,6 +94,7 @@ function create_pj(x,y, username, sptrite=null){
 	console.log("POASARAY " +pos_array);
 	movements[username] = [false,false,x,y];
 	spritepos_arr[username] = 0;
+	colidemap[x,y]=1;
 }
 
 function hide_msg(id){
@@ -173,7 +169,7 @@ function update(clients){
 	
 	for (i=0;i<mapdim;i++){
 		for (j=0;j<mapdim;j++){
-			ctx.drawImage(tiles, map[i][j]*TILESIZE, 0,TILESIZE,TILESIZE,i*TILESIZE,j*TILESIZE,TILESIZE,TILESIZE);
+			ctx.drawImage(tiles, tilemap[i][j]*TILESIZE, 0,TILESIZE,TILESIZE,i*TILESIZE,j*TILESIZE,TILESIZE,TILESIZE);
 		}
 	}
 	
@@ -181,9 +177,13 @@ function update(clients){
 		var username = clients[i].username;
 		if(movements[username][1]){ 
 			if(pos_array[username][1]<movements[username][3]){
-
-				pos_array[username][1]+=10; 
-				spritepos_arr[username]=2;
+				if(colidemap[pos_array[username][2]][pos_array[username][3]+1]>0){
+					console.log("ASDASD");
+					movements[username][1]=false;
+				}else{
+					pos_array[username][1]+=10; 
+					spritepos_arr[username]=2;
+				}
 			}else if (pos_array[username][1]>movements[username][3]){
 				pos_array[username][1]-=10;
 				spritepos_arr[username]=3;
@@ -209,12 +209,12 @@ function update(clients){
 			}
 		}
 		tileposy=(tileposy+1)%3
-		// map[pos_array[username][2]][pos_array[username][3]]=0;
+		colidemap[pos_array[username][2]][pos_array[username][3]]=0;
 		
-		// pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
-		// pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
+		pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
+		pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
 
-		// map[pos_array[username][2]][pos_array[username][3]]=1;
+		colidemap[pos_array[username][2]][pos_array[username][3]]=1;
 
 		// document.getElementById(username).style.top = pos_array[username][1]+"px";
 		// document.getElementById(username).style.left = pos_array[username][0]+"px";
