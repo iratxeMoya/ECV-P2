@@ -191,7 +191,7 @@ function update(clients){
 				spritepos_arr[username]=3;
 			}
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
-				ctx.fillText(txt, pos_array[id][0], pos_array[id][1])	movements[username][1]=false;
+				movements[username][1]=false;
 				movements[username][0]=false;
 				//show_msg(username,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
 			}else if(pos_array[username][1]==movements[username][3]){
@@ -225,7 +225,7 @@ function update(clients){
 
 
 		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
-		client.lastMessage !== '' ? ctx.fillText(txt, pos_array[id][0], pos_array[id][1]) : null;
+		clients[i].showMsg ? ctx.fillText(txt, pos_array[id][0], pos_array[id][1]) : null;
    
 	}
 }
