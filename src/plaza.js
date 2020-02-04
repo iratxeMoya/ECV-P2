@@ -285,8 +285,9 @@ var cnt =0;
 });*/
 
 function onPlazaClick (event) {
-	me.actualPosition_x = event.clientX;
-	me.actualPosition_y = event.clientY;
+	cvs.getBoundingClientRect();
+	me.actualPosition_x = e.clientX - rect.left;
+	me.actualPosition_y = e.clientY - rect.top;
 
 	var myIndex = clients.findIndex(client => client.username === me.username);
 	clients[myIndex].actualPosition_x = Math.floor(event.clientX / TILESIZE);
