@@ -37,8 +37,8 @@ console.log("PLAZA "+h);
 
 if(h%TILESIZE!=0 || w%TILESIZE!=0){
 	h=Math.floor((h/TILESIZE)-1)*TILESIZE;
-	document.getElementById("canvas").style.height = h+"px";
-	document.getElementById("canvas").style.width = h+"px";
+	document.getElementById("canvas").height = h+"px";
+	document.getElementById("canvas").width = h+"px";
 }
 
 mapdim = Math.floor(h/TILESIZE);
