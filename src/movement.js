@@ -30,8 +30,8 @@ console.log("PLAZA "+h);
 
 if(h%TILESIZE!=0 || w%TILESIZE!=0){
 	h=Math.floor(h/TILESIZE)*TILESIZE;
-	document.getElementById("main_plaza").style.height = h+"px";
-	document.getElementById("main_plaza").style.width = h+"px";
+	document.getElementById("main_plaza").style.height = 900+"px";
+	document.getElementById("main_plaza").style.width = 900+"px";
 }
 
 mapdim = Math.floor(h/TILESIZE);
