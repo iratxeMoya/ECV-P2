@@ -74,6 +74,7 @@ for (i=0;i<mapdim;i++){
 				tilemap[i][j]=8;
 			}
 		}
+		tilemap[i][j] =4;
 	}
 }
 
@@ -113,7 +114,7 @@ function show_msg(id,txt){
 }
 
 function move_pj(x,y,id){
-	console.log("SDA");
+	console.log(x, y);
 	movements[id][2] = x*TILESIZE+BORDERSIZE;
 	if(movements[id][2]>(mapdim)*TILESIZE){
 		movements[id][2]=(mapdim)*TILESIZE+BORDERSIZE;
