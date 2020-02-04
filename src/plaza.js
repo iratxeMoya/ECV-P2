@@ -285,7 +285,7 @@ var cnt =0;
 });*/
 
 function onPlazaClick (event) {
-	cvs.getBoundingClientRect();
+	var rect = cvs.getBoundingClientRect();
 	me.actualPosition_x = event.clientX - rect.left;
 	me.actualPosition_y = event.clientY - rect.top;
 
