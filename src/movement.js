@@ -115,12 +115,12 @@ function show_msg(id,txt){
 function move_pj(x,y,id){
 	console.log("SDA");
 	movements[id][2] = x*TILESIZE+BORDERSIZE;
-	if(movements[id][2]>(mapdim-1)*TILESIZE){
-		movements[id][2]=(mapdim-1)*TILESIZE+BORDERSIZE;
+	if(movements[id][2]>(mapdim)*TILESIZE){
+		movements[id][2]=(mapdim)*TILESIZE+BORDERSIZE;
 	}
 	movements[id][3] = y*TILESIZE+BORDERSIZE;
-	if(movements[id][3]>(mapdim-1)*TILESIZE){
-		movements[id][3]=(mapdim-1)*TILESIZE+BORDERSIZE;
+	if(movements[id][3]>(mapdim)*TILESIZE){
+		movements[id][3]=(mapdim)*TILESIZE+BORDERSIZE;
 	}
 	if(!movements[id][0]){
 		movements[id][1] = true;
