@@ -299,7 +299,7 @@ function selectAvatar () {
 
 var changeName = document.querySelector('input#newName');
 changeName.addEventListener('keydown', onKeyDownChangeName);
-ç
+
 var changePass = document.querySelector('input#newPass');
 changePass.addEventListener('keydown', onKeyDownChangePass);
 
