@@ -122,7 +122,7 @@ connection.onmessage = (event) => {
 		//create new client
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
-
+		console.log(client)
 		if (client.username == me.username) {
 			me = client;
 		}
@@ -180,6 +180,7 @@ connection.onmessage = (event) => {
 		myIndex = clients.findIndex(client => client.username === data.username);
     	clients[myIndex].username = data.newUsername;
 	} else if (data.type === 'newAvatar') {
+		console.log('new avatar: ',data)
 		myIndex = clients.findIndex(client => client.username === data.username);
     	clients[myIndex].avatar = data.avatar;
 	}
