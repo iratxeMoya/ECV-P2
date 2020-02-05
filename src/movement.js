@@ -153,7 +153,7 @@ document.body.addEventListener('keydown',function(event) {
 		create_pj(rx,ry,debug_counter+"");
 		
 	}
-}
+});
 
 document.body.addEventListener('keydown',function(event) {
 	if (event.code === '-') {
@@ -162,7 +162,7 @@ document.body.addEventListener('keydown',function(event) {
 		vanish(debug_counter+"");
 		debug_counter--;
 	}
-}
+});
 
 function update(clients){
 	let prob = Math.random()*100;
