@@ -87,7 +87,7 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-	console.log('recived message: ', data);
+	console.log('recived message: ', data.type);
 
 	if (data.type === 'msg') {
 
