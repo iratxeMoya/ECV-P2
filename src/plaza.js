@@ -305,8 +305,8 @@ function onPlazaClick (event) {
 }
 
 
-var avatar = document.querySelector('img#clip');
-avatar.addEventListener('click', selectAvatar);
+var avatars = document.querySelectorAll('img#clip');
+avatars.forEach(avatar=> avatar.addEventListener('click', selectAvatar));
 
 function selectAvatar () {
 	var avatar = new NewAvatar(me.username, this.src);
