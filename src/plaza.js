@@ -147,7 +147,6 @@ connection.onmessage = (event) => {
 
 		//render the avatar of sender in correct position
 
-
 		move_pj(data.x, data.y, data.client);
 	}
 	else if (data.type === 'disconnection') {
@@ -160,34 +159,52 @@ connection.onmessage = (event) => {
 		
 	}
 	else if(data.type == 'loginResponse') {
+
 		if (data.data === 'OK'){
+
 			document.querySelector('div.chatBody').style['display'] = 'grid';
 			document.querySelector('div.loginBody').style['display'] = 'none';
 			document.querySelector('div.registerBody').style['display'] = 'none';	
+
 		} else {
+
 			alert ('Username or password not correct');
+
 		}
-	} else if(data.type == 'registerResponse') {
+
+	} 
+	else if(data.type == 'registerResponse') {
+
 		if (data.data === 'OK'){
+
 			document.querySelector('div.chatBody').style['display'] = 'none';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
 			document.querySelector('div.registerBody').style['display'] = 'none';
 			document.querySelector('div.profileSelectorBody').style['display'] = 'block';
+
 		} else {
+
 			alert ('Username exists already');
+
 		}
-	} else if(data.type === 'newUsername') {
+
+	} 
+	else if(data.type === 'newUsername') {
+
 		myIndex = clients.findIndex(client => client.username === data.username);
-    	clients[myIndex].username = data.newUsername;
-	} else if (data.type === 'newAvatar') {
-		console.log('new avatar: ',data)
+		clients[myIndex].username = data.newUsername;
+		
+	}
+	else if (data.type === 'newAvatar') {
+
+		console.log('new avatar: ', data)
 		myIndex = clients.findIndex(client => client.username === data.username);
 		clients[myIndex].avatar = data.avatar;
 		document.querySelector('div.chatBody').style['display'] = 'grid';
 		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
+
 	}
 	
-
 };
 
 //chat
