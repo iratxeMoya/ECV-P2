@@ -331,7 +331,7 @@ function selectAvatar () {
 
 	var avatarName = this.src.split('/')[6].split('-')[0];
 
-	var avatar = new NewAvatar(me.username, this.src);
+	var avatar = new NewAvatar(me.username, avatarName);
 	
 	connection.send(JSON.stringify(avatar));
 	
