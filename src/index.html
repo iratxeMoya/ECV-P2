@@ -2,8 +2,10 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="login.css">
-		<link rel="stylesheet" type="text/css" href="plaza.css">
-		<link rel="stylesheet" type="text/css" href="register.css">
+		<link rel="stylesheet" type="text/css" href="testPages.css">
+        <link rel="stylesheet" type="text/css" href="register.css">
+        
+        <link href="https://fonts.googleapis.com/css?family=Homemade+Apple&display=swap" rel="stylesheet">
 	</head>
 	<body style="background-color:black;overflow:hidden;font-family: Arial, Helvetica, sans-serif;">
 		<div class="chatBody" style="display: none;">
@@ -48,8 +50,8 @@
 				</form>
 			</div>
 		</div>
-		<div class="profileSelectorBody"></div>
-			<div class="page-title">Avatar selection</div>
+		<div class="profileSelectorBody" style="display: none">
+			<div class="sign__word">Avatar selection</div>
 			<div class="slider">
 				<input type="radio" name="slider" title="slide1" checked="checked" class="slider__nav"/>
 				<input type="radio" name="slider" title="slide2" class="slider__nav"/>
@@ -70,7 +72,24 @@
 				</div>
 				</div>
 			</div>
-		<script src="movement.js"></script>
-		<script src="plaza.js"></script>
+		</div>
+			
+		<div class="profileConfiguration" style='display: none'>
+			<div class="sign__word" style='margin-top: 100px;'>Configuration</div>
+			<div class="webdesigntuts-workshop">
+				<div class="form">
+					<form action="" method="">		    
+						<input type="search" id='newName' placeholder="New name">		    	
+						<button id="changeName">Change</button>
+					</form>
+					<form action="" method="">		    
+						<input type="search" id="newPass" placeholder="New password">		    	
+						<button id="changePass">Change</button>
+					</form>
+				</div>
+			</div>
+		</div>
+			<script src="movement.js"></script>
+			<script src="plaza.js"></script>
 	</body>
 </html>
