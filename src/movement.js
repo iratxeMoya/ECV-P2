@@ -134,7 +134,7 @@ function move_pj(x,y,id){
 function draw(username){
 	if(login[username][1]>=0){
 		ctx.drawImage(sprites, login[username]*TILESIZE, 0,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
-		login[username][1]=login[username][1]+1)%4
+		login[username][1]=(login[username][1]+1)%4
 	}
 	ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
 }
