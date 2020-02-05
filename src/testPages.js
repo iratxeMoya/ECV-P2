@@ -53,7 +53,7 @@ function onChangePass () {
     // hay que añadirlo en el servidor tambien, y en el plaza onmessage
 
     passForm = new NewPass(changePass.value, me.username);
-    //connection.send(JSON.stringify(passForm))
+    connection.send(JSON.stringify(passForm))
 }
 function onKeyDownChangePass (event) {
     if (event.code === "Enter") {
