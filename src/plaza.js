@@ -329,7 +329,7 @@ avatars.forEach(avatar=> avatar.addEventListener('click', selectAvatar));
 
 function selectAvatar () {
 
-	var avatarName = this.src.split('-')[0];
+	var avatarName = this.src.split('/')[5].split('-')[0];
 
 	var avatar = new NewAvatar(me.username, this.src);
 	
