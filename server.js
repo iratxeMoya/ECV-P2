@@ -144,6 +144,11 @@ wss.on('connection', function(ws) {
 			registeredClients[senderIndex].actualPosition_y = jsonData.y;
 			broadcastMsg(data, false);
 
+		} else if (jsonData.type === 'newPass') {
+			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.username);
+			connectedClients[senderIndex].password = passwordHash.generate(jsonData.newPass);
+			senderIndex = registeredClients.findIndex(client => client.username === jsonData.username);
+			registeredClients[senderIndex].password = passwordHash.generate(jsonData.newPass);
 		}
 	});
 	ws.on('close', function (event) {

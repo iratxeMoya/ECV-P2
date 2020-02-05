@@ -54,21 +54,16 @@ function Move (client, x, y) {
 	this.x = x;
 	this.y = y;
 }
-
-
-//TESTING
-	/*var client = new Client("ASD", 10, 10, "ASE");
-		clients.push(client);
-		console.log('clients: ', clients)
-
-		
-			me = client;
-		
-
-		//render the new clients avatar
-
-		create_pj(10,10,"ASD");*/
-//ENDTEST
+function NewPass (newPass, username) {
+    this.type = "newPass"
+    this.username = username;
+    this.newPass = newPass;
+}
+function NewUsername (newUsername, username){
+	this.type =  "newUsername";
+	this.username = username;
+	this.newUsername = newUsername;
+}
 
 connection.onopen = event => {
 	console.log('connection is open');
@@ -173,6 +168,9 @@ connection.onmessage = (event) => {
 		} else {
 			alert ('Username exists already');
 		}
+	} else if(data.type = 'newUsername') {
+		myIndex = clients.findIndex(client => client.username === data.username);
+    	clients[myIndex].username = data.newUsername;
 	}
 
 };
@@ -273,21 +271,7 @@ function on_key_press_send_register() {
 
 document.querySelector('canvas#canvas').addEventListener('click', onPlazaClick);
 
-var cnt =0;
-/*document.body.addEventListener("keydown",function(event){
-	let rx=Math.floor(Math.random()*(mapdim));
-	let ry=Math.floor(Math.random()*(mapdim));
-	if(event.keyCode=13){
-		var cliente = new Client("ASD"+cnt, 10, 10, "ASE");
-		clients.push(cliente);
-
-		//render the new clients avatar
-
-		create_pj(rx,ry,"ASD"+cnt);
-		move_pj(ry,rx,"ASD"+cnt);
-		cnt++;
-	}
-});*/
+var cnt = 0;
 
 function onPlazaClick (event) {
 	var rect = cvs.getBoundingClientRect();
@@ -303,5 +287,50 @@ function onPlazaClick (event) {
 	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
 	console.log(me.actualPosition_x, me.actualPosition_y);
 	connection.send(JSON.stringify(move));
+}
+
+
+var avatar = document.querySelector('img#clip');
+avatar.addEventListener('click', selectAvatar);
+
+function selectAvatar () {
+    console.log('selected: ', this.src);
+}
+
+var changeName = document.querySelector('input#newName');
+changeName.addEventListener('keydown', onKeyDownChangeName);
+ç
+var changePass = document.querySelector('input#newPass');
+changePass.addEventListener('keydown', onKeyDownChangePass);
+
+var changeNameBtn =  document.querySelector('button#changeName');
+changeNameBtn.addEventListener('click', onChangeName);
+
+var changePassBtn =  document.querySelector('button#changePass');
+changePassBtn.addEventListener('click', onChangePass);
+
+function onChangeName () {
+    myIndex = clients.findIndex(client => client.username === me.username);
+	
+	newUsername = new NewUsername(changeName.value, clients[myIndex].username);
+	clients[myIndex].username = changeName.nodeValue;
+	changeName.value = '';
+	connection.send(JSON.stringify(newUsername));
+}
+function onKeyDownChangeName (event) {
+    if (event.code === "Enter") {
+        onChangeName();
+    }
+}
+
+function onChangePass () {
+
+    passForm = new NewPass(changePass.value, me.username);
+    connection.send(JSON.stringify(passForm))
+}
+function onKeyDownChangePass (event) {
+    if (event.code === "Enter") {
+        onChangePass();
+    }
 }
 
