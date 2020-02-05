@@ -152,7 +152,7 @@ connection.onmessage = (event) => {
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.username === data.name);
 		clients = remove(clients, sender);
-		console.log(clients)
+		console.log(clients, sender)
 		
 
 		//Delete clients avatar from the scene
