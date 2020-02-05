@@ -157,6 +157,7 @@ wss.on('connection', function(ws) {
 			registeredClients[senderIndex].username = jsonData.newUsername;
 			broadcastMsg(data, false);
 		} else if (jsonData.type === 'newAvatar') {
+			console.log('in newAvatar', data)
 			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.username);
 			connectedClients[senderIndex].avatar = jsonData.avatar;
 			senderIndex = registeredClients.findIndex(client => client.username === jsonData.username);

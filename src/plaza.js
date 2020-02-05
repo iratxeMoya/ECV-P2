@@ -307,8 +307,8 @@ var avatar = document.querySelector('img#clip');
 avatar.addEventListener('click', selectAvatar);
 
 function selectAvatar () {
-	console.log('hey')
 	var avatar = new NewAvatar(me.username, this.src);
+	console.log('selecting avatar: ', avatar)
 	connection.send(JSON.stringify(avatar));
 	document.querySelector('div.chatBody').style['display'] = 'grid';
 	document.querySelector('div.profileSelectorBody').style['display'] = 'none';	
