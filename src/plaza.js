@@ -328,8 +328,11 @@ var avatars = document.querySelectorAll('img#clip');
 avatars.forEach(avatar=> avatar.addEventListener('click', selectAvatar));
 
 function selectAvatar () {
+
+	var avatarName = this.src.split('-')[0];
+
 	var avatar = new NewAvatar(me.username, this.src);
-	console.log('selecting avatar: ', avatar)
+	
 	connection.send(JSON.stringify(avatar));
 	
 }
@@ -373,10 +376,6 @@ function onKeyDownChangePass (event) {
 
 
 //UTILS
-
-function remove (arr, value) {
-	return arr.filter(item => item !== value)
-}
 
 Array.prototype.delete = function() {
     var what, a = arguments, L = a.length, ax;
