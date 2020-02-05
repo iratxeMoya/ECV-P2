@@ -176,13 +176,15 @@ connection.onmessage = (event) => {
 		} else {
 			alert ('Username exists already');
 		}
-	} else if(data.type = 'newUsername') {
+	} else if(data.type === 'newUsername') {
 		myIndex = clients.findIndex(client => client.username === data.username);
     	clients[myIndex].username = data.newUsername;
 	} else if (data.type === 'newAvatar') {
 		console.log('new avatar: ',data)
 		myIndex = clients.findIndex(client => client.username === data.username);
-    	clients[myIndex].avatar = data.avatar;
+		clients[myIndex].avatar = data.avatar;
+		document.querySelector('div.chatBody').style['display'] = 'grid';
+		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
 	}
 	
 
@@ -310,8 +312,7 @@ function selectAvatar () {
 	var avatar = new NewAvatar(me.username, this.src);
 	console.log('selecting avatar: ', avatar)
 	connection.send(JSON.stringify(avatar));
-	document.querySelector('div.chatBody').style['display'] = 'grid';
-	document.querySelector('div.profileSelectorBody').style['display'] = 'none';	
+	
 }
 
 var changeName = document.querySelector('input#newName');
