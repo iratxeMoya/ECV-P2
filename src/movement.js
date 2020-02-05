@@ -8,6 +8,8 @@ var colidemap;
 
 var needSetup=true;
 
+var debug_counter=0;
+
 var h;
 var i =0;
 var j=0;
@@ -143,7 +145,24 @@ function vanish(username){
 	login[username][1]=0;
 }
 
+document.body.addEventListener('keydown',function(event) {
+	if (event.code === '+') {
+		debug_counter++;
+		let rx = Math.floor(Math.random(mapdim-1));
+		let ry = Math.floor(Math.random(mapdim-1));
+		create_pj(rx,ry,debug_counter+"");
+		
+	}
+}
 
+document.body.addEventListener('keydown',function(event) {
+	if (event.code === '-') {
+		let rx = Math.floor(Math.random(mapdim-1));
+		let ry = Math.floor(Math.random(mapdim-1));
+		vanish(debug_counter+"");
+		debug_counter--;
+	}
+}
 
 function update(clients){
 	let prob = Math.random()*100;
