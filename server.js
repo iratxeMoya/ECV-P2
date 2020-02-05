@@ -27,6 +27,7 @@ function Client (username, actualPosition_x, actualPosition_y, lastMessage, conn
 	this.lastMessage = lastMessage;
 	this.connection = connection;
 	this.hashedPassword = hashedPassword;
+	this.avatar = '';
 }
 
 const checkUsername = ( name, obj ) => obj.name === name;
@@ -149,6 +150,18 @@ wss.on('connection', function(ws) {
 			connectedClients[senderIndex].password = passwordHash.generate(jsonData.newPass);
 			senderIndex = registeredClients.findIndex(client => client.username === jsonData.username);
 			registeredClients[senderIndex].password = passwordHash.generate(jsonData.newPass);
+		} else if (jsonData.type === 'newUsername') {
+			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.username);
+			connectedClients[senderIndex].username = passwordHash.generate(jsonData.newUsername);
+			senderIndex = registeredClients.findIndex(client => client.username === jsonData.username);
+			registeredClients[senderIndex].username = jsonData.newUsername;
+			broadcastMsg(data, false);
+		} else if (jsonData.type === 'newAvatar') {
+			var senderIndex = connectedClients.findIndex(client => client.username === jsonData.username);
+			connectedClients[senderIndex].avatar = jsonData.avatar;
+			senderIndex = registeredClients.findIndex(client => client.username === jsonData.username);
+			registeredClients[senderIndex].avatar = jsonData.avatar;
+			broadcastMsg(data, false);
 		}
 	});
 	ws.on('close', function (event) {

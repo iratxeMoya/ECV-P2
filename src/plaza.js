@@ -1,22 +1,24 @@
-/* 
-FALTA:
-	> Las funciones para moverse (con el click o con las flechas)
-	> Las funciones para pintar el avatar
-	> Alguna forma de guardar el avatar de cada cliente
-	> Detectar cuando un nuevo usuario se connecta (podría hacrese con el onmessage type: login)
-	> Todo el HTML y el CSS
-	> Cuando se conecte un nuevo cliente (ya sea por login o por register) hay que hashear su
-		password de alguna forma (no se si en el cliente o en el servidor)
-	NOTA:
-		> HASTA QUE NO ESTÉ MINIMAMENTE EL HTML CON TODAS LAS FUNCIONALIDADES (AUNQUE SEA SIN CSS) NO
-			SE PUEDE COMPROBAR QUE EL SERVER Y ESTE JS FUNCIONEN BIEN!! -> CUANTO ANTES LO TENGAMOS
-			MEJOR.
+/*
+LOGICA DE PAGINAS:
+	1. login
+		1.1 si pulsas register -> register
+		1.2 si pulsas login -> chat
+	2. register
+		2.1 si pulsas login -> login
+		2.2 si pulsas register -> select avatar
+	3. select avatar
+		3.1 si pulsas el avatar -> chat
+	3 chat
+		3.1 si pulsas _____ -> configuration
+	4. configuration
+		4.1 si pulsas change name / pass -> configuration
+		4.2 su pulsas change avatar -> select avatar
+		4.3 si pulsas back -> chat
 */
-
 var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 
 var clients = [];
-var me = new Client (null, null, null, '');
+var me = new Client (null, null, null, '', '');
 
 var updating_func = setInterval(updatePlaza, 50);
 
@@ -31,6 +33,7 @@ function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
 	this.actualPosition_y = actualPosition_y;
 	this.lastMessage = lastMessage;
 	this.showLastMessage = false;
+	this.avatar = '';
 }
 //Message types
 function Msg (client, text) {
@@ -63,6 +66,11 @@ function NewUsername (newUsername, username){
 	this.type =  "newUsername";
 	this.username = username;
 	this.newUsername = newUsername;
+}
+function NewAvatar (username, avatar) {
+	this.type = "newAvatar";
+	this.username = username;
+	this.avatar = avatar;
 }
 
 connection.onopen = event => {
@@ -112,9 +120,8 @@ connection.onmessage = (event) => {
 	else if (data.type === 'login' || data.type === 'register') {
 		
 		//create new client
-		var client = new Client(data.username, data.x, data.y, data.lastMessage);
+		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
-		console.log('clients: ', clients)
 
 		if (client.username == me.username) {
 			me = client;
@@ -126,7 +133,7 @@ connection.onmessage = (event) => {
 		
 	}
 	else if(data.type === 'alreadyLoged') {
-		var client = new Client(data.username, data.x, data.y, data.lastMessage);
+		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
 		create_pj(data.x,data.y, data.username);
 	}
@@ -162,16 +169,21 @@ connection.onmessage = (event) => {
 		}
 	} else if(data.type == 'registerResponse') {
 		if (data.data === 'OK'){
-			document.querySelector('div.chatBody').style['display'] = 'grid';
+			document.querySelector('div.chatBody').style['display'] = 'none';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
 			document.querySelector('div.registerBody').style['display'] = 'none';
+			document.querySelector('div.profileSelectorBody').style['display'] = 'block';
 		} else {
 			alert ('Username exists already');
 		}
 	} else if(data.type = 'newUsername') {
 		myIndex = clients.findIndex(client => client.username === data.username);
     	clients[myIndex].username = data.newUsername;
+	} else if (data.type === 'newAvatar') {
+		myIndex = clients.findIndex(client => client.username === data.username);
+    	clients[myIndex].avatar = data.avatar;
 	}
+	
 
 };
 
@@ -294,7 +306,10 @@ var avatar = document.querySelector('img#clip');
 avatar.addEventListener('click', selectAvatar);
 
 function selectAvatar () {
-    console.log('selected: ', this.src);
+	var avatar = new NewAvatar(me.username, this.src);
+	connection.send(JSON.stringify(avatar));
+	document.querySelector('div.chatBody').style['display'] = 'grid';
+	document.querySelector('div.profileSelectorBody').style['display'] = 'none';	
 }
 
 var changeName = document.querySelector('input#newName');
