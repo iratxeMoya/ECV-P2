@@ -8,6 +8,8 @@ var colidemap;
 
 var needSetup=true;
 
+var debug_counter=0;
+
 var h;
 var i =0;
 var j=0;
@@ -21,6 +23,7 @@ var obj_counter=0;
 var objects=[];
 var pos_array = {};
 var movements={};
+var login = {}
 
 var sprites = new Image();
 sprites.src = "data/sprites.png";
@@ -95,6 +98,7 @@ function create_pj(x,y, username, sptrite=null){
 	console.log("POASARAY " +pos_array);
 	movements[username] = [false,false,x,y];
 	spritepos_arr[username] = 0;
+	login[username] =[0,-1];
 	colidemap[x,y]=1;
 }
 
@@ -128,6 +132,37 @@ function move_pj(x,y,id){
 		movements[id][1] = true;
 	}
 }
+
+function draw(username){
+	if(login[username][1]>=0){
+		ctx.drawImage(sprites, login[username]*TILESIZE, 0,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
+		login[username][1]=(login[username][1]+1)%4
+	}
+	ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
+}
+
+function vanish(username){
+	login[username][1]=0;
+}
+
+document.body.addEventListener('keydown',function(event) {
+	if (event.keyCode ==38) {
+		debug_counter++;
+		let rx = Math.floor(Math.random(mapdim-1));
+		let ry = Math.floor(Math.random(mapdim-1));
+		create_pj(rx,ry,debug_counter+"");
+		
+	}
+});
+
+document.body.addEventListener('keydown',function(event) {
+	if (event.keyCode == 40) {
+		let rx = Math.floor(Math.random(mapdim-1));
+		let ry = Math.floor(Math.random(mapdim-1));
+		vanish(debug_counter+"");
+		debug_counter--;
+	}
+});
 
 function update(clients){
 	let prob = Math.random()*100;
@@ -167,6 +202,9 @@ function update(clients){
 	
 	// ctx.save();
     // ctx.fillStyle = "#000";
+	
+	
+	
     ctx.fillRect(0, 0, 900, 900);
 	
 	for (i=0;i<mapdim;i++){
@@ -177,7 +215,9 @@ function update(clients){
 	
 	for (i=0;i<clients.length;i++){
 		var username = clients[i].username;
-		if(movements[username][1]){ 
+		if(login[username][1]>=0){
+			pos_array[username][1]-=10; 
+		}else if(movements[username][1]){ 
 			if(pos_array[username][1]<movements[username][3]){
 				if(colidemap[pos_array[username][2]][pos_array[username][3]+1]>0){
 					console.log("ASDASD");
@@ -222,11 +262,10 @@ function update(clients){
 		// document.getElementById(username).style.left = pos_array[username][0]+"px";
 		// document.getElementById(username).style.background="url('"+spritesheet+"') -"+(spritepos_arr[username]*50)+"px -"+(tileposy*50)+"px";
 
+		draw(username);
 
-
-		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0],pos_array[username][1],TILESIZE,TILESIZE);
 		ctx.font = "20px Georgia";
-		clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[id][0], pos_array[id][1]) : null;
+		clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null;
    
 	}
 }
