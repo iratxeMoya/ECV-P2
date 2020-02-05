@@ -146,7 +146,7 @@ function vanish(username){
 }
 
 document.body.addEventListener('keydown',function(event) {
-	if (event.code === '+') {
+	if (event.keyCode ==38) {
 		debug_counter++;
 		let rx = Math.floor(Math.random(mapdim-1));
 		let ry = Math.floor(Math.random(mapdim-1));
@@ -156,7 +156,7 @@ document.body.addEventListener('keydown',function(event) {
 });
 
 document.body.addEventListener('keydown',function(event) {
-	if (event.code === '-') {
+	if (event.keyCode == 40) {
 		let rx = Math.floor(Math.random(mapdim-1));
 		let ry = Math.floor(Math.random(mapdim-1));
 		vanish(debug_counter+"");
