@@ -151,7 +151,7 @@ connection.onmessage = (event) => {
 	}
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.username === data.name);
-		clients = remove(clients, sender);
+		clients.delete(sender)
 		console.log(clients, sender)
 		
 
@@ -377,3 +377,14 @@ function onKeyDownChangePass (event) {
 function remove (arr, value) {
 	return arr.filter(item => item !== value)
 }
+
+Array.prototype.delete = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};

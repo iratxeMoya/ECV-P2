@@ -169,7 +169,7 @@ wss.on('connection', function(ws) {
 		var client = connectedClients.find(client => client.connection === ws);
 		if (client) {
 			connectedClients.delete(client);
-			var disconnectedClient = {type: 'disconnection', name: client.name}
+			var disconnectedClient = {type: 'disconnection', name: client.username}
 			broadcastMsg(JSON.stringify(disconnectedClient), false);
 		}
 		
