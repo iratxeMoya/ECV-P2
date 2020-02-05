@@ -15,8 +15,7 @@ body {
 }
 
 .slider {
-  top: -35;
-  height: 500px;
+  height: 350px;
   position: relative;
   overflow: hidden;
   display: -webkit-box;
@@ -85,7 +84,6 @@ body {
 }
 .slider__contents {
   height: 100%;
-  padding: 2rem;
   text-align: center;
   display: -webkit-box;
   display: -webkit-flex;
@@ -119,12 +117,13 @@ body {
 }
 .slider__txt {
     color: #999;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     max-width: 100px;
     max-height: 215px;
     overflow: hidden;
     text-indent: 0px;
     border-radius: 6px;
+    margin-top: -10px;
 }
 .slider__txt:hover {
     cursor: pointer;
@@ -173,7 +172,7 @@ body {
       font-family: 'Homemade Apple', cursive;
       font-size: 5.6rem;
       text-align: center;
-      margin-top: 160px;
+      margin-top: 75px;
       line-height: 1;
       color: #c6e2ff;
       animation: neon .08s ease-in-out infinite alternate;
