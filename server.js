@@ -37,7 +37,7 @@ wss.on('connection', function(ws) {
 	ws.on('message', function(data){
 
 		var jsonData = JSON.parse(data);
-		console.log('new message in server: ', jsonData);
+		console.log('new message in server: ', jsonData.type);
 
 		if(jsonData.type === 'login') {
 
