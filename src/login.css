@@ -82,3 +82,8 @@ html {
     padding-top: 1em;
     justify-self: right;
 }
+.formLabel {
+    justify-self: right;
+    margin-bottom: 10px;
+    font-family: 'Homemade Apple', cursive;
+}
