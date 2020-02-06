@@ -239,7 +239,7 @@ loginNameInput.addEventListener('keydown', on_key_press_send_login);
 var loginPassInput = document.querySelector("input#logPassword");
 loginPassInput.addEventListener('keydown', on_key_press_send_login);
 
-var registerTopBtn = document.querySelector('button#registerTopBtn');
+var registerTopBtn = document.querySelector('a#registerTopBtn');
 registerTopBtn.addEventListener('click', go_to_register_page);
 
 function send_login () {
@@ -248,7 +248,9 @@ function send_login () {
         me.username = loginNameInput.value;
         var login = new Login(loginNameInput.value, loginPassInput.value);
         login.isMe = true;
-        connection.send(JSON.stringify(login));
+		connection.send(JSON.stringify(login));
+		//loginNameInput.value = '';
+		//loginPassInput.value = '';
     } else {
         alert('You need to enter an username and a password to login');
     }
@@ -260,12 +262,13 @@ function on_key_press_send_login() {
 }
 
 function go_to_register_page () {
+	console.log('hey')
 	document.querySelector('div.registerBody').style['display'] = 'grid';
 	document.querySelector('div.loginBody').style['display'] = 'none';	
 }
 
 //register
-var loginTopBtn = document.querySelector('button#loginTopBtn');
+var loginTopBtn = document.querySelector('a#loginTopBtn');
 loginTopBtn.addEventListener('click', go_to_login_page);
 
 var regNameInput = document.querySelector("input#regUsername");
@@ -289,6 +292,8 @@ function send_register () {
         me.username = regNameInput.value;
 		var register = new Register(regNameInput.value, regPassInput.value);
 		register.isMe = true;
+		//regNameInput.value = '';
+		//regPassInput.value = '';
 		connection.send(JSON.stringify(register));
 	} else {
 		alert('You need to enter an username and a password to login');

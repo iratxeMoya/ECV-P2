@@ -5,7 +5,8 @@
 		<link rel="stylesheet" type="text/css" href="testPages.css">
         <link rel="stylesheet" type="text/css" href="register.css">
         
-        <link href="https://fonts.googleapis.com/css?family=Homemade+Apple&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Homemade+Apple&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Sacramento&display=swap" rel="stylesheet">
 	</head>
 	<body style="background-color:black;overflow:hidden;font-family: Arial, Helvetica, sans-serif;">
 		<div class="chatBody" style="display: none;">
@@ -23,32 +24,45 @@
 		<div class="loginBody">
 			<form method="post" action="/register" id="top">
 				<div class="registerBox">
-					<label>Don't have an account?</label>
-					<button type="button" id = 'registerTopBtn' class="formBtn">Register</button>
+					<!--<label>Don't have an account?</label>
+					<button type="button" id = 'registerTopBtn' class="formBtn">Register</button>-->
+					<a class="link" id ='registerTopBtn'>Don't have an account? Register &rarr;</a>
 				</div>
 			</form>
-			<div class="loginBox">
-				<form method="post" action="/node/9027/chat" id="middle">
-					<input class="formInput" placeholder="introduce your username" id="logUsername">
-					<input type="password" class="formInput" placeholder="introduce your password" id="logPassword">
-					<button type="button" id='loginBotBtn' class="formBtn">LOGIN</button>
-				</form>
+			<div class="sign__word" style="margin-top: 50px">Login</div>
+			<div class="webdesigntuts-workshop" style="top: 220px">
+				<div class="form">
+					<form action="" method="">		    
+						<input type="text" id='logUsername' placeholder="Username">		    	
+					</form>
+					<form action="" method="">		    
+						<input type="password" id="logPassword" placeholder="Password">		    	
+					</form>
+					<div class='btnBox'><button class='submit' id="loginBotBtn">Login</button></div>
+				</div>
 			</div>
 		 </div>
 		<div class="registerBody" style='display: none;'>
-			<form method="post" action="/register" id="top">
+			<form method="post" action="/login" id="top">
 				<div class="registerBox">
-					<label>Already have an account?</label>
-					<button type="button" id='loginTopBtn' class="formBtn">Login</button>
+					<!--<label>Don't have an account?</label>
+					<button type="button" id = 'registerTopBtn' class="formBtn">Register</button>-->
+					<a class="link" id ='loginTopBtn'>Already have an account? Login &rarr;</a>
 				</div>
 			</form>
-			<div class="loginBox">
-				<form method="post" action="/node/9027/chat" id="middle">
-					<input class="formInput" placeholder="introduce your username" id="regUsername">
-					<input type="password" class="formInput" placeholder="introduce your password" id="regPassword">
-					<button type="button" id='registerBotBtn' class="formBtn">REGISTER</button>
-				</form>
+			<div class="sign__word" style="margin-top: 50px">Register</div>
+			<div class="webdesigntuts-workshop" style="top: 220px">
+				<div class="form">
+					<form action="" method="">		    
+						<input type="text" id='regUsername' placeholder="Username">		    	
+					</form>
+					<form action="" method="">		    
+						<input type="password" id="regPassword" placeholder="Password">		    	
+					</form>
+					<div class='btnBox'><button class='submit' id="registerBotBtn">Register</button></div>
+				</div>
 			</div>
+		 </div>
 		</div>
 		<div class="profileSelectorBody" style="display: none">
 			<div class="sign__word">Avatar selection</div>

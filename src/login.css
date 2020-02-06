@@ -23,7 +23,7 @@ form#middle {
     margin: auto;
 }
 form#top {
-    border-bottom: 0.5px solid white;
+    font-family: 'Homemade Apple', cursive;
 }
 .formBtn {
     width: fit-content;
@@ -56,7 +56,9 @@ label {
 }
 .registerBox {
     width: fit-content;
-    margin: auto 0 auto auto
+    margin: auto 10px auto auto;
+    height: 40px;
+    display: table;
 }
 html {
     height: 100%;
@@ -71,4 +73,12 @@ html {
     display: grid;
     grid-template-rows: 40px 550px;
     margin-top: 25px;
+}
+.submit {
+    border: 1px solid #444 !important;
+    border-radius: 5px !important;
+}
+.btnBox {
+    padding-top: 1em;
+    justify-self: right;
 }
