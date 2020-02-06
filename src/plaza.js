@@ -184,7 +184,7 @@ connection.onmessage = (event) => {
 
 		if (data.data === 'OK'){
 
-			document.querySelector('div.chatBody').style['display'] = 'grid';
+			document.querySelector('div.chatBody').style['display'] = 'block';
 			document.querySelector('div.loginBody').style['display'] = 'none';
 			document.querySelector('div.registerBody').style['display'] = 'none';	
 
@@ -224,7 +224,7 @@ connection.onmessage = (event) => {
 		console.log('new avatar: ', data)
 		myIndex = clients.findIndex(client => client.username === data.username);
 		clients[myIndex].avatar = data.avatar;
-		document.querySelector('div.chatBody').style['display'] = 'grid';
+		document.querySelector('div.chatBody').style['display'] = 'block';
 		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
 
 	}
