@@ -44,6 +44,8 @@ if(h%TILESIZE!=0 || w%TILESIZE!=0){
 	document.getElementById("canvas").width = h;
 }
 
+cvs.width = window.innerWidth;
+cvs.height = window.innerHeight - 100;
 mapdim = Math.floor(h/TILESIZE);
 tilemap = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));
 colidemap = Array(mapdim).fill(0).map(()=>Array(mapdim).fill(0));

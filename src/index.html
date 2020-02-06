@@ -10,16 +10,17 @@
 		<link href="https://fonts.googleapis.com/css?family=Beth+Ellen&display=swap" rel="stylesheet">
 	</head>
 	<body style="background-color:black;overflow:hidden;font-family: Arial, Helvetica, sans-serif;height: 100%;margin:0;">
-		<div class="chatBody" style="display: none;">
-			<canvas  id='canvas' width="900", height="900"></canvas>
-			<div class="chatContainer" >
+		<div class="chatBody">
+			<canvas  id='canvas'></canvas>
+			<div>
 				<div class='chatMessageContainer'>
-
-				</div>
-				<div class='chatActionBox'>
-					<input class="message" placeholder='Type message...'/>
-					<button class="send">Send</div>
-				</div>
+                </div>
+                <div class="webdesigntuts-workshop">
+                    <form action="" method="">		    
+                        <input type="text" class='messageAction' id="message" placeholder="Type message...">		    	
+                        <button id="changePass">Send</button>
+                    </form>
+                </div>
 			</div>
 		</div>
 		<div class="loginBody">
@@ -98,11 +99,11 @@
 			<div class="webdesigntuts-workshop">
 				<div class="form">
 					<form action="" method="">		    
-						<input type="search" id='newName' placeholder="New name">		    	
+						<input type="text" id='newName' placeholder="New name">		    	
 						<button id="changeName">Change</button>
 					</form>
 					<form action="" method="">		    
-						<input type="search" id="newPass" placeholder="New password">		    	
+						<input type="password" id="newPass" placeholder="New password">		    	
 						<button id="changePass">Change</button>
 					</form>
 				</div>

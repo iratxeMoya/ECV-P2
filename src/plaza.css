@@ -41,8 +41,11 @@
 	margin: 25px;
 }
 .chatBody {
-	display: grid;
+	display: block;
 	grid-template-columns: 950px 500px;
+	background-image: url('data/wall.jpg');
+	background-repeat: repeat;
+	height: 100%;
 
 }
 .chatActionBox {
@@ -62,5 +65,12 @@ button.send {
 }
 body {
 	height: 100% !important;
+	margin: 0;
+}
+.messageAction {
+	width: calc(100% - 122px) !important;
+    height: 38px !important;
+    border-radius: 5px 0 0 5px !important;
+    margin-left: 10px !important;
 }
 
