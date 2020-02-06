@@ -179,6 +179,8 @@ connection.onmessage = (event) => {
 
 		if (data.data === 'OK'){
 
+			console.log('hola')
+
 			document.querySelector('div.chatBody').style['display'] = 'none';
 			document.querySelector('div.loginBody').style['display'] = 'none';	
 			document.querySelector('div.registerBody').style['display'] = 'none';
