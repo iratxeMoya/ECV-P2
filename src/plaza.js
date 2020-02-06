@@ -235,7 +235,7 @@ connection.onmessage = (event) => {
 var msgButton = document.querySelector("button.send");
 msgButton.addEventListener("click", send_message);
 
-var msgInput = document.querySelector('input.message');
+var msgInput = document.querySelector('input#message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
