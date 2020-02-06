@@ -97,6 +97,7 @@ wss.on('connection', function(ws) {
 
 					newClient.connection.send(JSON.stringify(alreadyConnected));
 				});
+				console.log(messages)
 				messages.forEach(mes => {
 					var alreadySended = {};
 					alreadySended.type = 'alreadySended';
