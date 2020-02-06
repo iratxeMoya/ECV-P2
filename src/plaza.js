@@ -381,6 +381,16 @@ function onKeyDownChangePass (event) {
     }
 }
 
+//Avatar selection
+
+var avatar1 = document.querySelector("canvas#avatar-1");
+var avatar1_ctx = avatar1.getContext("2d");
+
+var door = new Image();
+door.src = "data/neonDoor1.png";
+
+avatar1_ctx.drawImage(door, 0, 0);
+
 
 //UTILS
 
