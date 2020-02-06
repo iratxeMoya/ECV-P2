@@ -217,7 +217,7 @@ body {
 }
 
 
-.webdesigntuts-workshop form {
+.webdesigntuts-workshop .inputGroup {
 	background: #111;
 	background: linear-gradient(#1b1b1b, #111);
 	border: 1px solid #000;
