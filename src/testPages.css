@@ -121,18 +121,15 @@ body {
     max-width: 100px;
     max-height: 215px;
     overflow: hidden;
+    padding-top: 5px;
     text-indent: 0px;
-    border-radius: 6px;
+    border-radius: 6px 6px 0px 0px;
     margin-top: -10px;
 }
 .slider__txt:hover {
     cursor: pointer;
     background-color: black;
-    box-shadow:
-    0 0 6px rgba(202,228,225,0.98),
-    0 0 30px rgba(202,228,225,0.42),
-    0 0 12px rgba(30,132,242,0.58),
-    0 0 22px rgba(30,132,242,0.84);
+    box-shadow: 0px -9px 17px 0px #1c6a72b8, 7px 0px 8px -3px #1c6a72b8, -7px 0px 9px -3px #1c6a72b8, inset 0px 6px 17px 0px #1c6a72b8, inset -4px 0px 8px -3px #1c6a72b8, inset 5px 0px 9px -3px #1c6a72b8, 4px -5px 8px -3px #1c6a72b8, -4px -4px 9px -3px #1c6a72b8, 0px 27px 14px -10px #1c6a72b8;
 }
 
 @-webkit-keyframes check {
