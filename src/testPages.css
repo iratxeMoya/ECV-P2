@@ -210,7 +210,7 @@ body {
   text-align: center;
   width: 100%;
   display: grid;
-  grid-template-rows: 370px;
+  grid-template-rows: 535px;
 }
 
 
@@ -219,12 +219,13 @@ body {
 	background: linear-gradient(#1b1b1b, #111);
 	border: 1px solid #000;
 	border-radius: 5px;
-	box-shadow: inset 0 0 0 1px #272727;
+	box-shadow: 4px -6px 13px 0px #85c1ff, -6px -6px 13px 0px #85c1ff, 0px 8px 13px 0px #85c1ff;
 	display: inline-block;
 	font-size: 0px;
 	padding: 20px;
 	position: relative;
-	z-index: 1;
+  z-index: 1;
+  margin: 5px;
 }
 
 .webdesigntuts-workshop input {
