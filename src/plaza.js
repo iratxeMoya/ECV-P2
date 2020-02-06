@@ -135,7 +135,9 @@ connection.onmessage = (event) => {
 
 		//Actualize client last message
 		var senderIndex = clients.findIndex(client => client.username === data.client);
-		clients[senderIndex].lastMessage = data.text;
+		if (clients[senderIndex]){
+			clients[senderIndex].lastMessage = data.text;	
+		}
 	}
 	else if (data.type === 'login' || data.type === 'register') {
 		
