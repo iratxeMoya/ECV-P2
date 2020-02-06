@@ -292,8 +292,8 @@ function send_register () {
         me.username = regNameInput.value;
 		var register = new Register(regNameInput.value, regPassInput.value);
 		register.isMe = true;
-		//regNameInput.value = '';
-		//regPassInput.value = '';
+		regNameInput.value = '';
+		regPassInput.value = '';
 		connection.send(JSON.stringify(register));
 	} else {
 		alert('You need to enter an username and a password to login');
