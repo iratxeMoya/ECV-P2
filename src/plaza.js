@@ -115,7 +115,27 @@ connection.onmessage = (event) => {
 
 		//change the senders avatars top message
 
-		show_msg(data.client, data.text);
+		//show_msg(data.client, data.text);
+	}
+	else if (data.type === 'alreadySended') {
+		// append received message from the server to the DOM element
+		var messageContainer = document.createElement('div');
+		var senderName = document.createElement('div');
+		var message = document.createElement('div');
+		var parent = document.querySelector('div.chatMessageContainer');
+
+		senderName.innerText = data.client;
+		message.innerText = data.text;
+
+		messageContainer.appendChild(senderName);
+		messageContainer.appendChild(message);
+		messageContainer.style['backgroundColor'] = 'red';
+
+		parent.appendChild(messageContainer);
+
+		//Actualize client last message
+		var senderIndex = clients.findIndex(client => client.username === data.client);
+		clients[senderIndex].lastMessage = data.text;
 	}
 	else if (data.type === 'login' || data.type === 'register') {
 		
