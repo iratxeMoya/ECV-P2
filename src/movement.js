@@ -178,9 +178,9 @@ function update(clients){
 		printx=Math.max(Math.min(pos_array[player_name][0]-TILESIZE,(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
 		printy=Math.max(Math.min(pos_array[player_name][1]-TILESIZE,(MAPSIZE)*TILESIZE-h),centery*TILESIZE)
 	
-		for (i=0;i<MAPSIZE;i++){
+		for (f=0;f<MAPSIZE;f++){
 			for (j=0;j<MAPSIZE;j++){
-				ctx.drawImage(tiles, tilemap[i][j]*TILESIZE, 0,TILESIZE,TILESIZE,i*TILESIZE-printx,j*TILESIZE-printy,TILESIZE,TILESIZE);
+				ctx.drawImage(tiles, tilemap[f][j]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,j*TILESIZE-printy,TILESIZE,TILESIZE);
 			}
 		}
 		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,TILESIZE,TILESIZE);
