@@ -135,7 +135,6 @@ function update(clients){
 	
     ctx.fillRect(0, 0, w, h);
 	for (i=0;i<clients.length;i++){
-		console.log(i)
 		var username = clients[i].username;
 		if(movements[username][1]){
 			if(pos_array[username][1]<movements[username][3]){
@@ -157,7 +156,6 @@ function update(clients){
 				pos_array[username][0]+=10;
 				spritepos_arr[username]=1;
 			}else if (pos_array[username][0]>movements[username][2]){
-				console.log(username);
 				pos_array[username][0]-=10;
 				spritepos_arr[username]=0;
 			}
@@ -175,6 +173,7 @@ function update(clients){
 
 		colidemap[pos_array[username][2]][pos_array[username][3]]=1;
 	}
+	console.log(i)
 	if(player_name!=""){
 		printx=Math.max(Math.min(pos_array[player_name][0]-TILESIZE,(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
 		printy=Math.max(Math.min(pos_array[player_name][1]-TILESIZE,(MAPSIZE)*TILESIZE-h),centery*TILESIZE)

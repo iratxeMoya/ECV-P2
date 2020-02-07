@@ -152,6 +152,7 @@ connection.onmessage = (event) => {
 
 		} 
 
+		
 		parent.appendChild(messageContainer);
 		parent.scrollTop = parent.scrollHeight;
 
