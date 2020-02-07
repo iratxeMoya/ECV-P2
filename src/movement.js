@@ -51,7 +51,7 @@ centerx=Math.floor(w/(2*TILESIZE));
 centery=Math.floor(h/(2*TILESIZE));
 
 cvs.width = w;
-cvs.height = h;
+cvs.height = h - 100;
 tilemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 colidemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 console.log(h);
