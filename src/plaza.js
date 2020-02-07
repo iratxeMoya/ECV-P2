@@ -155,8 +155,6 @@ connection.onmessage = (event) => {
 		parent.appendChild(messageContainer);
 		parent.scrollTop = parent.scrollHeight;
 
-		parent.appendChild(messageContainer);
-
 		//Actualize client last message
 		var senderIndex = clients.findIndex(client => client.username === data.client);
 		if (clients[senderIndex]){
