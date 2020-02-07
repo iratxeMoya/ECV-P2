@@ -187,7 +187,7 @@ function update(clients){
 		
 
 		ctx.font = "20px Georgia";
-		console.log('clients: ', clients);
+		console.log('clients: ', clients, i, clients[i]);
 		clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null: null;
 	}
 
