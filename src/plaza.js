@@ -173,14 +173,22 @@ connection.onmessage = (event) => {
 
 		//render the new clients avatar
 
-		create_pj(data.x,data.y, client.username);
-		
+		if (client.username == me.username) {
+			me = client;
+			create_pj(data.x,data.y, client.username,is_me=true);
+		}else{
+			create_pj(data.x,data.y, client.username);
+		}		
 	}
 	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
-		create_pj(data.x,data.y, data.username);
-	}
+			if (client.username == me.username) {
+			me = client;
+			create_pj(data.x,data.y, client.username,is_me=true);
+		}else{
+			create_pj(data.x,data.y, client.username);
+		}	}
 	else if (data.type === 'move') {
 
 		//actualize senders position
@@ -367,10 +375,12 @@ function onPlazaClick (event) {
 	clients[myIndex].actualPosition_x = Math.floor(event.clientX / TILESIZE);
 	clients[myIndex].actualPosition_y = Math.floor(event.clientY / TILESIZE);
 
-	move_pj(me.actualPosition_x, me.actualPosition_y, me.username);
-
-	var move = new Move(me.username, me.actualPosition_x, me.actualPosition_y);
-	console.log(me.actualPosition_x, me.actualPosition_y);
+	x=Math.floor(event.clientX/TILESIZE)+Math.floor(printx/TILESIZE)-centerx;
+	y=Math.floor(event.clientY/TILESIZE)+Math.floor(printy/TILESIZE)-centery;
+	// console.log("TEST "+(Math.floor(printx/TILESIZE)-centerx)+" "+Math.floor(printx/TILESIZE)+" "+centerx+" "+Math.floor(event.clientX/TILESIZE)+" "+pos_array[me.username][2]+" "+x);
+	move_pj(x,y, me.username);
+	
+	var move = new Move(me.username, x, y);
 	connection.send(JSON.stringify(move));
 }
 
