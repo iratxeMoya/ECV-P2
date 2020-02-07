@@ -103,7 +103,7 @@ connection.onmessage = (event) => {
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
 		
-		if (data.client === me.username) {
+		if (!data.client === me.username) {
 
 		} else {
 			senderName.classList.add('name');
