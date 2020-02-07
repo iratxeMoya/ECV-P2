@@ -103,13 +103,16 @@ connection.onmessage = (event) => {
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
 		
+		senderName.classList.add('name');
+		message.classList.add("messageText");
+		messageContainer.classList.add('messageGroup');
+
 		if (!data.client === me.username) {
 
-		} else {
-			senderName.classList.add('name');
-			message.classList.add("messageText");
-			messageContainer.classList.add('messageGroup');
-		}
+			senderName.style['justifySelf'] = 'end';
+			message.style['justifySelf'] = 'end';
+
+		} 
 
 		parent.appendChild(messageContainer);
 
@@ -249,7 +252,7 @@ msgInput.addEventListener('keydown', on_key_press_send_msg);
 
 function send_message(){
 	var message = new Msg(me.username, msgInput.value);
-	console.log('sending message: ', message);
+	msgInput.value = '';
 	connection.send(JSON.stringify(message));
 }
 
