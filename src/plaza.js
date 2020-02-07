@@ -102,7 +102,14 @@ connection.onmessage = (event) => {
 
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
-		messageContainer.style['backgroundColor'] = 'red';
+		
+		if (data.client === me.username) {
+
+		} else {
+			senderName.classList.add('name');
+			message.classList.add("messageText");
+			messageContainer.classList.add('messageGroup');
+		}
 
 		parent.appendChild(messageContainer);
 

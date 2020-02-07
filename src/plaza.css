@@ -69,3 +69,35 @@ body {
     margin-left: 10px !important;
 }
 
+.messageGroup {
+	padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 15px;
+    border-radius: 6px;
+    display: grid;
+}
+.name {
+	font-size: small;
+    margin-left: 15px;
+    font-weight: bold;
+}
+.messageText {
+	width: 30%;
+    animation: glow 800ms ease-out infinite alternate;
+    border: 1px solid #00BCD4;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.34), inset 0 0 5px rgba(3, 169, 244, 0.38), 0 2px 0 #000;
+    color: white;
+    outline: none;
+    background: linear-gradient(#333, #222);
+    border-radius: 5px;
+    display: block;
+    float: left;
+    font-family: 'Cabin', helvetica, arial, sans-serif;
+    height: 40px;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 40px;
+}
+
