@@ -93,9 +93,9 @@ connection.onmessage = (event) => {
 
 		// append received message from the server to the DOM element
 		var messageContainer = document.createElement('div');
-		var senderName = document.createElement('div');
-		var message = document.createElement('div');
-		var parent = document.querySelector('div.chatMessageContainer');
+		var senderName = document.createElement('span');
+		var message = document.createElement('span');
+		var parent = document.querySelector('section.drawer-list');
 
 		senderName.innerText = data.client;
 		message.innerText = data.text;
