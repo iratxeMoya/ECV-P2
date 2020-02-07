@@ -135,6 +135,7 @@ function update(clients){
 	
     ctx.fillRect(0, 0, w, h);
 	for (i=0;i<clients.length;i++){
+		console.log(i)
 		var username = clients[i].username;
 		if(movements[username][1]){
 			if(pos_array[username][1]<movements[username][3]){
