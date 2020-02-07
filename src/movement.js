@@ -51,7 +51,7 @@ centerx=Math.floor(w/(2*TILESIZE));
 centery=Math.floor(h/(2*TILESIZE));
 
 cvs.width = w;
-cvs.height = h - 100;
+cvs.height = h - 190;
 tilemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 colidemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 console.log(h);
@@ -147,7 +147,6 @@ function update(clients){
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
 				movements[username][1]=false;
 				movements[username][0]=false;
-				//show_msg(username,"AAAAAAAAAAAAAAAARRRRRRRGGGGGGGGGGHHHHHHHHHH");
 			}else if(pos_array[username][1]==movements[username][3]){
 				movements[username][1]=false;
 				movements[username][0]=true;
@@ -188,7 +187,8 @@ function update(clients){
 		
 
 		ctx.font = "20px Georgia";
-		clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null;
+		console.log('clients: ', clients);
+		clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null: null;
 	}
 
 }
