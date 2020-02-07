@@ -115,6 +115,7 @@ connection.onmessage = (event) => {
 		} 
 
 		parent.appendChild(messageContainer);
+		parent.scrollTop = parent.scrollHeight;
 
 		//Actualize client last message
 		var senderIndex = clients.findIndex(client => client.username === data.client);
@@ -139,7 +140,20 @@ connection.onmessage = (event) => {
 
 		messageContainer.appendChild(senderName);
 		messageContainer.appendChild(message);
-		messageContainer.style['backgroundColor'] = 'red';
+		
+		senderName.classList.add('name');
+		message.classList.add("messageText");
+		messageContainer.classList.add('messageGroup');
+
+		if (data.client === me.username) {
+
+			senderName.style['justifySelf'] = 'end';
+			message.style['justifySelf'] = 'end';
+
+		} 
+
+		parent.appendChild(messageContainer);
+		parent.scrollTop = parent.scrollHeight;
 
 		parent.appendChild(messageContainer);
 
