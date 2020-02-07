@@ -107,7 +107,7 @@ connection.onmessage = (event) => {
 		message.classList.add("messageText");
 		messageContainer.classList.add('messageGroup');
 
-		if (!data.client === me.username) {
+		if (data.client === me.username) {
 
 			senderName.style['justifySelf'] = 'end';
 			message.style['justifySelf'] = 'end';
