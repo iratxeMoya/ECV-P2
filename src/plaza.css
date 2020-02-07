@@ -101,3 +101,8 @@ body {
     line-height: 40px;
 }
 
+.messageContainer {
+	max-height: calc(100% - 0px);
+    overflow-y: scroll;
+}
+
