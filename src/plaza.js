@@ -131,9 +131,9 @@ connection.onmessage = (event) => {
 	else if (data.type === 'alreadySended') {
 		// append received message from the server to the DOM element
 		var messageContainer = document.createElement('div');
-		var senderName = document.createElement('div');
-		var message = document.createElement('div');
-		var parent = document.querySelector('div.chatMessageContainer');
+		var senderName = document.createElement('span');
+		var message = document.createElement('span');
+		var parent = document.querySelector('div.messageContainer');
 
 		senderName.innerText = data.client;
 		message.innerText = data.text;
