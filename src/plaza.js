@@ -234,7 +234,7 @@ connection.onmessage = (event) => {
 };
 
 //chat
-var msgButton = document.querySelector("button.send");
+var msgButton = document.querySelector("button#send");
 msgButton.addEventListener("click", send_message);
 
 var msgInput = document.querySelector('input#message');
