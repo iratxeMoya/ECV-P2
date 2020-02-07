@@ -95,7 +95,7 @@ connection.onmessage = (event) => {
 		var messageContainer = document.createElement('div');
 		var senderName = document.createElement('span');
 		var message = document.createElement('span');
-		var parent = document.querySelector('div#msgContainer');
+		var parent = document.querySelector('section.drawer-list');
 
 		senderName.innerText = data.client;
 		message.innerText = data.text;
