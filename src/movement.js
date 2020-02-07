@@ -164,7 +164,6 @@ function update(clients){
 			}
 		}
 	
-	
 		tileposy=(tileposy+1)%3
 		colidemap[pos_array[username][2]][pos_array[username][3]]=0;
 		
@@ -172,23 +171,23 @@ function update(clients){
 		pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
 
 		colidemap[pos_array[username][2]][pos_array[username][3]]=1;
-	}
-	console.log(i)
-	if(player_name!=""){
-		printx=Math.max(Math.min(pos_array[player_name][0]-TILESIZE,(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
-		printy=Math.max(Math.min(pos_array[player_name][1]-TILESIZE,(MAPSIZE)*TILESIZE-h),centery*TILESIZE)
-	
-		for (f=0;f<MAPSIZE;f++){
-			for (j=0;j<MAPSIZE;j++){
-				ctx.drawImage(tiles, tilemap[f][j]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,j*TILESIZE-printy,TILESIZE,TILESIZE);
-			}
-		}
-		ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,TILESIZE,TILESIZE);
+
+		if(player_name!=""){
+			printx=Math.max(Math.min(pos_array[player_name][0]-TILESIZE,(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
+			printy=Math.max(Math.min(pos_array[player_name][1]-TILESIZE,(MAPSIZE)*TILESIZE-h),centery*TILESIZE)
 		
-
-		ctx.font = "20px Georgia";
-		console.log('clients: ', clients, i, clients[i]);
-		clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null: null;
+			for (f=0;f<MAPSIZE;f++){
+				for (g=0;g<MAPSIZE;g++){
+					ctx.drawImage(tiles, tilemap[f][g]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,g*TILESIZE-printy,TILESIZE,TILESIZE);
+				}
+			}
+			ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,TILESIZE,TILESIZE);
+			
+	
+			ctx.font = "20px Georgia";
+			console.log('clients: ', clients, i, clients[i]);
+			clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null: null;
+		}
 	}
-
+	
 }
