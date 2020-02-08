@@ -56,7 +56,7 @@ wss.on('connection', function(ws) {
 				});
 				messages.forEach(mes => {
 					var alreadySended = {};
-					alreadySended.type = 'msg';
+					alreadySended.type = 'alreadySended';
 					alreadySended.client = mes.client;
 					alreadySended.text = mes.text;
 
@@ -180,7 +180,7 @@ function broadcastMsg(data, onlyNear, x, y) {
 
 	connectedClients.forEach(client => {
 		if (onlyNear) {
-			if (Math.abs(client.actualPosition_x - x) <= 4 || Math.abs(client.actualPosition_y - y) <= 4) {
+			if (Math.abs(client.actualPosition_x - x) <= 1 && Math.abs(client.actualPosition_y - y) <= 1) {
 				client.connection.send(data);
 			}
 		} else {

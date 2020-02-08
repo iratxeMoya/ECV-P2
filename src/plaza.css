@@ -103,7 +103,8 @@ body {
     display: block;
     float: left;
     font-family: 'Cabin', helvetica, arial, sans-serif;
-    height: fit-content;
+	height: fit-content;
+	word-break: break-all;
     margin: 0;
     padding: 0 10px;
     line-height: 40px;

@@ -450,3 +450,16 @@ Array.prototype.delete = function() {
     }
     return this;
 };
+
+var selectionOptions = document.querySelectorAll("div.slider__contents");
+selectionOptions.forEach(opt => {
+	opt.style['minWidth'] = window.innerWidth + 'px';
+});
+
+window.addEventListener("resize", onWindowResize);
+
+function onWindowResize () {
+	selectionOptions.forEach(opt => {
+		opt.style['minWidth'] = window.innerWidth + 'px';
+	});
+}
