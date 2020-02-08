@@ -114,4 +114,16 @@ body {
 	max-height: calc(100% - 0px);
     overflow-y: scroll;
 }
+#popUp {
+	position: absolute;
+	display: block;
+    z-index: 10;
+    width: 300px;
+    padding: 0.5em;
+    left: 50%;
+    margin: 0 -150px;
+    text-align: center;
+	top: 8px;
+	border-radius: 6px;
+}
 

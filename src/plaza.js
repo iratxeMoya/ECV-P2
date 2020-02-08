@@ -205,7 +205,13 @@ connection.onmessage = (event) => {
 	else if (data.type === 'disconnection') {
 		var sender = clients.find(client => client.username === data.name);
 		clients.delete(sender)
-		console.log(clients, sender)
+		console.log('disconection: ', clients, sender)
+
+		var popup = document.querySelector("div#popUp");
+		popup.style['display'] = 'block';
+		popup.style['background-color'] = '#ff7171';
+		popup.innerText = sender.username + ' has been disconnected';
+		setTimeout(function(){popup.style['display'] = 'none';}, 2000);
 		
 
 		//Delete clients avatar from the scene
@@ -256,11 +262,24 @@ connection.onmessage = (event) => {
 
 		myIndex = clients.findIndex(client => client.username === data.username);
 		clients[myIndex].avatar = data.avatar;
+
 		if (clients[myIndex].username === me.username) {
+
 			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=true, data.avatar);
-		}else{
-			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=false, data.avatar);
+
 		}
+		else {
+
+			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=false, data.avatar);
+			
+			var popup = document.querySelector("div#popUp");
+			popup.style['display'] = 'block';
+			popup.style['background-color'] = 'green';
+			popup.innerText = clients[myIndex].username + ' has been connected';
+			setTimeout(function(){popup.style['display'] = 'none';}, 2000);
+			
+		}
+
 		document.querySelector('div.chatBody').style['display'] = 'block';
 		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
 
