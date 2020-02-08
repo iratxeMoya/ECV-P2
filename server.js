@@ -94,6 +94,7 @@ wss.on('connection', function(ws) {
 					alreadyConnected.username = client.username;
 					alreadyConnected.x = client.actualPosition_x;
 					alreadyConnected.y = client.actualPosition_y;
+					alreadyConnected.avatar = client.avatar;
 					alreadyConnected.lastMessage = client.lastMessage;
 
 					newClient.connection.send(JSON.stringify(alreadyConnected));
