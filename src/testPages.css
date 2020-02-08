@@ -208,9 +208,11 @@ body {
   background: transparent;
   position: absolute;
   text-align: center;
+  bottom:50px;
   width: 100%;
   display: grid;
   grid-template-rows: 90%;
+  z-index:5;
 }
 
 

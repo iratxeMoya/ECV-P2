@@ -1,5 +1,6 @@
 //page setup
-const TILESIZE = 50;
+const TILESIZE = 100;
+const SPRITESIZE = 100;
 const BORDERSIZE = 2;
 const MAPSIZE = 100;
 console.log(window.innerHeight);
@@ -30,6 +31,7 @@ var objects=[];
 var pos_array = {};
 var movements={};
 var login = {}
+var sprite_timer=0;
 
 var sprites = new Image();
 sprites.src = "data/sprites.png";
@@ -40,18 +42,22 @@ tiles.src = "data/tiles.png";
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
 
-h = window.screen.height;
-w = window.screen.width;
-console.log("PLAZA "+h);
+var screen = document.getElementById("frame");
+
+h = screen.clientHeight;
+w = screen.clientWidth;
+
+cvs.height=h;
+cvs.width=w;
 //h = parseInt(h.substring(0, h.length - 2));
 
-h=Math.floor((h/TILESIZE))*TILESIZE;
-w=Math.floor((w/TILESIZE))*TILESIZE;
+h=Math.floor((h/TILESIZE)-1)*TILESIZE;
+w=Math.floor((w/TILESIZE)-1)*TILESIZE;
 centerx=Math.floor(w/(2*TILESIZE));
 centery=Math.floor(h/(2*TILESIZE));
 
-cvs.width = w;
-cvs.height = h - 190;
+
+
 tilemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 colidemap = Array(MAPSIZE).fill(0).map(()=>Array(MAPSIZE).fill(0));
 console.log(h);
@@ -60,30 +66,30 @@ for (i=0;i<MAPSIZE;i++){
 	for (j=0;j<MAPSIZE;j++){
 		if (j==0){
 			if(i==0){
-				tilemap[i][j] =4;
+				tilemap[i][j] =1;
 			}else if (i==MAPSIZE){
-				tilemap[i][j] =5;
-			}else{
-				tilemap[i][j]=0;
-			}
-		}else if (j==MAPSIZE){
-			if(i==0){
-				tilemap[i][j] =7;
-			}else if (i==MAPSIZE){
-				tilemap[i][j] =6;
+				tilemap[i][j] =2;
 			}else{
 				tilemap[i][j]=2;
 			}
-		}else{
+		}else if (j==MAPSIZE){
 			if(i==0){
-				tilemap[i][j] =1;
+				tilemap[i][j] =3;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =3;
 			}else{
-				tilemap[i][j]=5;
+				tilemap[i][j]=3;
+			}
+		}else{
+			if(i==0){
+				tilemap[i][j] =3;
+			}else if (i==MAPSIZE){
+				tilemap[i][j] =0;
+			}else{
+				tilemap[i][j]=0;
 			}
 		}
-		// tilemap[i][j]=4;
+		tilemap[i][j]=1;
 	}
 }
 
@@ -94,25 +100,18 @@ for (i=0;i<MAPSIZE;i++){
 
 
 function create_pj(x,y, username,is_me = false, sptrite=null){
-	// newelement = document.createElement("span");
-	// newelement.classList.add("pj");
-	// newelement.id=username;
-	// newelement.style.top=(y*TILESIZE+BORDERSIZE)+"px";
-	// newelement.style.left=(x*TILESIZE+BORDERSIZE)+"px";
-	// document.getElementById("main_plaza").appendChild(newelement);
 	if(is_me){
 		player_name=username;	
 	}
 	pos_array[username] = [x*TILESIZE,y*TILESIZE,x,y]
-	console.log("POASARAY " +pos_array);
 	movements[username] = [false,false,x,y];
-	spritepos_arr[username] = 0;
+	spritepos_arr[username] = [0,0];
 	login[username] =[0,-1];
 	colidemap[x,y]=1;
 }
 
 function move_pj(x,y,id){
-
+	console.log(printx,pos_array[player_name][2]);
 	movements[id][2] = x*TILESIZE;
 	if(movements[id][2]>(MAPSIZE)*TILESIZE){
 		movements[id][2]=(MAPSIZE)*TILESIZE;
@@ -133,16 +132,34 @@ function update(clients){
 	let newelement;
 	let i=0;
 	
+	h = screen.clientHeight;
+	w = screen.clientWidth;
+
+	cvs.height=h;
+	cvs.width=w;
+	//h = parseInt(h.substring(0, h.length - 2));
+
+	h=Math.floor((h/TILESIZE)-1)*TILESIZE;
+	w=Math.floor((w/TILESIZE)-1)*TILESIZE;
+	centerx=Math.floor(w/(TILESIZE));
+	centery=Math.floor(h/(TILESIZE));
+	
     ctx.fillRect(0, 0, w, h);
+	for (f=0;f<MAPSIZE;f++){
+		for (g=0;g<MAPSIZE;g++){
+			ctx.drawImage(tiles, tilemap[f][g]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,g*TILESIZE-printy,TILESIZE,TILESIZE);
+		}
+	}
+
 	for (i=0;i<clients.length;i++){
 		var username = clients[i].username;
 		if(movements[username][1]){
 			if(pos_array[username][1]<movements[username][3]){
 				pos_array[username][1]+=10; 
-				spritepos_arr[username]=2;
+				spritepos_arr[username][0]=2;
 			}else if (pos_array[username][1]>movements[username][3]){
 				pos_array[username][1]-=10;
-				spritepos_arr[username]=3;
+				spritepos_arr[username][0]=3;
 			}
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
 				movements[username][1]=false;
@@ -154,17 +171,17 @@ function update(clients){
 		}else if(movements[username][0]){
 			if(pos_array[username][0]<movements[username][2]){
 				pos_array[username][0]+=10;
-				spritepos_arr[username]=1;
+				spritepos_arr[username][0]=1;
 			}else if (pos_array[username][0]>movements[username][2]){
 				pos_array[username][0]-=10;
-				spritepos_arr[username]=0;
+				spritepos_arr[username][0]=0;
 			}
 			if(pos_array[username][0]==movements[username][2]){
 				movements[username][1]=true;
 			}
 		}
 	
-		tileposy=(tileposy+1)%3
+		
 		colidemap[pos_array[username][2]][pos_array[username][3]]=0;
 		
 		pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
@@ -173,21 +190,20 @@ function update(clients){
 		colidemap[pos_array[username][2]][pos_array[username][3]]=1;
 
 		if(player_name!=""){
-			printx=Math.max(Math.min(pos_array[player_name][0]-TILESIZE,(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
-			printy=Math.max(Math.min(pos_array[player_name][1]-TILESIZE,(MAPSIZE)*TILESIZE-h),centery*TILESIZE)
+			if((movements[username][1]||movements[username][0]) && sprite_timer%2==0){
+				spritepos_arr[username][1]=(spritepos_arr[username][1]+1)%3+1;
+			}else if(sprite_timer%4==0){
+				spritepos_arr[username][1]=(spritepos_arr[username][1]+1)%2;
+			}	
+				
+			printx=Math.max(Math.min(pos_array[player_name][0],(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
+			printy=Math.max(Math.min(pos_array[player_name][1],(MAPSIZE)*TILESIZE-h),centery*TILESIZE);
 		
-			for (f=0;f<MAPSIZE;f++){
-				for (g=0;g<MAPSIZE;g++){
-					ctx.drawImage(tiles, tilemap[f][g]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,g*TILESIZE-printy,TILESIZE,TILESIZE);
-				}
-			}
-			ctx.drawImage(sprites, spritepos_arr[username]*TILESIZE, tileposy*TILESIZE,TILESIZE,TILESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,TILESIZE,TILESIZE);
+			ctx.drawImage(sprites, spritepos_arr[username][0]*SPRITESIZE, spritepos_arr[username][1]*SPRITESIZE,SPRITESIZE,SPRITESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,SPRITESIZE,SPRITESIZE);
 			
-	
 			ctx.font = "20px Georgia";
-			console.log('clients: ', clients, i, clients[i]);
-			clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0], pos_array[username][1]) : null: null;
+			clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE) : null: null;
 		}
 	}
-	
+	sprite_timer++;
 }
