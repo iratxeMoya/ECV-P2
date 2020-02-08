@@ -180,7 +180,7 @@ function broadcastMsg(data, onlyNear, x, y) {
 
 	connectedClients.forEach(client => {
 		if (onlyNear) {
-			if (Math.abs(client.actualPosition_x - x) <= 1 && Math.abs(client.actualPosition_y - y) <= 1) {
+			if (Math.abs(client.actualPosition_x - x) <= 3 && Math.abs(client.actualPosition_y - y) <= 3) {
 				client.connection.send(data);
 			}
 		} else {
