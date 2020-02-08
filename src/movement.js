@@ -103,10 +103,10 @@ function create_pj(x,y, username,is_me = false, sprite){
 	if(is_me){
 		player_name=username;	
 	}
-	console.log('sprite: ',sprite, x, y)
 	pos_array[username] = [x*TILESIZE,y*TILESIZE,x,y]
 	movements[username] = [false,false,x,y];
-	spritepos_arr[username] = [0,0,sprite*4];
+	spritepos_arr[username] = [sprite*4,0,sprite*4];
+	console.log('en create: ', spritepos_arr);
 	login[username] =[0,-1];
 	colidemap[x,y]=1;
 }

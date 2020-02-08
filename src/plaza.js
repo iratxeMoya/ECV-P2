@@ -27,13 +27,13 @@ function updatePlaza () {
 }
 
 //Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
-function Client (username, actualPosition_x, actualPosition_y, lastMessage) {
+function Client (username, actualPosition_x, actualPosition_y, lastMessage, avatar = '') {
 	this.username = username;
 	this.actualPosition_x = actualPosition_x; //grid
 	this.actualPosition_y = actualPosition_y;
 	this.lastMessage = lastMessage;
 	this.showLastMessage = false;
-	this.avatar = '';
+	this.avatar = avatar;
 }
 //Message types
 function Msg (client, text) {
@@ -167,7 +167,6 @@ connection.onmessage = (event) => {
 		//create new client
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
-		console.log(client)
 		if (client.username == me.username) {
 			me = client;
 		}
@@ -183,7 +182,6 @@ connection.onmessage = (event) => {
 				
 	}
 	else if(data.type === 'alreadyLoged') {
-		console.log('aleready logged: ', data)
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
 		if (client.username === me.username) {
