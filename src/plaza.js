@@ -183,6 +183,7 @@ connection.onmessage = (event) => {
 				
 	}
 	else if(data.type === 'alreadyLoged') {
+		console.log('aleready logged: ', data)
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
 		if (client.username === me.username) {
