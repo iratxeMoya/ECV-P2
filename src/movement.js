@@ -99,10 +99,11 @@ for (i=0;i<MAPSIZE;i++){
 
 
 
-function create_pj(x,y, username,is_me = false, sptrite=0){
+function create_pj(x,y, username,is_me = false, sprite){
 	if(is_me){
 		player_name=username;	
 	}
+	console.log('sprite: ',sprite, x, y)
 	pos_array[username] = [x*TILESIZE,y*TILESIZE,x,y]
 	movements[username] = [false,false,x,y];
 	spritepos_arr[username] = [0,0,sprite*4];

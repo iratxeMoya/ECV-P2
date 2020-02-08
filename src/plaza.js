@@ -173,13 +173,14 @@ connection.onmessage = (event) => {
 		}
 
 		//render the new clients avatar
-
-		if (client.username === me.username) {
-			me = client;
-			create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
-		}else{
-			create_pj(data.x,data.y, client.username,is_me=false, client.avatar);
-		}		
+		if (data.type === 'login'){
+			if (client.username === me.username) {
+				create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
+			}else{
+				create_pj(data.x,data.y, client.username,is_me=false, client.avatar);
+			}
+		}
+				
 	}
 	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
@@ -254,9 +255,13 @@ connection.onmessage = (event) => {
 	}
 	else if (data.type === 'newAvatar') {
 
-		console.log('new avatar: ', data)
 		myIndex = clients.findIndex(client => client.username === data.username);
 		clients[myIndex].avatar = data.avatar;
+		if (clients[myIndex].username === me.username) {
+			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=true, data.avatar);
+		}else{
+			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=false, data.avatar);
+		}
 		document.querySelector('div.chatBody').style['display'] = 'block';
 		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
 
