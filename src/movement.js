@@ -64,32 +64,32 @@ console.log(h);
 
 for (i=0;i<MAPSIZE;i++){
 	for (j=0;j<MAPSIZE;j++){
-		if (j==1){
-			if(i==1){
+		if (j==0){
+			if(i==0){
 				tilemap[i][j] =1;
-			}else if (i==MAPSIZE){
-				tilemap[i][j] =2;
-			}else{
-				tilemap[i][j]=2;
-			}
-		}else if (j==MAPSIZE){
-			if(i==1){
-				tilemap[i][j] =3;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =3;
 			}else{
 				tilemap[i][j]=3;
 			}
+		}else if (j==MAPSIZE){
+			if(i==0){
+				tilemap[i][j] =2;
+			}else if (i==MAPSIZE){
+				tilemap[i][j] =2;
+			}else{
+				tilemap[i][j]=2;
+			}
 		}else{
-			if(i==1){
-				tilemap[i][j] =3;
+			if(i==0){
+				tilemap[i][j] =2;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =0;
 			}else{
 				tilemap[i][j]=0;
 			}
 		}
-		// tilemap[i][j]=1;
+		// tilemap[i][j]=i%4;
 	}
 }
 
@@ -99,13 +99,13 @@ for (i=0;i<MAPSIZE;i++){
 
 
 
-function create_pj(x,y, username,is_me = false, sptrite=null){
+function create_pj(x,y, username,is_me = false, sptrite=0){
 	if(is_me){
 		player_name=username;	
 	}
 	pos_array[username] = [x*TILESIZE,y*TILESIZE,x,y]
 	movements[username] = [false,false,x,y];
-	spritepos_arr[username] = [0,0];
+	spritepos_arr[username] = [0,0,sprite*4];
 	login[username] =[0,-1];
 	colidemap[x,y]=1;
 }
@@ -147,7 +147,7 @@ function update(clients){
     ctx.fillRect(0, 0, w, h);
 	for (f=0;f<MAPSIZE;f++){
 		for (g=0;g<MAPSIZE;g++){
-			ctx.drawImage(tiles, tilemap[f][g]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx,g*TILESIZE-printy,TILESIZE,TILESIZE);
+			ctx.drawImage(tiles, tilemap[f][g]*TILESIZE, 0,TILESIZE,TILESIZE,f*TILESIZE-printx+centerx*TILESIZE,g*TILESIZE-printy+centery*TILESIZE,TILESIZE,TILESIZE);
 		}
 	}
 
@@ -156,10 +156,10 @@ function update(clients){
 		if(movements[username][1]){
 			if(pos_array[username][1]<movements[username][3]){
 				pos_array[username][1]+=10; 
-				spritepos_arr[username][0]=2;
+				spritepos_arr[username][0]=spritepos_arr[username][2]+2;
 			}else if (pos_array[username][1]>movements[username][3]){
 				pos_array[username][1]-=10;
-				spritepos_arr[username][0]=3;
+				spritepos_arr[username][0]=spritepos_arr[username][2]+3;
 			}
 			if(pos_array[username][1]==movements[username][3] && pos_array[username][0]==movements[username][2]){
 				movements[username][1]=false;
@@ -171,10 +171,10 @@ function update(clients){
 		}else if(movements[username][0]){
 			if(pos_array[username][0]<movements[username][2]){
 				pos_array[username][0]+=10;
-				spritepos_arr[username][0]=1;
+				spritepos_arr[username][0]=spritepos_arr[username][2]+1;
 			}else if (pos_array[username][0]>movements[username][2]){
 				pos_array[username][0]-=10;
-				spritepos_arr[username][0]=0;
+				spritepos_arr[username][0]=spritepos_arr[username][2]+0;
 			}
 			if(pos_array[username][0]==movements[username][2]){
 				movements[username][1]=true;
