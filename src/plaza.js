@@ -176,20 +176,20 @@ connection.onmessage = (event) => {
 
 		if (client.username === me.username) {
 			me = client;
-			create_pj(data.x,data.y, client.username,is_me=true);
+			create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
 		}else{
-			create_pj(data.x,data.y, client.username);
+			create_pj(data.x,data.y, client.username,is_me=false, client.avatar);
 		}		
 	}
 	else if(data.type === 'alreadyLoged') {
 		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
 		clients.push(client);
 		if (client.username === me.username) {
-			me = client;
-			create_pj(data.x,data.y, client.username,is_me=true);
+			create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
 		}else{
-			create_pj(data.x,data.y, client.username);
-		}	}
+			create_pj(data.x,data.y, client.username, is_me=false, client.avatar);
+		}	
+	}
 	else if (data.type === 'move') {
 
 		//actualize senders position
@@ -391,7 +391,8 @@ avatars.forEach(avatar=> avatar.addEventListener('click', selectAvatar));
 
 function selectAvatar () {
 
-	var avatarName = this.src.split('/')[6].split('-')[0];
+	var avatarName = Number(this.classList[0]);
+	console.log(avatarName);
 
 	var avatar = new NewAvatar(me.username, avatarName);
 	
