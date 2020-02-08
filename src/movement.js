@@ -64,8 +64,8 @@ console.log(h);
 
 for (i=0;i<MAPSIZE;i++){
 	for (j=0;j<MAPSIZE;j++){
-		if (j==0){
-			if(i==0){
+		if (j==1){
+			if(i==1){
 				tilemap[i][j] =1;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =2;
@@ -73,7 +73,7 @@ for (i=0;i<MAPSIZE;i++){
 				tilemap[i][j]=2;
 			}
 		}else if (j==MAPSIZE){
-			if(i==0){
+			if(i==1){
 				tilemap[i][j] =3;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =3;
@@ -81,7 +81,7 @@ for (i=0;i<MAPSIZE;i++){
 				tilemap[i][j]=3;
 			}
 		}else{
-			if(i==0){
+			if(i==1){
 				tilemap[i][j] =3;
 			}else if (i==MAPSIZE){
 				tilemap[i][j] =0;
@@ -89,7 +89,7 @@ for (i=0;i<MAPSIZE;i++){
 				tilemap[i][j]=0;
 			}
 		}
-		tilemap[i][j]=1;
+		// tilemap[i][j]=1;
 	}
 }
 
@@ -111,7 +111,7 @@ function create_pj(x,y, username,is_me = false, sptrite=null){
 }
 
 function move_pj(x,y,id){
-	console.log(printx,pos_array[player_name][2]);
+	console.log(printx,pos_array[player_name][0]);
 	movements[id][2] = x*TILESIZE;
 	if(movements[id][2]>(MAPSIZE)*TILESIZE){
 		movements[id][2]=(MAPSIZE)*TILESIZE;
@@ -141,8 +141,8 @@ function update(clients){
 
 	h=Math.floor((h/TILESIZE)-1)*TILESIZE;
 	w=Math.floor((w/TILESIZE)-1)*TILESIZE;
-	centerx=Math.floor(w/(TILESIZE));
-	centery=Math.floor(h/(TILESIZE));
+	centerx=Math.floor(w/(2*TILESIZE));
+	centery=Math.floor(h/(2*TILESIZE));
 	
     ctx.fillRect(0, 0, w, h);
 	for (f=0;f<MAPSIZE;f++){

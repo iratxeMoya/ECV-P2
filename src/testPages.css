@@ -226,8 +226,8 @@ body {
 	font-size: 0px;
 	padding: 20px;
 	position: relative;
-  z-index: 1;
-  margin: 5px;
+	z-index: 5;
+	margin: 5px;
 }
 
 .webdesigntuts-workshop input {
