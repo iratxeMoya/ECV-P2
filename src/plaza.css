@@ -11,7 +11,7 @@
 	top:0px;
 	left:0px;
 	height:calc(100% - 200px);
-	width:calc(100% - 100px);
+	width:calc(100% - 190px);
 	border:50px solid transparent;
 	border-image: url(data/frame.png) 30 round;
 }
