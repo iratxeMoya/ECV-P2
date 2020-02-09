@@ -68,7 +68,8 @@ wss.on('connection', function(ws) {
 				connectedClients.push(foundClient);
 				jsonData.x = foundClient.actualPosition_x;
 				jsonData.y = foundClient.actualPosition_y;
-				jsonData.lastMessage = foundClient.lastMessage
+				jsonData.lastMessage = foundClient.lastMessage;
+				jsonData.avatar = foundClient.avatar;
 				var dataForClients = JSON.stringify(jsonData);
 				broadcastMsg(dataForClients, false);
 

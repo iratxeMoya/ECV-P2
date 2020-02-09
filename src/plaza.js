@@ -87,7 +87,7 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-	console.log('recived message: ', data.type);
+	console.log('recived message: ', data);
 
 	if (data.type === 'msg') {
 
@@ -294,6 +294,12 @@ msgButton.addEventListener("click", send_message);
 var msgInput = document.querySelector('input#message');
 msgInput.addEventListener('keydown', on_key_press_send_msg);
 
+document.body.addEventListener('keydown', onBodyKeydown);
+
+function onBodyKeydown () {
+	msgInput.focus();
+}
+
 function send_message(){
 	var message = new Msg(me.username, msgInput.value);
 	msgInput.value = '';
@@ -487,3 +493,5 @@ function onWindowResize () {
 		opt.style['minWidth'] = window.innerWidth + 'px';
 	});
 }
+
+
