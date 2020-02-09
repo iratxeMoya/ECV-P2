@@ -46,7 +46,6 @@ ul {
    /* ie workaround */
     -ms-transform: translatex(-100vw);
     box-sizing: border-box;
-    pointer-events: none;
     padding-top: 125px;
     transition: width 475ms ease-out, transform 450ms ease, border-radius 0.8s 0.1s ease;
     border-bottom-left-radius: 100vw;
