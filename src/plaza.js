@@ -1,309 +1,25 @@
-/*
-LOGICA DE PAGINAS:
-	1. login
-		1.1 si pulsas register -> register
-		1.2 si pulsas login -> chat
-	2. register
-		2.1 si pulsas login -> login
-		2.2 si pulsas register -> select avatar
-	3. select avatar
-		3.1 si pulsas el avatar -> chat
-	3 chat
-		3.1 si pulsas _____ -> configuration
-	4. configuration
-		4.1 si pulsas change name / pass -> configuration
-		4.2 su pulsas change avatar -> select avatar
-		4.3 si pulsas back -> chat
-*/
-var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 
-var clients = [];
-var me = new Client (null, null, null, '', '');
 
-var updating_func = setInterval(updatePlaza, 50);
 
 function updatePlaza () {
 	update(clients);
 }
 
-//Faltaría alguna forma de guardar el muñeco de cada usuario (NO SE COMO)
-function Client (username, actualPosition_x, actualPosition_y, lastMessage, avatar = '') {
-	this.username = username;
-	this.actualPosition_x = actualPosition_x; //grid
-	this.actualPosition_y = actualPosition_y;
-	this.lastMessage = lastMessage;
-	this.showLastMessage = false;
-	this.avatar = avatar;
-}
-//Message types
-function Msg (client, text) {
-	this.type = 'msg';
-	this.client = client;
-	this.text = text;
-}
-function Login (username, password) {
-	this.type = 'login';
-	this.username = username;
-	this.password = password
-}
-function Register (client, password) {
-	this.type = 'register';
-	this.username = client;
-	this.password = password;
-}
-function Move (client, x, y) {
-	this.type = 'move';
-	this.client = client;
-	this.x = x;
-	this.y = y;
-}
-function NewPass (newPass, username) {
-    this.type = "newPass"
-    this.username = username;
-    this.newPass = newPass;
-}
-function NewUsername (newUsername, username){
-	this.type =  "newUsername";
-	this.username = username;
-	this.newUsername = newUsername;
-}
-function NewAvatar (username, avatar) {
-	this.type = "newAvatar";
-	this.username = username;
-	this.avatar = avatar;
-}
-
-connection.onopen = event => {
-	console.log('connection is open');
-}
-
-connection.onclose = (event) => {
-    console.log("WebSocket is closed");
-};
-
-connection.onerror = (event) => {
-    console.error("WebSocket error observed:", event);
-};
-
-connection.onmessage = (event) => {
-	var data = JSON.parse(event.data); 
-	console.log('recived message: ', data);
-
-	if (data.type === 'msg') {
-
-		// append received message from the server to the DOM element
-		var messageContainer = document.createElement('div');
-		var senderName = document.createElement('span');
-		var message = document.createElement('span');
-		var parent = document.querySelector('div.messageContainer');
-
-		senderName.innerText = data.client;
-		message.innerText = data.text;
-
-		messageContainer.appendChild(senderName);
-		messageContainer.appendChild(message);
-		
-		senderName.classList.add('name');
-		message.classList.add("messageText");
-		messageContainer.classList.add('messageGroup');
-
-		if (data.client === me.username) {
-
-			senderName.style['justifySelf'] = 'end';
-			message.style['justifySelf'] = 'end';
-
-		} 
-
-		parent.appendChild(messageContainer);
-		parent.scrollTop = parent.scrollHeight;
-
-		//Actualize client last message
-		var senderIndex = clients.findIndex(client => client.username === data.client);
-		clients[senderIndex].lastMessage = data.text;
-		clients[senderIndex].showLastMessage = true;
-
-		setTimeout(function(){clients[senderIndex].showLastMessage = false;}, 2000);
-
-		//change the senders avatars top message
-
-		//show_msg(data.client, data.text);
-	}
-	else if (data.type === 'alreadySended') {
-		// append received message from the server to the DOM element
-		var messageContainer = document.createElement('div');
-		var senderName = document.createElement('span');
-		var message = document.createElement('span');
-		var parent = document.querySelector('div.messageContainer');
-
-		senderName.innerText = data.client;
-		message.innerText = data.text;
-
-		messageContainer.appendChild(senderName);
-		messageContainer.appendChild(message);
-		
-		senderName.classList.add('name');
-		message.classList.add("messageText");
-		messageContainer.classList.add('messageGroup');
-
-		if (data.client === me.username) {
-
-			senderName.style['justifySelf'] = 'end';
-			message.style['justifySelf'] = 'end';
-
-		} 
-
-		
-		parent.appendChild(messageContainer);
-		parent.scrollTop = parent.scrollHeight;
-
-		//Actualize client last message
-		var senderIndex = clients.findIndex(client => client.username === data.client);
-		if (clients[senderIndex]){
-			clients[senderIndex].lastMessage = data.text;	
-		}
-	}
-	else if (data.type === 'login' || data.type === 'register') {
-		
-		//create new client
-		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
-		clients.push(client);
-		if (client.username == me.username) {
-			me = client;
-		}
-
-		//render the new clients avatar
-		if (data.type === 'login'){
-			if (client.username === me.username) {
-				create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
-			}else{
-				create_pj(data.x,data.y, client.username,is_me=false, client.avatar);
-			}
-		}
-				
-	}
-	else if(data.type === 'alreadyLoged') {
-		var client = new Client(data.username, data.x, data.y, data.lastMessage, data.avatar);
-		clients.push(client);
-		if (client.username === me.username) {
-			create_pj(data.x,data.y, client.username,is_me=true, client.avatar);
-		}else{
-			create_pj(data.x,data.y, client.username, is_me=false, client.avatar);
-		}	
-	}
-	else if (data.type === 'move') {
-
-		//actualize senders position
-		var senderIndex = clients.findIndex(client => client.username === data.client);
-		clients[senderIndex].actualPosition_x = data.x;
-		clients[senderIndex].actualPosition_y = data.y;
-		console.log('move: ', data.x, data.y, data.client);
-
-		//render the avatar of sender in correct position
-
-		move_pj(data.x, data.y, data.client);
-	}
-	else if (data.type === 'disconnection') {
-		var sender = clients.find(client => client.username === data.name);
-		clients.delete(sender)
-		console.log('disconection: ', clients, sender)
-
-		var popup = document.querySelector("div#popUp");
-		popup.style['display'] = 'block';
-		popup.style['background-color'] = '#ff7171';
-		popup.innerText = sender.username + ' has been disconnected';
-		setTimeout(function(){popup.style['display'] = 'none';}, 2000);
-		
-
-		//Delete clients avatar from the scene
-
-		//ToDo
-		
-	}
-	else if(data.type == 'loginResponse') {
-
-		if (data.data === 'OK'){
-
-			document.querySelector('div.chatBody').style['display'] = 'block';
-			document.querySelector('div.loginBody').style['display'] = 'none';
-			document.querySelector('div.registerBody').style['display'] = 'none';	
-
-		} else {
-
-			alert ('Username or password not correct');
-
-		}
-
-	} 
-	else if(data.type == 'registerResponse') {
-
-		if (data.data === 'OK'){
-
-			console.log('hola')
-
-			document.querySelector('div.chatBody').style['display'] = 'none';
-			document.querySelector('div.loginBody').style['display'] = 'none';	
-			document.querySelector('div.registerBody').style['display'] = 'none';
-			document.querySelector('div.profileSelectorBody').style['display'] = 'block';
-
-		} else {
-
-			alert ('Username exists already');
-
-		}
-
-	} 
-	else if(data.type === 'newUsername') {
-
-		myIndex = clients.findIndex(client => client.username === data.username);
-		clients[myIndex].username = data.newUsername;
-		
-	}
-	else if (data.type === 'newAvatar') {
-
-		myIndex = clients.findIndex(client => client.username === data.username);
-		clients[myIndex].avatar = data.avatar;
-
-		if (clients[myIndex].username === me.username) {
-
-			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=true, data.avatar);
-
-		}
-		else {
-
-			create_pj(clients[myIndex].actualPosition_x,clients[myIndex].actualPosition_y, clients[myIndex].username,is_me=false, data.avatar);
-			
-			var popup = document.querySelector("div#popUp");
-			popup.style['display'] = 'block';
-			popup.style['background-color'] = 'green';
-			popup.innerText = clients[myIndex].username + ' has been connected';
-			setTimeout(function(){popup.style['display'] = 'none';}, 2000);
-			
-		}
-
-		document.querySelector('div.chatBody').style['display'] = 'block';
-		document.querySelector('div.profileSelectorBody').style['display'] = 'none';
-
-	}
-	
-};
 
 //chat
-var msgButton = document.querySelector("button#send");
-msgButton.addEventListener("click", send_message);
 
-var msgInput = document.querySelector('input#message');
-msgInput.addEventListener('keydown', on_key_press_send_msg);
-
-document.body.addEventListener('keydown', onBodyKeydown);
 
 function onBodyKeydown () {
 	msgInput.focus();
 }
 
 function send_message(){
-	var message = new Msg(me.username, msgInput.value);
-	msgInput.value = '';
-	connection.send(JSON.stringify(message));
+	if (msgInput.value !== '') {
+		console.log(msgInput.value)
+		var message = new Msg(me.username, msgInput.value);
+		msgInput.value = '';
+		connection.send(JSON.stringify(message));
+	}
 }
 
 function on_key_press_send_msg(event) {
@@ -314,17 +30,6 @@ function on_key_press_send_msg(event) {
 
 
 //login
-var loginBotButton = document.querySelector("button#loginBotBtn");
-loginBotButton.addEventListener('click', send_login);
-
-var loginNameInput = document.querySelector("input#logUsername");
-loginNameInput.addEventListener('keydown', on_key_press_send_login);
-
-var loginPassInput = document.querySelector("input#logPassword");
-loginPassInput.addEventListener('keydown', on_key_press_send_login);
-
-var registerTopBtn = document.querySelector('a#registerTopBtn');
-registerTopBtn.addEventListener('click', go_to_register_page);
 
 function send_login () {
 
@@ -333,8 +38,8 @@ function send_login () {
         var login = new Login(loginNameInput.value, loginPassInput.value);
         login.isMe = true;
 		connection.send(JSON.stringify(login));
-		//loginNameInput.value = '';
-		//loginPassInput.value = '';
+		loginNameInput.value = '';
+		loginPassInput.value = '';
     } else {
         alert('You need to enter an username and a password to login');
     }
@@ -346,23 +51,12 @@ function on_key_press_send_login() {
 }
 
 function go_to_register_page () {
-	console.log('hey')
+
 	document.querySelector('div.registerBody').style['display'] = 'grid';
 	document.querySelector('div.loginBody').style['display'] = 'none';	
 }
 
-//register
-var loginTopBtn = document.querySelector('a#loginTopBtn');
-loginTopBtn.addEventListener('click', go_to_login_page);
 
-var regNameInput = document.querySelector("input#regUsername");
-regNameInput.addEventListener('keydown', on_key_press_send_register);
-
-var regPassInput = document.querySelector("input#regPassword");
-regPassInput.addEventListener('keydown', on_key_press_send_register);
-
-var registerBotButton = document.querySelector("button#registerBotBtn");
-registerBotButton.addEventListener('click', send_register);
 
 function go_to_login_page () {
 	document.querySelector('div.loginBody').style['display'] = 'grid';
@@ -392,7 +86,7 @@ function on_key_press_send_register() {
 
 // move
 
-document.querySelector('canvas#canvas').addEventListener('click', onPlazaClick);
+
 
 var cnt = 0;
 
@@ -407,7 +101,7 @@ function onPlazaClick (event) {
 
 	x=Math.floor((event.clientX-50)/TILESIZE)+Math.floor(printx/TILESIZE)-centerx;
 	y=Math.floor((event.clientY-50)/TILESIZE)+Math.floor(printy/TILESIZE)-centery;
-	// console.log("TEST "+TILESIZE+" "+Math.floor(printx/TILESIZE)+" "+centerx+" "+Math.floor(event.clientX/TILESIZE)+" "+pos_array[me.username][2]+" "+x);
+	
 	move_pj(x,y, me.username);
 	
 	var move = new Move(me.username, x, y);
@@ -415,8 +109,7 @@ function onPlazaClick (event) {
 }
 
 
-var avatars = document.querySelectorAll('img#clip');
-avatars.forEach(avatar=> avatar.addEventListener('click', selectAvatar));
+
 
 function selectAvatar () {
 
@@ -428,45 +121,6 @@ function selectAvatar () {
 	connection.send(JSON.stringify(avatar));
 	
 }
-
-var changeName = document.querySelector('input#newName');
-changeName.addEventListener('keydown', onKeyDownChangeName);
-
-var changePass = document.querySelector('input#newPass');
-changePass.addEventListener('keydown', onKeyDownChangePass);
-
-var changeNameBtn =  document.querySelector('button#changeName');
-changeNameBtn.addEventListener('click', onChangeName);
-
-var changePassBtn =  document.querySelector('button#changePass');
-changePassBtn.addEventListener('click', onChangePass);
-
-function onChangeName () {
-    myIndex = clients.findIndex(client => client.username === me.username);
-	
-	newUsername = new NewUsername(changeName.value, clients[myIndex].username);
-	clients[myIndex].username = changeName.nodeValue;
-	changeName.value = '';
-	connection.send(JSON.stringify(newUsername));
-}
-function onKeyDownChangeName (event) {
-    if (event.code === "Enter") {
-        onChangeName();
-    }
-}
-
-function onChangePass () {
-
-    passForm = new NewPass(changePass.value, me.username);
-    connection.send(JSON.stringify(passForm))
-}
-function onKeyDownChangePass (event) {
-    if (event.code === "Enter") {
-        onChangePass();
-    }
-}
-
-
 
 //UTILS
 
