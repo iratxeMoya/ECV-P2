@@ -3,6 +3,7 @@
 ## PYROS
 
 Pau Pamos - NIA: 193793
+
 Iratxe Moya - NIA: 192671
 
 ### APP 
@@ -16,5 +17,5 @@ Iratxe Moya - NIA: 192671
     - User connection and disconnection notification
     - Typeing any key focuses the input
     - The state of the user (position, avatar, name, password(hashed)) is saved on disconection
-     
+
 
