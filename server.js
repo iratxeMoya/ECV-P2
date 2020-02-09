@@ -43,7 +43,6 @@ wss.on('connection', function(ws) {
 			var foundClient = registeredClients.find(client => client.username === jsonData.username);
 			if (foundClient && passwordHash.verify(jsonData.password, foundClient.hashedPassword)) {
 				foundClient.connection = ws;
-				console.log('connected clients', connectedClients);
 				connectedClients.forEach(client => {
 					var alreadyConnected = {};
 					alreadyConnected.type = 'alreadyLoged';

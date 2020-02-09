@@ -1,5 +1,6 @@
 //Plaza
 
+var updating_func = setInterval(updatePlaza, 50);
 function updatePlaza () {
 	update(clients);
 }

@@ -12,7 +12,6 @@ connection.onerror = (event) => {
 
 connection.onmessage = (event) => {
 	var data = JSON.parse(event.data); 
-	console.log('recived message: ', data);
 
 	if (data.type === 'msg') {
 
@@ -124,7 +123,6 @@ connection.onmessage = (event) => {
 		var senderIndex = clients.findIndex(client => client.username === data.client);
 		clients[senderIndex].actualPosition_x = data.x;
 		clients[senderIndex].actualPosition_y = data.y;
-		console.log('move: ', data.x, data.y, data.client);
 
 		//render the avatar of sender in correct position
 
@@ -160,8 +158,6 @@ connection.onmessage = (event) => {
 	else if(data.type == 'registerResponse') {
 
 		if (data.data === 'OK'){
-
-			console.log('hola')
 
 			document.querySelector('div.chatBody').style['display'] = 'none';
 			document.querySelector('div.loginBody').style['display'] = 'none';	

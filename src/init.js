@@ -3,8 +3,6 @@ var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
 var clients = [];
 var me = new Client (null, null, null, '', '');
 
-var updating_func = setInterval(updatePlaza, 50);
-
 function Client (username, actualPosition_x, actualPosition_y, lastMessage, avatar = '') {
 	this.username = username;
 	this.actualPosition_x = actualPosition_x;
