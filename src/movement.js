@@ -154,7 +154,7 @@ function update(clients){
 
 	for (i=0;i<clients.length;i++){
 		var username = clients[i].username;
-		if(movements[username][1]){
+		if(movements[username] && movements[username][1]){
 			if(pos_array[username][1]<movements[username][3]){
 				pos_array[username][1]+=10; 
 				spritepos_arr[username][0]=spritepos_arr[username][2]+2;
@@ -169,7 +169,7 @@ function update(clients){
 				movements[username][1]=false;
 				movements[username][0]=true;
 			}
-		}else if(movements[username][0]){
+		}else if(movements[username] && movements[username][0]){
 			if(pos_array[username][0]<movements[username][2]){
 				pos_array[username][0]+=10;
 				spritepos_arr[username][0]=spritepos_arr[username][2]+1;
@@ -183,24 +183,24 @@ function update(clients){
 		}
 	
 		
-		colidemap[pos_array[username][2]][pos_array[username][3]]=0;
+		pos_array[username] ? colidemap[pos_array[username][2]][pos_array[username][3]]=0 : null;
 		
-		pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE);
-		pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE);
+		pos_array[username] ? pos_array[username][2]=Math.floor(pos_array[username][0]/TILESIZE) : null;
+		pos_array[username] ? pos_array[username][3]=Math.floor(pos_array[username][1]/TILESIZE) : null;
 
-		colidemap[pos_array[username][2]][pos_array[username][3]]=1;
+		pos_array[username] ? colidemap[pos_array[username][2]][pos_array[username][3]]=1 : null;
 
-		if(player_name!=""){
+		if(movements[username] && player_name!=""){
 			if((movements[username][1]||movements[username][0]) && sprite_timer%2==0){
 				spritepos_arr[username][1]=(spritepos_arr[username][1]+1)%3+1;
 			}else if(sprite_timer%4==0){
 				spritepos_arr[username][1]=(spritepos_arr[username][1]+1)%2;
 			}	
 				
-			printx=Math.max(Math.min(pos_array[player_name][0],(MAPSIZE)*TILESIZE-w),centerx*TILESIZE);
-			printy=Math.max(Math.min(pos_array[player_name][1],(MAPSIZE)*TILESIZE-h),centery*TILESIZE);
+			pos_array[player_name] ? printx=Math.max(Math.min(pos_array[player_name][0],(MAPSIZE)*TILESIZE-w),centerx*TILESIZE) : null;
+			pos_array[player_name] ? printy=Math.max(Math.min(pos_array[player_name][1],(MAPSIZE)*TILESIZE-h),centery*TILESIZE) : null;
 		
-			ctx.drawImage(sprites, spritepos_arr[username][0]*SPRITESIZE, spritepos_arr[username][1]*SPRITESIZE,SPRITESIZE,SPRITESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,SPRITESIZE,SPRITESIZE);
+			spritepos_arr[username] ? ctx.drawImage(sprites, spritepos_arr[username][0]*SPRITESIZE, spritepos_arr[username][1]*SPRITESIZE,SPRITESIZE,SPRITESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,SPRITESIZE,SPRITESIZE) : null;
 			
 			ctx.font = "20px Georgia";
 			clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE) : null: null;
