@@ -1,13 +1,43 @@
-
-
+//Plaza
 
 function updatePlaza () {
 	update(clients);
 }
 
+var cnt = 0;
 
-//chat
+function onPlazaClick (event) {
+	var rect = cvs.getBoundingClientRect();
+	me.actualPosition_x = event.clientX - rect.left;
+	me.actualPosition_y = event.clientY - rect.top;
 
+	var myIndex = clients.findIndex(client => client.username === me.username);
+	clients[myIndex].actualPosition_x = Math.floor(event.clientX / TILESIZE);
+	clients[myIndex].actualPosition_y = Math.floor(event.clientY / TILESIZE);
+
+	x=Math.floor((event.clientX-50)/TILESIZE)+Math.floor(printx/TILESIZE)-centerx;
+	y=Math.floor((event.clientY-50)/TILESIZE)+Math.floor(printy/TILESIZE)-centery;
+	
+	move_pj(x,y, me.username);
+	
+	var move = new Move(me.username, x, y);
+	connection.send(JSON.stringify(move));
+}
+
+function selectAvatar () {
+
+	var avatarName = (this.classList[0]);
+	if (avatarName === 'rand') {
+		avatarName = Math.floor(Math.random()*(2-0+1)+0);
+	}
+
+	var avatar = new NewAvatar(me.username, Number(avatarName));
+	
+	connection.send(JSON.stringify(avatar));
+	
+}
+
+//Chat
 
 function onBodyKeydown () {
 	msgInput.focus();
@@ -15,10 +45,11 @@ function onBodyKeydown () {
 
 function send_message(){
 	if (msgInput.value !== '') {
-		console.log(msgInput.value)
+		
 		var message = new Msg(me.username, msgInput.value);
 		msgInput.value = '';
 		connection.send(JSON.stringify(message));
+
 	}
 }
 
@@ -28,8 +59,7 @@ function on_key_press_send_msg(event) {
 	}
 }
 
-
-//login
+//Login and Register
 
 function send_login () {
 
@@ -55,8 +85,6 @@ function go_to_register_page () {
 	document.querySelector('div.registerBody').style['display'] = 'grid';
 	document.querySelector('div.loginBody').style['display'] = 'none';	
 }
-
-
 
 function go_to_login_page () {
 	document.querySelector('div.loginBody').style['display'] = 'grid';
@@ -84,56 +112,7 @@ function on_key_press_send_register() {
 	}
 }
 
-// move
-
-
-
-var cnt = 0;
-
-function onPlazaClick (event) {
-	var rect = cvs.getBoundingClientRect();
-	me.actualPosition_x = event.clientX - rect.left;
-	me.actualPosition_y = event.clientY - rect.top;
-
-	var myIndex = clients.findIndex(client => client.username === me.username);
-	clients[myIndex].actualPosition_x = Math.floor(event.clientX / TILESIZE);
-	clients[myIndex].actualPosition_y = Math.floor(event.clientY / TILESIZE);
-
-	x=Math.floor((event.clientX-50)/TILESIZE)+Math.floor(printx/TILESIZE)-centerx;
-	y=Math.floor((event.clientY-50)/TILESIZE)+Math.floor(printy/TILESIZE)-centery;
-	
-	move_pj(x,y, me.username);
-	
-	var move = new Move(me.username, x, y);
-	connection.send(JSON.stringify(move));
-}
-
-
-
-
-function selectAvatar () {
-
-	var avatarName = Number(this.classList[0]);
-	console.log(avatarName);
-
-	var avatar = new NewAvatar(me.username, avatarName);
-	
-	connection.send(JSON.stringify(avatar));
-	
-}
-
-//UTILS
-
-Array.prototype.delete = function() {
-    var what, a = arguments, L = a.length, ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-};
+//Avatar selection
 
 var selectionOptions = document.querySelectorAll("div.slider__contents");
 selectionOptions.forEach(opt => {
@@ -147,5 +126,9 @@ function onWindowResize () {
 		opt.style['minWidth'] = window.innerWidth + 'px';
 	});
 }
+
+
+
+
 
 
