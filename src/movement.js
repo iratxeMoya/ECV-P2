@@ -39,6 +39,9 @@ sprites.src = "data/sprites.png";
 var tiles = new Image();
 tiles.src = "data/tiles.png";
 
+var msg_img = new Image();
+msg_img.src = "data/msg.png";
+
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
 
@@ -202,8 +205,15 @@ function update(clients){
 		
 			spritepos_arr[username] ? ctx.drawImage(sprites, spritepos_arr[username][0]*SPRITESIZE, spritepos_arr[username][1]*SPRITESIZE,SPRITESIZE,SPRITESIZE,pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE,SPRITESIZE,SPRITESIZE) : null;
 			
-			ctx.font = "20px Georgia";
-			clients[i] ? clients[i].showLastMessage ? ctx.fillText(clients[i].lastMessage, pos_array[username][0]-printx+centerx*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE) : null: null;
+			ctx.font ="20px Arial";
+			if(clients[i].showLastMessage && clients[i]) {
+				let txtlen = ctx.measureText(clients[i].lastMessage).width;
+				ctx.drawImage(msg_img,50,0,50,50,pos_array[username][0]-printx+(centerx+0.5)*TILESIZE-txtlen/2,pos_array[username][1]-printy+(centery-0.25)*TILESIZE,txtlen,40);
+				ctx.drawImage(msg_img,0,0,10,50,pos_array[username][0]-printx+(centerx+0.5)*TILESIZE-txtlen/2-10,pos_array[username][1]-printy+(centery-0.25)*TILESIZE,10,40);
+				ctx.drawImage(msg_img,140,0,10,50,pos_array[username][0]-printx+(centerx+0.5)*TILESIZE+txtlen/2,pos_array[username][1]-printy+(centery-0.25)*TILESIZE,10,40);
+				ctx.textAlign = "center";
+				ctx.fillText(clients[i].lastMessage, pos_array[username][0]-printx+(centerx+0.5)*TILESIZE,pos_array[username][1]-printy+centery*TILESIZE);
+			};
 		}
 	}
 	sprite_timer++;
