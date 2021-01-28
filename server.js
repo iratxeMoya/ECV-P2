@@ -33,10 +33,13 @@ function Client (username, actualPosition_x, actualPosition_y, lastMessage, conn
 const checkUsername = ( name, obj ) => obj.name === name;
 
 wss.on('connection', function(ws) {
+	
+	print("connected")
 
 	ws.on('message', function(data){
 
 		var jsonData = JSON.parse(data);
+		print("message: ", jsonData)
 
 		if(jsonData.type === 'login') {
 
