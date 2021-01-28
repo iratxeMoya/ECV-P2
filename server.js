@@ -34,12 +34,12 @@ const checkUsername = ( name, obj ) => obj.name === name;
 
 wss.on('connection', function(ws) {
 	
-	print("connected")
+	console.log("connected")
 
 	ws.on('message', function(data){
 
 		var jsonData = JSON.parse(data);
-		print("message: ", jsonData)
+		console.log("message: ", jsonData)
 
 		if(jsonData.type === 'login') {
 
