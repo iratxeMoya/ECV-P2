@@ -1,4 +1,5 @@
-var connection = new WebSocket ("wss://ecv-etic.upf.edu/node/9027/ws/");
+var HOST = location.origin.replace(/^http/, 'ws')
+var connection = new WebSocket (HOST);
 
 var clients = [];
 var me = new Client (null, null, null, '', '');
